@@ -1,6 +1,7 @@
 ﻿using IanByrne.ResearchProject.Database.Seeds;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace IanByrne.ResearchProject.Database
 {
@@ -17,7 +18,7 @@ namespace IanByrne.ResearchProject.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseMySql("server=localhost;database=postmortem;user=root;password=mysql;SslMode=None");
+            options.UseMySql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
