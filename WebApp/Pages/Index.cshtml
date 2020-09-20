@@ -1,0 +1,41 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Research Project</h1>
+    <iframe id="game" name="game" src="~/export/index.html" style="width: 1024px; height: 600px"></iframe>
+    <span class="AntiForge"> @Html.AntiForgeryToken() </span>
+</div>
+<script>
+    function SendMessageToChatScript(message)
+    {
+        var response = {
+            Message: "Failed to complete Ajax"
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '/Index?handler=QueryChatScriptAsync',
+            async: false,
+            data: message,
+            accept: "application/json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (ajaxResponse) {
+                response = ajaxResponse;
+            },
+            failure: function (ajaxResponse) {
+                console.log("Error");
+                console.log(ajaxResponse);
+                response = ajaxResponse;
+            }
+        });
+
+        return response;
+    }
+</script>

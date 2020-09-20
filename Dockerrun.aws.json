@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Volumes": [
+        {
+            "HostDirectory": "/var/app/efs/USERS",
+            "ContainerDirectory": "/app/ChatScript/USERS"
+        },
+        {
+            "HostDirectory": "/var/app/efs/LOGS",
+            "ContainerDirectory": "/app/ChatScript/LOGS"
+        }
+    ]
+}

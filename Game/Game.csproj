@@ -1,0 +1,45 @@
+﻿<Project Sdk="Godot.NET.Sdk/3.2.3">
+  <PropertyGroup>
+    <ProjectGuid>{3F91A836-20D7-474D-8CE8-95932EF45CF1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Game</RootNamespace>
+    <AssemblyName>Game</AssemblyName>
+    <GodotProjectGeneratorVersion>1.0.7374.16792</GodotProjectGeneratorVersion>
+    <TargetFramework>net472</TargetFramework>
+    <!--The following properties were overriden during migration to prevent errors.
+    Enabling them may require other manual changes to the project and its files.-->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Buttons\MenuButton.cs" />
+    <Compile Include="Scenes\Characters\Barkeep.cs" />
+    <Compile Include="Scenes\Characters\Cow.cs" />
+    <Compile Include="Scenes\Characters\Character.cs" />
+    <Compile Include="Scenes\Characters\Farmer.cs" />
+    <Compile Include="Scenes\Console.cs" />
+    <Compile Include="Scenes\Characters\NPC.cs" />
+    <Compile Include="Scenes\Characters\Player.cs" />
+    <Compile Include="Scenes\Props\LetterBox.cs" />
+    <Compile Include="Scenes\SceneSwitcher.cs" />
+    <Compile Include="Scenes\TitleScreen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{4a5520f0-821e-48c8-97b1-d6da05effc40}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+</Project>

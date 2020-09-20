@@ -1,0 +1,101 @@
+# System topics
+topic: ~xmain_control system ()
+
+u: (%input<%userfirstline)
+	^gambit(~introductions)
+
+u: ()
+    $_responseCount = %response
+    $$currenttopic = %topic
+
+	if (%length == 0 AND %response == $_responseCount)
+	{
+		# gambit current topic since no input (usually start of conversation)
+		^nofail(TOPIC ^gambit($$currenttopic))
+	}
+
+	if (%response == $_responseCount)
+	{
+		# try for rejoinders. might generate an answer directly from what we are looking for.
+		^nofail(TOPIC ^rejoinder())
+	}
+	
+	if (%response == $_responseCount)
+	{
+		# current topic tries to respond to his input
+		^nofail(TOPIC ^respond($$currenttopic))
+	}
+
+	# see if some other topic has keywords matching his input (given we have no response yet)
+	if (%response == $_responseCount)
+	{
+		@8 = ^keywordtopics()	# get topics referred in input
+		^loop()
+		{
+			$$topic = first(@8subject)
+			^nofail(TOPIC ^respond($$topic))
+			if (%response != $_responseCount) # stop when we find something to say
+			{
+				^end(RULE)	# we are done, this terminates the loop (not the rule)
+			}
+		}
+	}
+
+	# if no topic reacts, go to the last ditch keywordless topic
+	if (%response == $_responseCount) 
+	{
+		^nofail(TOPIC ^respond(~keywordless))
+	}
+	
+	# Process internal commands (eg 'stats')
+	if (%response == $_responseCount) 
+	{
+		^nofail(TOPIC ^respond(~internal_commands))
+	}
+
+	# if we have rejoinders for what we said OR we asked a question, stop here
+	if (%outputrejoinder OR %lastquestion) 
+	{
+		^end(TOPIC)
+	}
+
+	# gambit from current topic even though no keywords matched
+	if (%response == $_responseCount)
+	{
+		^nofail(TOPIC ^gambit($$currenttopic))
+	}
+
+	# gambit from current chapter even though no keywords matched
+	# if (%response == $_responseCount)
+	# {
+	# 	if ($currentChapter = 1)
+	# 	{
+	# 		^nofail(TOPIC ^gambit(~chapter01))
+	# 	}
+	# 	else if ($currentChapter = 2)
+	# 	{
+	# 		^nofail(TOPIC ^gambit(~chapter02))
+	# 	}
+	# }
+
+	# Kind of out of ideas so move to the next chapter
+	if (%response == $_responseCount)
+	{
+		@8 = ^GambitTopics()
+		^loop()
+		{
+			$$topic = pick(@8subject)
+			^nofail(TOPIC ^Gambit($$topic)) # try a topic at random
+			if (%response != $_responseCount)
+			{
+				^end(RULE)
+			}
+		}
+	}
+	
+	# All out of ideas
+	if (%response == $_responseCount)
+	{
+		^repeat()
+		I am literally speechless
+	}

@@ -1,0 +1,25 @@
+outputmacro: ^OOB(^value) $$oob = ^join($$oob " " ^value)
+outputmacro: Mal()
+
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
+
+$userprompt = ^"%user: >"
+$botprompt = ^"Mal: "
+
+$currentChapter = 1
+$trust = 0
+$wasWhoAreYouAsked = false
+$playerName = unknown
+
+$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
+$cs_token -= #DO_INTERJECTIONS
+
+$defaultCsToken = $cs_token
+
+table: defaultbot (^name)
+^createfact(^name defaultbot defaultbot)
+DATA:
+Mal

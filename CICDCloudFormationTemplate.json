@@ -1,0 +1,477 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "ProjectName": {
+            "Description": "Name of the project",
+            "Type": "String",
+            "Default": "ResearchProject"
+        },
+        "GitHubAccountName": {
+            "Description": "GitHub account name",
+            "Type": "String",
+            "Default": "ianByrne"
+        },
+        "GitHubRepoName": {
+            "Description": "GitHub repo name",
+            "Type": "String",
+            "Default": "ResearchProject"
+        },
+        "GitHubBranchName": {
+            "Description": "GitHub branch name",
+            "Type": "String",
+            "Default": "master"
+        },
+        "CFTemplateFile": {
+            "Description": "Name of the CloudFormation template file",
+            "Type": "String",
+            "Default": "CloudFormationTemplate.json"
+        }
+    },
+    "Resources": {
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket"
+        },
+        "CodePipelineServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "ProjectName"
+                            },
+                            "CodePipelineServiceRole",
+                            {
+                                "Ref": "AWS::Region"
+                            }
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "codepipeline.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "CodePipelinePolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "iam:PassRole"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow",
+                                    "Condition": {
+                                        "StringEqualsIfExists": {
+                                            "iam:PassedToService": [
+                                                "cloudformation.amazonaws.com",
+                                                "elasticbeanstalk.amazonaws.com",
+                                                "ec2.amazonaws.com"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "Action": [
+                                        "codedeploy:CreateDeployment",
+                                        "codedeploy:GetApplication",
+                                        "codedeploy:GetApplicationRevision",
+                                        "codedeploy:GetDeployment",
+                                        "codedeploy:GetDeploymentConfig",
+                                        "codedeploy:RegisterApplicationRevision"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                },
+                                {
+                                    "Action": [
+                                        "cloudwatch:*",
+                                        "s3:*",
+                                        "sns:*",
+                                        "logs:*",
+                                        "cloudformation:*"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                },
+                                {
+                                    "Action": [
+                                        "codebuild:BatchGetBuilds",
+                                        "codebuild:StartBuild"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "CloudFormationServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "ProjectName"
+                            },
+                            "CloudFormationServiceRole",
+                            {
+                                "Ref": "AWS::Region"
+                            }
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "cloudformation.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "CloudFormationPolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "*"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "CodeBuildServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "ProjectName"
+                            },
+                            "CodeBuildServiceRole",
+                            {
+                                "Ref": "AWS::Region"
+                            }
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "codebuild.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "CodeBuildPolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "iam:PassRole"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow",
+                                    "Condition": {
+                                        "StringEqualsIfExists": {
+                                            "iam:PassedToService": [
+                                                "cloudformation.amazonaws.com",
+                                                "elasticbeanstalk.amazonaws.com",
+                                                "ec2.amazonaws.com"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "Action": [
+                                        "cloudwatch:*",
+                                        "s3:*",
+                                        "sns:*",
+                                        "ec2:*",
+                                        "elasticbeanstalk:*",
+                                        "autoscaling:*",
+                                        "elasticloadbalancing:*",
+                                        "cloudformation:*",
+                                        "secretsmanager:*",
+                                        "logs:*"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "CodeBuildWebApp": {
+            "Type": "AWS::CodeBuild::Project",
+            "Properties": {
+                "Name": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "ProjectName"
+                            },
+                            "WebApp"
+                        ]
+                    ]
+                },
+                "Source": {
+                    "Type": "CODEPIPELINE",
+                    "BuildSpec": "buildspec.yml"
+                },
+                "Artifacts": {
+                    "Type": "CODEPIPELINE",
+                    "ArtifactIdentifier": "WebAppBuildArtifact"
+                },
+                "Environment": {
+                    "ComputeType": "BUILD_GENERAL1_SMALL",
+                    "Image": "aws/codebuild/standard:4.0",
+                    "Type": "LINUX_CONTAINER",
+                    "EnvironmentVariables": [
+                        {
+                            "Name": "BUCKET_NAME",
+                            "Value": {
+                                "Fn::Join": [
+                                    "-",
+                                    [
+                                        "elasticbeanstalk",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        {
+                                            "Ref": "AWS::AccountId"
+                                        }
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "Name": "APP_NAME",
+                            "Value": {
+                                "Ref": "ProjectName"
+                            }
+                        },
+                        {
+                            "Name": "ENV_NAME",
+                            "Value": {
+                                "Fn::Join": [
+                                    "-",
+                                    [
+                                        {
+                                            "Ref": "ProjectName"
+                                        },
+                                        "Prod"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "ServiceRole": {
+                    "Ref": "CodeBuildServiceRole"
+                }
+            }
+        },
+        "CodePipeline": {
+            "Type": "AWS::CodePipeline::Pipeline",
+            "Properties": {
+                "Name": {
+                    "Ref": "ProjectName"
+                },
+                "ArtifactStore": {
+                    "Type": "S3",
+                    "Location": {
+                        "Ref": "S3Bucket"
+                    }
+                },
+                "RoleArn": {
+                    "Fn::GetAtt": [
+                        "CodePipelineServiceRole",
+                        "Arn"
+                    ]
+                },
+                "Stages": [
+                    {
+                        "Name": "Source",
+                        "Actions": [
+                            {
+                                "Name": "GitHubSource",
+                                "ActionTypeId": {
+                                    "Version": "1",
+                                    "Owner": "ThirdParty",
+                                    "Category": "Source",
+                                    "Provider": "GitHub"
+                                },
+                                "RunOrder": 1,
+                                "Configuration": {
+                                    "Owner": {
+                                        "Ref": "GitHubAccountName"
+                                    },
+                                    "Repo": {
+                                        "Ref": "GitHubRepoName"
+                                    },
+                                    "PollForSourceChanges": false,
+                                    "Branch": {
+                                        "Ref": "GitHubBranchName"
+                                    },
+                                    "OAuthToken": "{{resolve:secretsmanager:GitHubOAuthToken:SecretString:GitHubOAuthToken}}"
+                                },
+                                "OutputArtifacts": [
+                                    {
+                                        "Name": "SourceArtifact"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "DeployInfrastructure",
+                        "Actions": [
+                            {
+                                "Name": "CreateOrUpdateCFTemplate",
+                                "ActionTypeId": {
+                                    "Category": "Deploy",
+                                    "Owner": "AWS",
+                                    "Provider": "CloudFormation",
+                                    "Version": "1"
+                                },
+                                "RunOrder": 1,
+                                "InputArtifacts": [
+                                    {
+                                        "Name": "SourceArtifact"
+                                    }
+                                ],
+                                "Configuration": {
+                                    "ActionMode": "CREATE_UPDATE",
+                                    "Capabilities": "CAPABILITY_NAMED_IAM",
+                                    "RoleArn": {
+                                        "Fn::GetAtt": [
+                                            "CloudFormationServiceRole",
+                                            "Arn"
+                                        ]
+                                    },
+                                    "StackName": {
+                                        "Ref": "ProjectName"
+                                    },
+                                    "TemplatePath": {
+                                        "Fn::Join": [
+                                            "::",
+                                            [
+                                                "SourceArtifact",
+                                                {
+                                                    "Ref": "CFTemplateFile"
+                                                }
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "DeployApps",
+                        "Actions": [
+                            {
+                                "Name": "BuildDeployWebApp",
+                                "ActionTypeId": {
+                                    "Category": "Build",
+                                    "Owner": "AWS",
+                                    "Provider": "CodeBuild",
+                                    "Version": "1"
+                                },
+                                "RunOrder": 1,
+                                "InputArtifacts": [
+                                    {
+                                        "Name": "SourceArtifact"
+                                    }
+                                ],
+                                "Configuration": {
+                                    "ProjectName": {
+                                        "Ref": "CodeBuildWebApp"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "GitHubPipelineWebhook": {
+            "Type": "AWS::CodePipeline::Webhook",
+            "Properties": {
+                "Authentication": "GITHUB_HMAC",
+                "AuthenticationConfiguration": {
+                    "SecretToken": "{{resolve:secretsmanager:GitHubOAuthToken:SecretString:GitHubSecretToken}}"
+                },
+                "Filters": [
+                    {
+                        "JsonPath": "$.ref",
+                        "MatchEquals": "refs/heads/{Branch}"
+                    }
+                ],
+                "TargetPipeline": {
+                    "Ref": "CodePipeline"
+                },
+                "TargetAction": "GitHubSource",
+                "TargetPipelineVersion": {
+                    "Fn::GetAtt": [
+                        "CodePipeline",
+                        "Version"
+                    ]
+                },
+                "RegisterWithThirdParty": true
+            }
+        }
+    }
+}

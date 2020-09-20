@@ -1,0 +1,55 @@
+version: 0.2
+
+env:
+  variables:
+    BOTNAME: "OLIVE"
+  secrets-manager:
+    KEY: ResearchProject/SSL:key
+    CRT: ResearchProject/SSL:crt
+    CHAIN: ResearchProject/SSL:chain
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 3.1
+  pre_build:
+    commands:
+      # Prepare variables
+      - commitId=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - timestamp=$(date +"%Y-%m-%d-%H-%M-%S")
+      - versionName="${timestamp}-${commitId}"
+      # Clone ChatScript source
+      - git clone https://github.com/ianByrne/ChatScript.git ChatScriptClone
+  build:
+    commands:
+      # Build website
+      - dotnet restore WebApp
+      - dotnet publish WebApp -c Release -o application
+      # Copy core ChatScript files
+      - mkdir -p application/ChatScript/BINARIES
+      - mkdir -p application/ChatScript/DICT/ENGLISH
+      - mkdir -p application/ChatScript/LIVEDATA
+      - mkdir -p application/ChatScript/TOPIC
+      - cp -r ChatScript application
+      - cp -r ChatScriptClone/BINARIES/LinuxChatScript64 application/ChatScript/BINARIES
+      - cp -r ChatScriptClone/DICT/ENGLISH/*.bin application/ChatScript/DICT/ENGLISH
+      - cp -r ChatScriptClone/LIVEDATA/SYSTEM application/ChatScript/LIVEDATA
+      - cp -r ChatScriptClone/LIVEDATA/ENGLISH application/ChatScript/LIVEDATA
+      # Build ChatScript bot
+      - cd application/ChatScript/BINARIES
+      - chmod +x LinuxChatScript64
+      - ./LinuxChatScript64 local build0=files0.txt
+      - ./LinuxChatScript64 local build1=files${BOTNAME}.txt
+      - cd ../../..
+      # Create SSL certs
+      - echo "{\"files\":{\"/etc/pki/tls/certs/server.crt\":{\"mode\":\"000400\",\"owner\":\"root\",\"group\":\"root\",\"content\":\"$CRT\"}}}" > WebApp/.ebextensions/ssl-crt.config
+      - echo "{\"files\":{\"/etc/pki/tls/certs/server.key\":{\"mode\":\"000400\",\"owner\":\"root\",\"group\":\"root\",\"content\":\"$KEY\"}}}" > WebApp/.ebextensions/ssl-key.config
+      - echo "{\"files\":{\"/etc/pki/tls/certs/chain.pem\":{\"mode\":\"000400\",\"owner\":\"root\",\"group\":\"root\",\"content\":\"$CHAIN\"}}}" > WebApp/.ebextensions/ssl-chain.config
+      # Zip final package to upload to beanstalk
+      - cp -r WebApp/.ebextensions .
+      - zip -r application.zip Dockerfile .dockerignore application .ebextensions entrypoint.sh Dockerrun.aws.json
+  post_build:
+    commands:
+      - aws s3 cp application.zip s3://$BUCKET_NAME/application-$versionName.zip
+      - aws elasticbeanstalk create-application-version --application-name "$APP_NAME" --version-label "$versionName" --description "$CODEBUILD_BUILD_ID - $CODEBUILD_WEBHOOK_TRIGGER" --source-bundle S3Bucket=$BUCKET_NAME,S3Key=application-$versionName.zip
+      - aws elasticbeanstalk update-environment --application-name "$APP_NAME" --version-label "$versionName" --environment-name "$ENV_NAME"

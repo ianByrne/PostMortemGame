@@ -1,0 +1,31 @@
+# This is for the local development environment, so the creds aren't important
+version: "3.7"
+services:
+    mysql:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        volumes:
+            - /var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: mysql
+            MYSQL_DATABASE: chatscript
+
+    chatscript:
+        build:
+            context: ./
+            dockerfile: Dockerfile-local
+            args:
+                BOTNAME: OLIVE
+        ports:
+            - 1024:1024
+        volumes:
+            - type: bind
+              target: /app/ChatScript/RAWDATA
+              source: /D/source/ResearchProject/ChatScript/RAWDATA
+            - type: bind
+              target: /app/ChatScript/LOGS
+              source: /D/source/ResearchProject/ChatScript/LOGS
+            - type: bind
+              target: /app/ChatScript/USERS
+              source: /D/source/ResearchProject/ChatScript/USERS

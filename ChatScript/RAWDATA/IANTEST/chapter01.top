@@ -1,0 +1,48 @@
+topic: ~chapter01 ()
+
+#!x Start of a returned conversation 
+t: RETURNED_WELCOME (%input < %userfirstline %input > 0)
+	^keep()
+	[Welcome back!][Hello again!]
+
+#!x Start of a new conversation
+t: FIRST_WELCOME (%input < %userfirstline)
+	^OOB(yes|no|cheese)
+	Welcome to life! You, uh... You ARE alive... Right?
+
+	#! yes
+	a: (~yes)
+		Oh good! That was certainly the plan anyway.
+		^reuse(INTRO_PREAMBLE)
+
+	#! no
+	a: (~no)
+		Ah. Well, I guess it's all a matter of opinion, right? I suppose the fact that you even answered coherently is a good start.
+		^reuse(INTRO_PREAMBLE)
+
+	#! I don't know
+	a: ([~emoignorance ~emomaybe])
+		Good point, perhaps it's still too early to tell.
+		^reuse(INTRO_PREAMBLE)
+
+	#! What do you mean by that?
+	a: (what << [that you] mean >>)
+		^reuse(INTRO_PREAMBLE)
+
+	#! Who are you?
+	a: ([what who] be you)
+		My name is Mal.
+		^reuse(INTRO_PREAMBLE)
+
+	# (anything else)
+	#! eggs
+	a: ()
+		Err... Okay... That was an unexpected response, but let's crack on either way.
+		^reuse(INTRO_PREAMBLE)
+
+t: INTRO_PREAMBLE ()
+	The thing is, you're my latest attempt at creating an artificial intelligence.
+
+	#! What do you mean by latest attempt?
+	a: (attempt)
+		^reuse(mal.PREVIOUS_ATTEMPTS)

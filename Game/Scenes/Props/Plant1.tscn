@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Grasslands/grassland_tiles.png" type="Texture" id=1]
+
+[node name="Plant1" type="Sprite"]
+position = Vector2( 0.093647, -5.58655 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -5 )
+region_enabled = true
+region_rect = Rect2( 400, 330, 30, 40 )

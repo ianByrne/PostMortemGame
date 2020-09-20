@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "DatabaseUpdater": {
+      "commandName": "Project"
+    }
+  }
+}

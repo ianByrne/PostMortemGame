@@ -1,0 +1,4 @@
+# System topics
+topic: ~xpre_control system repeat ()
+
+t: () $$oob = ^jsoncreate(array)

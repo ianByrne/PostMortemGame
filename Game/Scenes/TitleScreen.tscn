@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Resources/Buttons/ChatBotButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Resources/Buttons/DialogeTreeButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/TitleScreen.cs" type="Script" id=3]
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 904.0
+margin_bottom = 520.0
+custom_constants/separation = 20
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatBotButton" parent="Menu" instance=ExtResource( 1 )]
+margin_top = 150.0
+margin_bottom = 210.0
+
+[node name="DialogeTreeButton" parent="Menu" instance=ExtResource( 2 )]
+margin_top = 230.0
+margin_bottom = 290.0

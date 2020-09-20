@@ -1,0 +1,62 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Scenes/Characters/Character.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Player/Medieval_Interiors_Premade_Male_1_Mastersheet.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Animations/Character/CharacterAnimationNodeStateMachine.tres" type="AnimationNodeStateMachine" id=3]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_N.tres" type="Animation" id=4]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_NW.tres" type="Animation" id=5]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_NE.tres" type="Animation" id=6]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_S.tres" type="Animation" id=7]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_SE.tres" type="Animation" id=8]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_E.tres" type="Animation" id=9]
+[ext_resource path="res://Resources/Animations/Character/CharacterAnimationNodeStateMachinePlayback.tres" type="AnimationNodeStateMachinePlayback" id=10]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_SW.tres" type="Animation" id=11]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_W.tres" type="Animation" id=12]
+[ext_resource path="res://Resources/Animations/Character/CharactersIdle_SW.tres" type="Animation" id=13]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_E.tres" type="Animation" id=14]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_NE.tres" type="Animation" id=15]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_NW.tres" type="Animation" id=16]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_W.tres" type="Animation" id=17]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_N.tres" type="Animation" id=18]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_SE.tres" type="Animation" id=19]
+[ext_resource path="res://Resources/Animations/Character/CharactersRun_S.tres" type="Animation" id=20]
+
+[node name="Character" type="KinematicBody2D"]
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Idle_E = ExtResource( 9 )
+anims/Idle_N = ExtResource( 4 )
+anims/Idle_NE = ExtResource( 6 )
+anims/Idle_NW = ExtResource( 5 )
+anims/Idle_S = ExtResource( 7 )
+anims/Idle_SE = ExtResource( 8 )
+anims/Idle_SW = ExtResource( 13 )
+anims/Idle_W = ExtResource( 12 )
+anims/Run_E = ExtResource( 14 )
+anims/Run_N = ExtResource( 18 )
+anims/Run_NE = ExtResource( 15 )
+anims/Run_NW = ExtResource( 16 )
+anims/Run_S = ExtResource( 20 )
+anims/Run_SE = ExtResource( 19 )
+anims/Run_SW = ExtResource( 11 )
+anims/Run_W = ExtResource( 17 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource( 3 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = ExtResource( 10 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+parameters/Run/blend_position = Vector2( 0, 0 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -36.5772 )
+texture = ExtResource( 2 )
+vframes = 24
+hframes = 24
+frame = 144
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -15.25, -12.5, 9, -12.25, 23, -0.25, 12, 13.25, -16, 13.25, -26.25, 0.5 )

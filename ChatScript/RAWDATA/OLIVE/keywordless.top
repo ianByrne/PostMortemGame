@@ -1,0 +1,56 @@
+topic: ~keywordless nostay ()
+
+#!x When user responds with just "ok" or "continue", bot will continue with the current topic
+#! ok
+u: (< [~yesanswer ~more]>)
+	^keep()
+	gambit($$currenttopic)
+
+#! What is my name?
+?: WHAT_NAME (what be I name $playerName==unknown)
+	How should I know? What is your name?
+	^OOB(^"TestPlayer5000")
+
+		#! I want to be called Pants Magee
+		a: SET_NAME ({"call me" call name} {my name be} _*)
+			^keep()
+			^repeat()
+
+			if ($cs_token == $defaultCsToken)
+			{
+				$cs_token = #DO_INTERJECTION_SPLITTING |
+							#DO_SUBSTITUTE_SYSTEM | #DO_NUMBER_MERGE |
+							#DO_PARSE
+				^retry(SENTENCE)
+			}
+
+			if(%length > 3)
+			{
+				That's an unusually long name... Got anything shorter you like to go by?
+				^setrejoinder(OUTPUT WHAT_NAME)
+			}
+			else
+			{
+				$playerName = '_0
+				Alrighty $playerName. Great to meet you
+				^OOB(^"Cool")
+			}
+
+    		$cs_token = $defaultCsToken
+
+#! Who am I?
+?: (who be I $playerName==unknown)
+	^reuse(WHAT_NAME)
+
+#! What is my name?
+?: WHAT_NAME_KNOWN (what be I name)
+	^keep()
+	^repeat()
+	You've told me your name is $playerName. Can't change it now!
+	^OOB(^"Dang")
+
+#! Who am I?
+?: (who be I)
+	^keep()
+	^repeat()
+	^reuse(WHAT_NAME_KNOWN)

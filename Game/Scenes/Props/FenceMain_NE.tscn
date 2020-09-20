@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Grasslands/grassland_tiles.png" type="Texture" id=1]
+
+[node name="FenceMain_NE" type="StaticBody2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.105114, -3.04825 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 534, 262, 42, 46 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -0.210224, -3.04825 )
+polygon = PoolVector2Array( -17.8264, 22.4856, 20.8548, 2.9348, 20.7497, -8.73264, -18.352, 8.29552 )
