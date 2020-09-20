@@ -26,9 +26,9 @@
             "Default": "Z034476639LBBY0ZCIEYE"
         },
         "BeanstalkSolutionStackName": {
-            "Description": "SolutionStackName for the Beanstalk app (last updated 2020-09-20)",
+            "Description": "SolutionStackName for the Beanstalk app (last updated 2020-07-06)",
             "Type": "String",
-            "Default": "64bit Amazon Linux 2018.03 v2.15.4 running Docker 19.03.6-ce"
+            "Default": "64bit Amazon Linux 2018.03 v2.15.3 running Docker 19.03.6-ce"
         },
         "BeanstalkInstanceType": {
             "Description": "Beanstalk EC2 instance type",
