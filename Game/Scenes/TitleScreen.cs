@@ -1,9 +1,7 @@
 using Godot;
-using Godot.Collections;
-using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
+using Newtonsoft.Json;
 using System;
-using System.Linq;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -29,21 +27,20 @@ namespace IanByrne.ResearchProject.Game
 			parameters.Add("GameMode", gameMode);
 			parameters.Add("UserCookieId", userCookieGuid);
 
-			using (var db = new PostMortemContext())
+			var user = new User(userCookieGuid, gameMode);
+
+			if (OS.HasFeature("JavaScript"))
 			{
-				var user = db.Users.SingleOrDefault(x => x.CookieId == userCookieGuid);
+				string javaScript = @"
+						var request = " + JsonConvert.SerializeObject(user) + @";
 
-				if(user == null)
-                {
-					db.Users.Add(new User()
-					{
-						CookieId = userCookieGuid,
-						CreatedDateTime = DateTime.UtcNow,
-						GameMode = gameMode
-					});
-
-					db.SaveChanges();
-				}
+						parent.EnsureUserCreated(request);";
+				
+				JavaScript.Eval(javaScript);
+			}
+			else
+			{
+				user.EnsureCreated();
 			}
 
 			var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");

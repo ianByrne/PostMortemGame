@@ -93,21 +93,28 @@ namespace IanByrne.ResearchProject.Shared
 
         private void LogMessage(string botName, string userCookieId, TranscriptMessageDirection direction, string message)
         {
-            using (var db = new PostMortemContext())
+            try
             {
-                var bot = db.Bots.Single(x => x.Name == botName);
-                var user = db.Users.Single(x => x.CookieId == new Guid(userCookieId));
-
-                db.Transcripts.Add(new Transcript()
+                using (var db = new PostMortemContext())
                 {
-                    DateTime = DateTime.UtcNow,
-                    Bot = bot,
-                    User = user,
-                    Direction = direction,
-                    Message = message
-                });
+                    var bot = db.Bots.Single(x => x.Name == botName);
+                    var user = db.Users.Single(x => x.CookieId == new Guid(userCookieId));
 
-                db.SaveChanges();
+                    db.Transcripts.Add(new Transcript()
+                    {
+                        DateTime = DateTime.UtcNow,
+                        Bot = bot,
+                        User = user,
+                        Direction = direction,
+                        Message = message
+                    });
+
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                //
             }
         }
     }

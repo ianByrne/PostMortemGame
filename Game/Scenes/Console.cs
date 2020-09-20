@@ -102,14 +102,17 @@ namespace IanByrne.ResearchProject.Game
 		{
 			try
 			{
+				var request = new SendMessageRequest
+				{
+					UserCookieId = _user,
+					BotName = BotName,
+					Message = text
+				};
+
 				if (OS.HasFeature("JavaScript"))
 				{
 					string javaScript = @"
-						var sendMessageRequest = {
-							User: '" + _user + @"',
-							Bot: '" + BotName + @"',
-							Message: '" + text + @"'
-						};
+						var sendMessageRequest = " + JsonConvert.SerializeObject(request) + @";
 
 						parent.SendMessageToChatScript(sendMessageRequest);
 						";
@@ -124,13 +127,6 @@ namespace IanByrne.ResearchProject.Game
 					using (ITcpClient client = new TcpClientHandler(tcpClient))
 					{
 						var chatScript = new ChatScriptHandler(client);
-
-						var request = new SendMessageRequest
-						{
-							UserCookieId = _user,
-							BotName = BotName,
-							Message = text
-						};
 
 						var response = chatScript.SendMessage(request);
 						return response;

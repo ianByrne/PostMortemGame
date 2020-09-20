@@ -5,6 +5,14 @@ namespace IanByrne.ResearchProject.Shared.Models
 {
     public class User
     {
+        public User() { }
+
+        public User(Guid cookieId, GameMode gameMode)
+        {
+            CookieId = cookieId;
+            GameMode = gameMode;
+        }
+
         public uint Id { get; set; }
         public Guid CookieId { get; set; }
         public DateTime CreatedDateTime { get; set; }

@@ -24,7 +24,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         }
 
-        public async Task<ActionResult> OnPostQueryChatScriptAsync(SendMessageRequest request)
+        public async Task<ActionResult> OnPostQueryChatScript(SendMessageRequest request)
         {
             var response = new SendMessageResponse();
 
@@ -46,6 +46,13 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             string responseJson = JsonConvert.SerializeObject(response);
 
             return Content(responseJson);
+        }
+
+        public async Task<ActionResult> OnPostEnsureUserCreatedDbCall(User user)
+        {
+            user.EnsureCreated();
+
+            return new NoContentResult();
         }
     }
 }
