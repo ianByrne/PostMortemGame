@@ -38,7 +38,7 @@ phases:
       - dotnet publish WebApp -c Release -o application
       # Build Godot game
       - cd Game
-      - godot -v --export "HTML5" ../application/WebApp/wwwroot/export/index.html
+      - godot -v --export "HTML5" ../application/wwwroot/export/index.html
       - cd ..
       # Copy core ChatScript files
       - mkdir -p application/ChatScript/BINARIES
