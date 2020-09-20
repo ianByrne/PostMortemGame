@@ -144,7 +144,8 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int unsigned");
 
-                    b.Property<Guid>("CookieId")
+                    b.Property<string>("CookieId")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDateTime")
