@@ -37,6 +37,7 @@ phases:
       - dotnet restore WebApp
       - dotnet publish WebApp -c Release -o application
       # Build Godot game
+      - mkdir -p application/wwwroot/export
       - cd Game
       - godot -v --export "HTML5" ../application/wwwroot/export/index.html
       - cd ..
