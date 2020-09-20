@@ -32,9 +32,9 @@ namespace IanByrne.ResearchProject.Game
 			if (OS.HasFeature("JavaScript"))
 			{
 				string javaScript = @"
-						var request = " + JsonConvert.SerializeObject(user) + @";
+						var user = " + JsonConvert.SerializeObject(user) + @";
 
-						parent.EnsureUserCreated(request);";
+						parent.EnsureUserCreated(user);";
 				
 				JavaScript.Eval(javaScript);
 			}
