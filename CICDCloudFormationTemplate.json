@@ -14,7 +14,7 @@
         "GitHubRepoName": {
             "Description": "GitHub repo name",
             "Type": "String",
-            "Default": "ResearchProject"
+            "Default": "PostMortem"
         },
         "GitHubBranchName": {
             "Description": "GitHub branch name",
