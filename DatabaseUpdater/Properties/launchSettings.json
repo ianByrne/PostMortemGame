@@ -1,7 +1,10 @@
 {
   "profiles": {
     "DatabaseUpdater": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "environmentVariables": {
+        "CONNECTION_STRING": "server=localhost;database=postmortem;user=root;password=mysql;SslMode=None"
+      }
     }
   }
 }
