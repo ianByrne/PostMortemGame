@@ -2,7 +2,6 @@ version: 0.2
 
 env:
   variables:
-    BOTNAME: "OLIVE"
     GODOT_VERSION: "3.2.3"
   secrets-manager:
     KEY: ResearchProject/SSL:key
@@ -56,7 +55,7 @@ phases:
       - cd application/ChatScript/BINARIES
       - chmod +x LinuxChatScript64
       - ./LinuxChatScript64 local build0=files0.txt
-      - ./LinuxChatScript64 local build1=files${BOTNAME}.txt
+      - ./LinuxChatScript64 local build1=files1.txt
       - cd ../../..
       # Create SSL certs
       - echo "{\"files\":{\"/etc/pki/tls/certs/server.crt\":{\"mode\":\"000400\",\"owner\":\"root\",\"group\":\"root\",\"content\":\"$CRT\"}}}" > WebApp/.ebextensions/ssl-crt.config

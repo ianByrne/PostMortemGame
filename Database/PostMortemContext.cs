@@ -18,7 +18,8 @@ namespace IanByrne.ResearchProject.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseMySql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+            //Environment.GetEnvironmentVariable("CONNECTION_STRING")
+            options.UseMySql("server=localhost;database=postmortem;user=root;password=mysql;SslMode=None");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

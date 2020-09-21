@@ -1,0 +1,78 @@
+## OOB function
+outputmacro: ^OOB(^value) ^jsonarrayinsert(unique $$oob ^value)
+
+## Olive
+outputmacro: Olive()
+
+$cs_control_pre = ~xpre_control_olive
+$cs_control_main = ~xmain_control_olive
+$cs_control_post = ~xpost_control_olive
+
+$userprompt = ^"%user: >"
+$botprompt = ^"Olive: "
+
+$playerName = unknown
+$wasWhoAreYouAsked = false
+
+$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
+$cs_token -= #DO_INTERJECTIONS
+
+$defaultCsToken = $cs_token
+
+## Clarence
+outputmacro: Clarence()
+
+$cs_control_pre = ~xpre_control_clarence
+$cs_control_main = ~xmain_control_clarence
+$cs_control_post = ~xpost_control_clarence
+
+$userprompt = ^"%user: >"
+$botprompt = ^"Clarence: "
+
+$playerName = unknown
+$wasWhoAreYouAsked = false
+
+$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
+$cs_token -= #DO_INTERJECTIONS
+
+$defaultCsToken = $cs_token
+
+## Cow
+outputmacro: Cow()
+
+$cs_control_pre = ~xpre_control_cow
+$cs_control_main = ~xmain_control_cow
+$cs_control_post = ~xpost_control_cow
+
+$userprompt = ^"%user: >"
+$botprompt = ^"Cow: "
+
+$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
+$cs_token -= #DO_INTERJECTIONS
+
+$defaultCsToken = $cs_token
+
+## Reggie
+outputmacro: Reggie()
+
+$cs_control_pre = ~xpre_control_reggie
+$cs_control_main = ~xmain_control_reggie
+$cs_control_post = ~xpost_control_reggie
+
+$userprompt = ^"%user: >"
+$botprompt = ^"Reggie: "
+
+$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
+$cs_token -= #DO_INTERJECTIONS
+
+$defaultCsToken = $cs_token
+
+# Default bot
+table: defaultbot (^name)
+^createfact(^name defaultbot defaultbot)
+DATA:
+Cow

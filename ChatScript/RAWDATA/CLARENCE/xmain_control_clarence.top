@@ -1,5 +1,5 @@
 # System topics
-topic: ~xmain_control system ()
+topic: ~xmain_control_clarence system ()
 
 u: (%input<%userfirstline)
 	^gambit(~introductions)

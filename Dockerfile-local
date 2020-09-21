@@ -10,8 +10,6 @@ RUN git clone https://github.com/ianByrne/ChatScript.git
 
 FROM ubuntu:18.04 as chatscript-builder-bot
 
-ARG BOTNAME=OLIVE
-
 # Install system packages/dependencies
 RUN apt-get --yes update \
  && apt-get --no-install-recommends --yes install libcurl3 \
@@ -28,10 +26,16 @@ COPY ./ChatScript/RAWDATA/ONTOLOGY /opt/ChatScript/RAWDATA/ONTOLOGY/
 COPY ./ChatScript/RAWDATA/WORLDDATA /opt/ChatScript/RAWDATA/WORLDDATA/
 COPY ./ChatScript/RAWDATA/QUIBBLE /opt/ChatScript/RAWDATA/QUIBBLE/
 
-COPY ./ChatScript/RAWDATA/files${BOTNAME}.txt /opt/ChatScript/RAWDATA/files${BOTNAME}.txt
-COPY ./ChatScript/RAWDATA/${BOTNAME} /opt/ChatScript/RAWDATA/${BOTNAME}/
+COPY ./ChatScript/RAWDATA/files1.txt /opt/ChatScript/RAWDATA/files1.txt
+COPY ./ChatScript/RAWDATA/BOTDEFINITIONS /opt/ChatScript/RAWDATA/BOTDEFINITIONS/
+COPY ./ChatScript/RAWDATA/COW /opt/ChatScript/RAWDATA/COW/
+COPY ./ChatScript/RAWDATA/REGGIE /opt/ChatScript/RAWDATA/REGGIE/
+COPY ./ChatScript/RAWDATA/OLIVE /opt/ChatScript/RAWDATA/OLIVE/
+COPY ./ChatScript/RAWDATA/CLARENCE /opt/ChatScript/RAWDATA/CLARENCE/
 
 RUN mkdir /opt/ChatScript/TOPIC
+RUN mkdir /opt/ChatScript/USERS
+RUN mkdir /opt/ChatScript/VERIFY
 
 WORKDIR /opt/ChatScript/BINARIES
 
@@ -39,7 +43,7 @@ WORKDIR /opt/ChatScript/BINARIES
 RUN chmod +x LinuxChatScript64
 
 RUN ./LinuxChatScript64 local build0=files0.txt
-RUN ./LinuxChatScript64 local build1=files${BOTNAME}.txt
+RUN ./LinuxChatScript64 local build1=files1.txt
 
 FROM ubuntu:18.04 as chatscript
 
