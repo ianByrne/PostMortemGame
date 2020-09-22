@@ -4,7 +4,7 @@
         "SubDomainRecord": {
             "Description": "Use 'www' and it will also direct root there",
             "Type": "String",
-            "Default": "researchproject"
+            "Default": "postmortem"
         },
         "KeyPairName": {
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
@@ -28,7 +28,7 @@
         "BeanstalkSolutionStackName": {
             "Description": "SolutionStackName for the Beanstalk app (last updated 2020-07-06)",
             "Type": "String",
-            "Default": "64bit Amazon Linux 2018.03 v2.15.3 running Docker 19.03.6-ce"
+            "Default": "64bit Amazon Linux 2018.03 v2.15.4 running Docker 19.03.6-ce"
         },
         "BeanstalkInstanceType": {
             "Description": "Beanstalk EC2 instance type",
@@ -39,6 +39,11 @@
             "Description": "Availability zone",
             "Type": "String",
             "Default": "us-east-1b"
+        },
+        "AvailabilityZone2": {
+            "Description": "Availability zone 2",
+            "Type": "String",
+            "Default": "us-east-1c"
         }
     },
     "Mappings": {
@@ -46,8 +51,11 @@
             "VPC": {
                 "CIDR": "10.0.0.0/16"
             },
-            "Public": {
+            "Public1": {
                 "CIDR": "10.0.10.0/24"
+            },
+            "Public2": {
+                "CIDR": "10.0.9.0/24"
             },
             "Private": {
                 "CIDR": "10.0.0.0/24"
@@ -92,7 +100,7 @@
                 }
             }
         },
-        "PublicSubnet": {
+        "PublicSubnet1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "VpcId": {
@@ -101,12 +109,31 @@
                 "CidrBlock": {
                     "Fn::FindInMap": [
                         "SubnetConfig",
-                        "Public",
+                        "Public1",
                         "CIDR"
                     ]
                 },
                 "AvailabilityZone": {
                     "Ref": "AvailabilityZone"
+                },
+                "MapPublicIpOnLaunch": true
+            }
+        },
+        "PublicSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "CidrBlock": {
+                    "Fn::FindInMap": [
+                        "SubnetConfig",
+                        "Public2",
+                        "CIDR"
+                    ]
+                },
+                "AvailabilityZone": {
+                    "Ref": "AvailabilityZone2"
                 },
                 "MapPublicIpOnLaunch": true
             }
@@ -132,11 +159,22 @@
                 }
             }
         },
-        "PublicSubnetRouteTableAssociation": {
+        "PublicSubnetRouteTableAssociation1": {
             "Type": "AWS::EC2::SubnetRouteTableAssociation",
             "Properties": {
                 "SubnetId": {
-                    "Ref": "PublicSubnet"
+                    "Ref": "PublicSubnet1"
+                },
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                }
+            }
+        },
+        "PublicSubnetRouteTableAssociation2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
                 },
                 "RouteTableId": {
                     "Ref": "PublicRouteTable"
@@ -289,17 +327,6 @@
                 "ApplicationName": {
                     "Ref": "BeanstalkApp"
                 },
-                "EnvironmentName": {
-                    "Fn::Join": [
-                        "-",
-                        [
-                            {
-                                "Ref": "AWS::StackName"
-                            },
-                            "Prod"
-                        ]
-                    ]
-                },
                 "SolutionStackName": {
                     "Ref": "BeanstalkSolutionStackName"
                 },
@@ -372,17 +399,10 @@
                                 ",",
                                 [
                                     {
-                                        "Ref": "PublicSubnet"
+                                        "Ref": "PublicSubnet1"
                                     }
                                 ]
                             ]
-                        }
-                    },
-                    {
-                        "Namespace": "aws:elasticbeanstalk:application:environment",
-                        "OptionName": "ECS_CLUSTER_NAME",
-                        "Value": {
-                            "Ref": "AWS::StackName"
                         }
                     },
                     {
@@ -509,6 +529,99 @@
                 "SubnetId": {
                     "Ref": "PrivateSubnet"
                 }
+            }
+        },
+        "RdsSecret": {
+            "Type": "AWS::SecretsManager::Secret",
+            "Properties": {
+                "Description": "RDS creds",
+                "GenerateSecretString": {
+                    "SecretStringTemplate": "{\"username\": \"admin\"}",
+                    "GenerateStringKey": "password",
+                    "PasswordLength": 16,
+                    "ExcludeCharacters": "\"@/\\"
+                }
+            }
+        },
+        "RdsSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "SG for the RDS instance",
+                "GroupName": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "AWS::StackName"
+                            },
+                            "Rds"
+                        ]
+                    ]
+                },
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 3306,
+                        "ToPort": 3306,
+                        "SourceSecurityGroupId": {
+                            "Ref": "BeanstalkSecurityGroup"
+                        }
+                    }
+                ]
+            }
+        },
+        "RdsSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "RDS subnets",
+                "SubnetIds": [
+                    {
+                        "Ref": "PublicSubnet1"
+                    },
+                    {
+                        "Ref": "PublicSubnet2"
+                    }
+                ]
+            }
+        },
+        "RdsDatabase": {
+            "Type": "AWS::RDS::DBInstance",
+            "DependsOn": "GatewayToInternet",
+            "Properties": {
+                "Engine": "mysql",
+                "DBInstanceClass": "db.t3.small",
+                "BackupRetentionPeriod": 7,
+                "MasterUsername": {
+                    "Fn::Sub": "{{resolve:secretsmanager:${RdsSecret}::username}}"
+                },
+                "MasterUserPassword": {
+                    "Fn::Sub": "{{resolve:secretsmanager:${RdsSecret}::password}}"
+                },
+                "AllocatedStorage": "20",
+                "DBSubnetGroupName": {
+                    "Ref": "RdsSubnetGroup"
+                },
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "RdsSecurityGroup"
+                    }
+                ],
+                "PubliclyAccessible": true
+            }
+        },
+        "SecretRdsAttachment": {
+            "Type": "AWS::SecretsManager::SecretTargetAttachment",
+            "Properties": {
+                "SecretId": {
+                    "Ref": "RdsSecret"
+                },
+                "TargetId": {
+                    "Ref": "RdsDatabase"
+                },
+                "TargetType": "AWS::RDS::DBInstance"
             }
         }
     },
