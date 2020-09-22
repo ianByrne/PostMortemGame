@@ -25,6 +25,11 @@
             "Description": "Name of the CloudFormation template file",
             "Type": "String",
             "Default": "CloudFormationTemplate.json"
+        },
+        "BeanstalkEnvName": {
+            "Description": "Name of the Beanstalk environment",
+            "Type": "String",
+            "Default": "ToBeDeterminedAfterInitialBuild"
         }
     },
     "Resources": {
@@ -305,15 +310,7 @@
                         {
                             "Name": "ENV_NAME",
                             "Value": {
-                                "Fn::Join": [
-                                    "-",
-                                    [
-                                        {
-                                            "Ref": "ProjectName"
-                                        },
-                                        "Prod"
-                                    ]
-                                ]
+                                "Ref": "BeanstalkEnvName"
                             }
                         }
                     ]
