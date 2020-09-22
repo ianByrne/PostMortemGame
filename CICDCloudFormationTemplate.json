@@ -4,7 +4,7 @@
         "ProjectName": {
             "Description": "Name of the project",
             "Type": "String",
-            "Default": "ResearchProject"
+            "Default": "PostMortem"
         },
         "GitHubAccountName": {
             "Description": "GitHub account name",
