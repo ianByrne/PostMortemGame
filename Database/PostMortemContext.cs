@@ -1,21 +1,17 @@
-﻿using IanByrne.ResearchProject.Database.Seeds;
+﻿using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
+using IanByrne.ResearchProject.Database.Seeds;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Database
 {
     public class PostMortemContext : DbContext
     {
-        private string _connectionString;
-
         public PostMortemContext() { }
-
-        public PostMortemContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
         public PostMortemContext(DbContextOptions<PostMortemContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
@@ -26,12 +22,25 @@ namespace IanByrne.ResearchProject.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            if (!string.IsNullOrWhiteSpace(_connectionString))
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AWS_REGION")))
             {
-                options.UseMySql(_connectionString);
+                using(var client = new AmazonSecretsManagerClient())
+                {
+                    var request = new GetSecretValueRequest()
+                    {
+                        SecretId = "PostMortem/Db"
+                    };
+
+                    var response = client.GetSecretValueAsync(request).Result;
+                    var responseDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString);
+                    string connectionString = responseDict["connectionstring"];
+                    
+                    options.UseMySql(connectionString);
+                }
             }
             else
             {
+                // Local dev connection
                 options.UseMySql("server=localhost;database=postmortem;user=root;password=mysql;SslMode=None");
             }
         }
