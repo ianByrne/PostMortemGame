@@ -276,6 +276,23 @@
                         }
                     ]
                 },
+                "Policies": [
+                    {
+                        "PolicyName": "CodePipelinePolicy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "secretsmanager:GetSecretValue"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                }
+                            ]
+                        }
+                    }
+                ],
                 "RoleName": {
                     "Fn::Join": [
                         "-",
@@ -414,6 +431,11 @@
                         "Namespace": "aws:elasticbeanstalk:application:environment",
                         "OptionName": "MOUNT_DIRECTORY",
                         "Value": "/var/app/efs"
+                    },
+                    {
+                        "Namespace": "aws:elasticbeanstalk:application:environment",
+                        "OptionName": "AWS_REGION",
+                        "Value": "us-east-1"
                     },
                     {
                         "Namespace": "aws:elasticbeanstalk:application:environment",
