@@ -32,12 +32,6 @@ phases:
       - unzip Godot_v${GODOT_VERSION}-stable_mono_export_templates.tpz
       - mv templates/* ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
       - rm -f Godot_v${GODOT_VERSION}-stable_mono_export_templates.tpz Godot_v${GODOT_VERSION}-stable_mono_linux_headless_64.zip
-      # Build DatabaseUpdater
-      - dotnet restore DatabaseUpdater
-      - dotnet publish DatabaseUpdater -c Release -f netcoreapp3.1 -o tools --no-restore
-      - ls tools
-      # Run DatabaseUpdater
-      - dotnet "tools/DatabaseUpdater.dll" "${CONNECTION_STRING}"
   build:
     commands:
       # Build website
