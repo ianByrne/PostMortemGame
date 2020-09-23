@@ -1,6 +1,5 @@
 ﻿using IanByrne.ResearchProject.Database;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace IanByrne.ResearchProject.DatabaseUpdater
@@ -16,12 +15,7 @@ namespace IanByrne.ResearchProject.DatabaseUpdater
             Remove-Migration -StartupProject DatabaseUpdater -Project Database
             */
 
-            if(args == null || args.Length != 1)
-            {
-                throw new ArgumentException($"Expecting one argument with connection string");
-            }
-
-            using (var db = new PostMortemContext(args[0]))
+            using (var db = new PostMortemContext())
             {
                 await db.Database.MigrateAsync();
 
