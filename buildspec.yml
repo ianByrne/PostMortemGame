@@ -4,9 +4,9 @@ env:
   variables:
     GODOT_VERSION: "3.2.3"
   secrets-manager:
-    KEY: ResearchProject/SSL:key
-    CRT: ResearchProject/SSL:crt
-    CHAIN: ResearchProject/SSL:chain
+    KEY: IanByrneNet/SSL/Star:key
+    CRT: IanByrneNet/SSL/Star:crt
+    CHAIN: IanByrneNet/SSL/Star:chain
 
 phases:
   install:
