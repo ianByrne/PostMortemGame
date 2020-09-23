@@ -1,6 +1,4 @@
-﻿using Amazon.SecretsManager;
-using Amazon.SecretsManager.Model;
-using IanByrne.ResearchProject.Database.Seeds;
+﻿using IanByrne.ResearchProject.Database.Seeds;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -24,19 +22,19 @@ namespace IanByrne.ResearchProject.Database
         {
             if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AWS_REGION")))
             {
-                using(var client = new AmazonSecretsManagerClient())
-                {
-                    var request = new GetSecretValueRequest()
-                    {
-                        SecretId = "PostMortem/Db"
-                    };
+                //using(var client = new AmazonSecretsManagerClient())
+                //{
+                //    var request = new GetSecretValueRequest()
+                //    {
+                //        SecretId = "PostMortem/Db"
+                //    };
 
-                    var response = client.GetSecretValueAsync(request).Result;
-                    var responseDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString);
-                    string connectionString = responseDict["connectionstring"];
+                //    var response = client.GetSecretValueAsync(request).Result;
+                //    var responseDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.SecretString);
+                //    string connectionString = responseDict["connectionstring"];
                     
-                    options.UseMySql(connectionString);
-                }
+                //    options.UseMySql(connectionString);
+                //}
             }
             else
             {

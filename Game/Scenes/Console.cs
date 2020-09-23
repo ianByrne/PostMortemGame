@@ -11,8 +11,7 @@ namespace IanByrne.ResearchProject.Game
 {
 	public class Console : VBoxContainer
 	{
-		private GameMode _gameMode;
-		private string _user;
+		private User _user;
 		private TextEdit _log;
 		private LineEdit _freeTextInput;
 		private VBoxContainer _dialogueOptionsContainer;
@@ -23,15 +22,14 @@ namespace IanByrne.ResearchProject.Game
 		public override void _Ready()
 		{
 			var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
-			_gameMode = (GameMode)sceneSwitcher.GetParameter("GameMode");
-			_user = sceneSwitcher.GetParameter("UserCookieId").ToString();
+			_user = (User)sceneSwitcher.GetParameter("User");
 
 			_log = GetNode<TextEdit>("LogContainer/Log");
 			_freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
 			_dialogueOptionsContainer = GetNode<VBoxContainer>("DialogueOptionsContainer");
 			_welcomeSent = false;
 
-			if (_gameMode == GameMode.ChatBot)
+			if (_user.GameMode == GameMode.ChatBot)
 			{
 				_freeTextInput.GetParent<VBoxContainer>().Show();
 				_dialogueOptionsContainer.Hide();
@@ -55,7 +53,7 @@ namespace IanByrne.ResearchProject.Game
 
 				UpdateLog(BotName + ": " + response.Message);
 
-				if (_gameMode == GameMode.DialogueTree)
+				if (_user.GameMode == GameMode.DialogueTree)
 				{
 					SetDialogueOptions(response);
 				}
@@ -104,7 +102,7 @@ namespace IanByrne.ResearchProject.Game
 			{
 				var request = new SendMessageRequest
 				{
-					UserCookieId = _user,
+					UserCookieId = _user.CookieId.ToString(),
 					BotName = BotName,
 					Message = text
 				};

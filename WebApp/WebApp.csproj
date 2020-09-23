@@ -10,4 +10,8 @@
 		<ProjectReference Include="..\Shared\Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.SecretsManager" Version="3.5.0.18" />
+	</ItemGroup>
+
 </Project>

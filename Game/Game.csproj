@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Buttons\MenuButton.cs" />
     <Compile Include="Scenes\Characters\Barkeep.cs" />
     <Compile Include="Scenes\Characters\Cow.cs" />
     <Compile Include="Scenes\Characters\Character.cs" />

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +26,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         }
 
-        public async Task<ActionResult> OnPostQueryChatScript(SendMessageRequest request)
+        public async Task<ActionResult> OnPostSendMessageToChatScript(SendMessageRequest request)
         {
             var response = new SendMessageResponse();
 
@@ -48,11 +50,37 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             return Content(responseJson);
         }
 
-        public async Task<ActionResult> OnPostEnsureUserCreatedDbCall(User user)
+        public async Task<ActionResult> OnPostEnsureUserCreated(User user)
         {
             user.EnsureCreated();
 
             return new NoContentResult();
+        }
+
+        public async Task<ActionResult> OnPostGetUserFromCookieId(string id)
+        {
+            try
+            {
+                Guid idGuid;
+
+                if(!Guid.TryParse(id, out idGuid))
+                {
+                    return new NotFoundResult();
+                }
+
+                using (var db = new PostMortemContext())
+                {
+                    var user = db.Users.SingleOrDefault(u => u.CookieId == idGuid);
+
+                    string responseJson = JsonConvert.SerializeObject(user);
+                    
+                    return Content(responseJson);
+                }
+            }
+            catch
+            {
+                return new NotFoundResult();
+            }
         }
     }
 }

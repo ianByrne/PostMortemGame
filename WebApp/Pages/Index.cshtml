@@ -17,7 +17,7 @@
 
         $.ajax({
             type: "POST",
-            url: '/Index?handler=QueryChatScript',
+            url: '/Index?handler=SendMessageToChatScript',
             async: false,
             data: message,
             accept: "application/json",
@@ -38,12 +38,12 @@
         return response;
     }
 
-    function EnsureUserCreated(request) {
+    function EnsureUserCreated(user) {
         $.ajax({
             type: "POST",
-            url: '/Index?handler=EnsureUserCreatedDbCall',
+            url: '/Index?handler=EnsureUserCreated',
             async: false,
-            data: request,
+            data: user,
             accept: "application/json",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("XSRF-TOKEN",
@@ -57,6 +57,52 @@
                 console.log(ajaxResponse);
             }
         });
+
+        SetCookieId(user.CookieId);
+
+        return true;
+    }
+
+    function DeleteCookie() {
+        Cookies.remove("id");
+
+        return true;
+    }
+
+    function GetUserFromCookieId() {
+        var id = Cookies.get("id");
+
+        if (id == undefined) {
+            return null;
+        }
+
+        var response = null;
+
+        $.ajax({
+            type: "POST",
+            url: '/Index?handler=GetUserFromCookieId',
+            async: false,
+            data: {
+                id: id
+            },
+            accept: "application/json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (ajaxResponse) {
+                response = ajaxResponse;
+            },
+            error: function (ajaxResponse) {
+                DeleteCookie();
+            }
+        });
+
+        return response;
+    }
+
+    function SetCookieId(id) {
+        Cookies.set("id", id, { sameSite: 'strict' });
 
         return true;
     }
