@@ -7,7 +7,15 @@ namespace IanByrne.ResearchProject.Database
 {
     public class PostMortemContext : DbContext
     {
+        private string _connectionString;
+
         public PostMortemContext() { }
+
+        public PostMortemContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public PostMortemContext(DbContextOptions<PostMortemContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
@@ -18,8 +26,14 @@ namespace IanByrne.ResearchProject.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            //Environment.GetEnvironmentVariable("CONNECTION_STRING")
-            options.UseMySql("server=localhost;database=postmortem;user=root;password=mysql;SslMode=None");
+            if (!string.IsNullOrWhiteSpace(_connectionString))
+            {
+                options.UseMySql(_connectionString);
+            }
+            else
+            {
+                options.UseMySql("server=localhost;database=postmortem;user=root;password=mysql;SslMode=None");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
