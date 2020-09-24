@@ -15,10 +15,12 @@ namespace IanByrne.ResearchProject.WebApp.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly PostMortemContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, PostMortemContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public void OnGet()
@@ -37,7 +39,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                 {
                     var chatScript = new ChatScriptHandler(client);
 
-                    response = chatScript.SendMessage(request);
+                    response = chatScript.SendMessage(request, _context);
                 }
             }
             catch (Exception ex)
@@ -52,7 +54,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         public async Task<ActionResult> OnPostEnsureUserCreated(User user)
         {
-            user.EnsureCreated();
+            user.EnsureCreated(_context);
 
             return new NoContentResult();
         }
@@ -63,19 +65,16 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             {
                 Guid idGuid;
 
-                if(!Guid.TryParse(id, out idGuid))
+                if (!Guid.TryParse(id, out idGuid))
                 {
                     return new NotFoundResult();
                 }
 
-                using (var db = new PostMortemContext())
-                {
-                    var user = db.Users.SingleOrDefault(u => u.CookieId == idGuid);
+                var user = _context.Users.SingleOrDefault(u => u.CookieId == idGuid);
 
-                    string responseJson = JsonConvert.SerializeObject(user);
-                    
-                    return Content(responseJson);
-                }
+                string responseJson = JsonConvert.SerializeObject(user);
+
+                return Content(responseJson);
             }
             catch
             {
@@ -85,7 +84,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         public async Task<ActionResult> OnPostSaveUser(User user)
         {
-            user.Save();
+            user.Save(_context);
 
             return new NoContentResult();
         }

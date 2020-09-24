@@ -6,36 +6,30 @@ namespace IanByrne.ResearchProject.Shared.Models
 {
     public static class UserExtensions
     {
-        public static void EnsureCreated(this User user)
+        public static void EnsureCreated(this User user, PostMortemContext context)
         {
-            using (var db = new PostMortemContext())
+            var existingUser = context.Users.SingleOrDefault(x => x.CookieId == user.CookieId);
+
+            if (existingUser == null)
             {
-                var existingUser = db.Users.SingleOrDefault(x => x.CookieId == user.CookieId);
-
-                if (existingUser == null)
+                context.Users.Add(new User()
                 {
-                    db.Users.Add(new User()
-                    {
-                        CookieId = user.CookieId,
-                        CreatedDateTime = DateTime.UtcNow,
-                        GameMode = user.GameMode
-                    });
+                    CookieId = user.CookieId,
+                    CreatedDateTime = DateTime.UtcNow,
+                    GameMode = user.GameMode
+                });
 
-                    db.SaveChanges();
-                }
+                context.SaveChanges();
             }
         }
 
-        public static void Save(this User user)
+        public static void Save(this User user, PostMortemContext context)
         {
-            using (var db = new PostMortemContext())
-            {
-                var dbUser = db.Users.Single(x => x.CookieId == user.CookieId);
-                dbUser.GameMode = user.GameMode;
-                dbUser.UsedDevCommand = user.UsedDevCommand;
+            var dbUser = context.Users.Single(x => x.CookieId == user.CookieId);
+            dbUser.GameMode = user.GameMode;
+            dbUser.UsedDevCommand = user.UsedDevCommand;
 
-                db.SaveChanges();
-            }
+            context.SaveChanges();
         }
     }
 }

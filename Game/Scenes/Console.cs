@@ -1,4 +1,5 @@
 using Godot;
+using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ namespace IanByrne.ResearchProject.Game
         private LineEdit _freeTextInput;
         private VBoxContainer _dialogueOptionsContainer;
         private bool _welcomeSent;
+        private PostMortemContext _context;
 
         public string BotName { get; set; }
 
@@ -22,6 +24,7 @@ namespace IanByrne.ResearchProject.Game
         {
             var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
             _userCookieId = ((User)sceneSwitcher.GetParameter("User")).CookieId;
+            _context = (PostMortemContext)sceneSwitcher.GetParameter("Context");
 
             _log = GetNode<TextEdit>("LogContainer/Log");
             _freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
@@ -130,7 +133,7 @@ namespace IanByrne.ResearchProject.Game
                     {
                         var chatScript = new ChatScriptHandler(client);
 
-                        var response = chatScript.SendMessage(request);
+                        var response = chatScript.SendMessage(request, _context);
                         return response;
                     }
                 }

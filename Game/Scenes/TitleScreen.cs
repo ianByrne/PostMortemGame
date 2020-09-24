@@ -1,4 +1,5 @@
 using Godot;
+using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
@@ -10,9 +11,11 @@ namespace IanByrne.ResearchProject.Game
 		Button _newGameButton;
 		Button _continueGameButton;
 		User _user;
+		PostMortemContext _context;
 
 		public override void _Ready()
 		{
+			_context = new PostMortemContext();
 			_newGameButton = GetNode<Button>("Menu/NewGameButton");
 			_continueGameButton = GetNode<Button>("Menu/ContinueGameButton");
 
@@ -61,7 +64,7 @@ namespace IanByrne.ResearchProject.Game
             }
             else
             {
-                _user.EnsureCreated();
+                _user.EnsureCreated(_context);
             }
 
 			StartGame();
@@ -71,6 +74,7 @@ namespace IanByrne.ResearchProject.Game
         {
 			var parameters = new System.Collections.Generic.Dictionary<string, object>();
 			parameters.Add("User", _user);
+			parameters.Add("Context", _context);
 
 			var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
 

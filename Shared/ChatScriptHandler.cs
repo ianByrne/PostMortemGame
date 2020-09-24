@@ -28,7 +28,7 @@ namespace IanByrne.ResearchProject.Shared
             _stream = _tcpClient.GetStream();
         }
 
-        public SendMessageResponse SendMessage(SendMessageRequest request)
+        public SendMessageResponse SendMessage(SendMessageRequest request, PostMortemContext context)
         {
             if (request == null)
             {
@@ -45,7 +45,7 @@ namespace IanByrne.ResearchProject.Shared
                 throw new InvalidOperationException("Message contains null terminator");
             }
 
-            LogMessage(request.BotName, request.UserCookieId, TranscriptMessageDirection.Outbound, request.Message);
+            LogMessage(context, request.BotName, request.UserCookieId, TranscriptMessageDirection.Outbound, request.Message);
 
             string prefix = request.UserCookieId + char.MinValue + request.BotName + char.MinValue;
             string message = prefix + request.Message + char.MinValue;
@@ -58,7 +58,7 @@ namespace IanByrne.ResearchProject.Shared
 
                 var response = GetResponse();
 
-                LogMessage(request.BotName, request.UserCookieId, TranscriptMessageDirection.Inbound, response.Message);
+                LogMessage(context, request.BotName, request.UserCookieId, TranscriptMessageDirection.Inbound, response.Message);
 
                 return response;
             }
@@ -91,26 +91,23 @@ namespace IanByrne.ResearchProject.Shared
             }
         }
 
-        private void LogMessage(string botName, string userCookieId, TranscriptMessageDirection direction, string message)
+        private void LogMessage(PostMortemContext context, string botName, string userCookieId, TranscriptMessageDirection direction, string message)
         {
             try
             {
-                using (var db = new PostMortemContext())
+                var bot = context.Bots.Single(x => x.Name == botName);
+                var user = context.Users.Single(x => x.CookieId == new Guid(userCookieId));
+
+                context.Transcripts.Add(new Transcript()
                 {
-                    var bot = db.Bots.Single(x => x.Name == botName);
-                    var user = db.Users.Single(x => x.CookieId == new Guid(userCookieId));
+                    DateTime = DateTime.UtcNow,
+                    Bot = bot,
+                    User = user,
+                    Direction = direction,
+                    Message = message
+                });
 
-                    db.Transcripts.Add(new Transcript()
-                    {
-                        DateTime = DateTime.UtcNow,
-                        Bot = bot,
-                        User = user,
-                        Direction = direction,
-                        Message = message
-                    });
-
-                    db.SaveChanges();
-                }
+                context.SaveChanges();
             }
             catch
             {

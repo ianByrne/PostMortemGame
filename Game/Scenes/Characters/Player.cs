@@ -1,4 +1,5 @@
 using Godot;
+using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ namespace IanByrne.ResearchProject.Game
 	public class Player : Character
 	{
         private User _user;
+        private PostMortemContext _context;
 
         public GameMode GameMode { get { return _user.GameMode; } }
 
@@ -16,6 +18,7 @@ namespace IanByrne.ResearchProject.Game
         {
             var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
             _user = (User)sceneSwitcher.GetParameter("User");
+            _context = (PostMortemContext)sceneSwitcher.GetParameter("Context");
 
             base._Ready();
         }
@@ -39,7 +42,7 @@ namespace IanByrne.ResearchProject.Game
                 }
                 else
                 {
-                    _user.Save();
+                    _user.Save(_context);
                 }
             }
         }
