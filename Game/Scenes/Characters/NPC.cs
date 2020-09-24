@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Threading.Tasks;
 
 namespace IanByrne.ResearchProject.Game
 {

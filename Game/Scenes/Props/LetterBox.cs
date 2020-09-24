@@ -1,24 +1,33 @@
 using Godot;
-using System;
 
 namespace IanByrne.ResearchProject.Game
 {
 	public class LetterBox : StaticBody2D
 	{
-		private void _OnDetectionAreaBodyEntered(object body)
+		[Signal]
+		public delegate void PlayerAtLetterBox();
+
+		private Label _notification;
+
+        public override void _Ready()
+        {
+            base._Ready();
+
+			_notification = GetNode<Label>("Notification");
+        }
+
+		public void ShowNotification()
+        {
+			_notification.Show();
+        }
+
+        private void _OnDetectionAreaBodyEntered(object body)
 		{
 			if (body is Player player)
 			{
-				GD.Print("Player at letterbox");
-			}
-		}
+				_notification.Hide();
 
-
-		private void _OnDetectionAreaBodyExited(object body)
-		{
-			if (body is Player player)
-			{
-				GD.Print("Player left letterbox");
+				EmitSignal(nameof(PlayerAtLetterBox));
 			}
 		}
 	}

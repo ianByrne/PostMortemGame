@@ -4,12 +4,16 @@ using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace IanByrne.ResearchProject.Game
 {
     public class Console : VBoxContainer
     {
+        [Signal]
+        public delegate void NewObjective(List<Objective> objectives);
+
         private GameMode _gameMode;
         private Guid _userCookieId;
         private TextEdit _log;
@@ -114,6 +118,8 @@ namespace IanByrne.ResearchProject.Game
                     Message = text
                 };
 
+                SendMessageResponse response;
+
                 if (OS.HasFeature("JavaScript"))
                 {
                     string javaScript = @"
@@ -123,8 +129,7 @@ namespace IanByrne.ResearchProject.Game
 						";
                     string jsResponse = JavaScript.Eval(javaScript).ToString();
 
-                    var responseModel = JsonConvert.DeserializeObject<SendMessageResponse>(jsResponse);
-                    return responseModel;
+                    response = JsonConvert.DeserializeObject<SendMessageResponse>(jsResponse);
                 }
                 else
                 {
@@ -133,10 +138,16 @@ namespace IanByrne.ResearchProject.Game
                     {
                         var chatScript = new ChatScriptHandler(client);
 
-                        var response = chatScript.SendMessage(request, _context);
-                        return response;
+                        response = chatScript.SendMessage(request, _context);
                     }
                 }
+
+                if(response.Objectives != null && response.Objectives.Count > 0)
+                {
+                    EmitSignal(nameof(NewObjective), response.Objectives);
+                }
+
+                return response;
             }
             catch (Exception ex)
             {
