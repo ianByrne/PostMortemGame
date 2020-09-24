@@ -8,22 +8,34 @@ namespace IanByrne.ResearchProject.Shared.Models
     {
         public static void EnsureCreated(this User user)
         {
-			using (var db = new PostMortemContext())
-			{
-				var existingUser = db.Users.SingleOrDefault(x => x.CookieId == user.CookieId);
+            using (var db = new PostMortemContext())
+            {
+                var existingUser = db.Users.SingleOrDefault(x => x.CookieId == user.CookieId);
 
-				if (existingUser == null)
-				{
-					db.Users.Add(new User()
-					{
-						CookieId = user.CookieId,
-						CreatedDateTime = DateTime.UtcNow,
-						GameMode = user.GameMode
-					});
+                if (existingUser == null)
+                {
+                    db.Users.Add(new User()
+                    {
+                        CookieId = user.CookieId,
+                        CreatedDateTime = DateTime.UtcNow,
+                        GameMode = user.GameMode
+                    });
 
-					db.SaveChanges();
-				}
-			}
-		}
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public static void Save(this User user)
+        {
+            using (var db = new PostMortemContext())
+            {
+                var dbUser = db.Users.Single(x => x.CookieId == user.CookieId);
+                dbUser.GameMode = user.GameMode;
+                dbUser.UsedDevCommand = user.UsedDevCommand;
+
+                db.SaveChanges();
+            }
+        }
     }
 }

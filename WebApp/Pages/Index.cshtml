@@ -28,7 +28,7 @@
             success: function (ajaxResponse) {
                 response = ajaxResponse;
             },
-            failure: function (ajaxResponse) {
+            error: function (ajaxResponse) {
                 console.log("Error");
                 console.log(ajaxResponse);
                 response = ajaxResponse;
@@ -52,7 +52,7 @@
             success: function (ajaxResponse) {
                 //
             },
-            failure: function (ajaxResponse) {
+            error: function (ajaxResponse) {
                 console.log("Error");
                 console.log(ajaxResponse);
             }
@@ -103,6 +103,29 @@
 
     function SetCookieId(id) {
         Cookies.set("id", id, { sameSite: 'strict' });
+
+        return true;
+    }
+
+    function SaveUser(user) {
+        $.ajax({
+            type: "POST",
+            url: '/Index?handler=SaveUser',
+            async: false,
+            data: user,
+            accept: "application/json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (ajaxResponse) {
+                //
+            },
+            error: function (ajaxResponse) {
+                console.log("Error");
+                console.log(ajaxResponse);
+            }
+        });
 
         return true;
     }

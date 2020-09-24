@@ -37,6 +37,7 @@ namespace IanByrne.ResearchProject.Game
 			{
 				_player = player;
 
+				_console.SetGameMode(player.GameMode);
 				_console.Show();
 				_console.SendWelcome();
 			}

@@ -82,5 +82,12 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                 return new NotFoundResult();
             }
         }
+
+        public async Task<ActionResult> OnPostSaveUser(User user)
+        {
+            user.Save();
+
+            return new NoContentResult();
+        }
     }
 }

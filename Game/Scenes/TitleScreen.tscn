@@ -23,29 +23,35 @@ __meta__ = {
 
 [node name="Menu" type="VBoxContainer" parent="."]
 margin_left = 120.0
-margin_top = 80.0
+margin_top = 60.0
 margin_right = 904.0
 margin_bottom = 520.0
 custom_constants/separation = 20
-alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Title" type="Label" parent="Menu"]
-margin_top = 172.0
 margin_right = 784.0
-margin_bottom = 217.0
+margin_bottom = 45.0
 custom_fonts/font = SubResource( 1 )
 text = "Post Mortem"
 align = 1
 
 [node name="Welcome" type="Label" parent="Menu"]
-margin_top = 237.0
+margin_top = 65.0
 margin_right = 784.0
-margin_bottom = 268.0
+margin_bottom = 368.0
 custom_fonts/font = SubResource( 2 )
-text = "Howdy!"
+text = "Thanks for trying out Post Mortem! This game is part
+of a research project - after a period of playing, you
+will be asked a series of questions about your experience.
+All responses are completely anonymous - if you do not wish
+to take part, please do not continue beyond this screen.
+
+You can find more info about the data collected and how
+to remove yourself from it in the privacy section of the
+website."
 
 [node name="NewGameButton" parent="Menu" instance=ExtResource( 1 )]
 visible = false
