@@ -1,4 +1,6 @@
 using Godot;
+using IanByrne.ResearchProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -6,6 +8,13 @@ namespace IanByrne.ResearchProject.Game
 	{
 		[Export]
 		public string BotName { get; set; }
+
+		[Signal]
+		public delegate void PlayerAtNpc();
+		[Signal]
+		public delegate void PlayerLeftNpc();
+		[Signal]
+		public delegate void NewObjectives(List<Objective> objectives);
 
 		private Console _console;
 		private Player _player;
@@ -38,6 +47,8 @@ namespace IanByrne.ResearchProject.Game
 				_console.SetGameMode(player.GameMode);
 				_console.Show();
 				_console.SendWelcome();
+
+				EmitSignal(nameof(PlayerAtNpc));
 			}
 		}
 
@@ -48,6 +59,8 @@ namespace IanByrne.ResearchProject.Game
 				_player = null;
 
 				_console.Hide();
+
+				EmitSignal(nameof(PlayerLeftNpc));
 			}
 		}
 	}

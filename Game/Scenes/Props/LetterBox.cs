@@ -1,4 +1,6 @@
 using Godot;
+using IanByrne.ResearchProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -6,6 +8,10 @@ namespace IanByrne.ResearchProject.Game
 	{
 		[Signal]
 		public delegate void PlayerAtLetterBox();
+		[Signal]
+		public delegate void PlayerLeftLetterBox();
+		[Signal]
+		public delegate void NewObjectives(List<Objective> objectives);
 
 		private Label _notification;
 
@@ -28,6 +34,16 @@ namespace IanByrne.ResearchProject.Game
 				_notification.Hide();
 
 				EmitSignal(nameof(PlayerAtLetterBox));
+			}
+		}
+
+		private void _OnDetectionAreaBodyExited(object body)
+		{
+			if (body is Player player)
+			{
+				_notification.Hide();
+
+				EmitSignal(nameof(PlayerLeftLetterBox));
 			}
 		}
 	}

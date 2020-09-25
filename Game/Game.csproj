@@ -23,6 +23,7 @@
     <Compile Include="Scenes\Characters\Barkeep.cs" />
     <Compile Include="Scenes\Characters\Cow.cs" />
     <Compile Include="Scenes\Characters\Character.cs" />
+    <Compile Include="Scenes\Characters\DeadBody.cs" />
     <Compile Include="Scenes\Characters\Farmer.cs" />
     <Compile Include="Scenes\Console.cs" />
     <Compile Include="Scenes\Characters\NPC.cs" />

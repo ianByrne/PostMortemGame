@@ -12,7 +12,7 @@ namespace IanByrne.ResearchProject.Game
     public class Console : VBoxContainer
     {
         [Signal]
-        public delegate void NewObjective(List<Objective> objectives);
+        public delegate void NewObjectives(List<Objective> objectives);
 
         private GameMode _gameMode;
         private Guid _userCookieId;
@@ -144,7 +144,7 @@ namespace IanByrne.ResearchProject.Game
 
                 if(response.Objectives != null && response.Objectives.Count > 0)
                 {
-                    EmitSignal(nameof(NewObjective), response.Objectives);
+                    EmitSignal(nameof(NewObjectives), response.Objectives);
                 }
 
                 return response;

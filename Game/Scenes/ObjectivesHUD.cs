@@ -1,5 +1,6 @@
 using Godot;
 using IanByrne.ResearchProject.Shared.Models;
+using System;
 using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Game
@@ -7,31 +8,32 @@ namespace IanByrne.ResearchProject.Game
     public class ObjectivesHUD : VBoxContainer
     {
         private Label _objectivesLabel;
-        private List<Objective> _objectives;
+        
+        public List<Objective> Objectives { get; private set; }
 
         public override void _Ready()
         {
             _objectivesLabel = GetNode<Label>("Objectives");
-            _objectives = new List<Objective>();
+            Objectives = new List<Objective>();
         }
 
         public void AddObjective(Objective objective)
         {
-            _objectives.Add(objective);
+            Objectives.Add(objective);
 
             ShowObjectives();
         }
 
-        public void RemoveObjective(Objective objective)
+        public void RemoveObjective(Type target)
         {
-            _objectives.Remove(objective);
+            Objectives.RemoveAll(o => o.Target == target);
 
             ShowObjectives();
         }
 
         public void ClearObjectives()
         {
-            _objectives.Clear();
+            Objectives.Clear();
 
             ShowObjectives();
         }
@@ -41,7 +43,7 @@ namespace IanByrne.ResearchProject.Game
             _objectivesLabel.Text = "";
             int i = 1;
 
-            foreach(var objective in _objectives)
+            foreach(var objective in Objectives)
             {
                 _objectivesLabel.Text += i++ + ". " + objective.Text + "\n";
             }

@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/Props/LetterBox.cs" type="Script" id=2]
 [ext_resource path="res://Assets/Fonts/Montserrat-ExtraBold.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 resource_name = "Flash"
 loop = true
 tracks/0/type = "value"
@@ -44,16 +44,16 @@ tracks/2/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 24
 outline_color = Color( 1, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 4.32706
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=4]
 radius = 14.2509
 
 [node name="LetterBox" type="StaticBody2D"]
@@ -61,7 +61,7 @@ script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Flash"
-anims/Flash = SubResource( 4 )
+anims/Flash = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 5.00339, -22.5085 )
@@ -75,7 +75,7 @@ margin_left = -3.96851
 margin_top = -79.3701
 margin_right = 36.0315
 margin_bottom = -48.3701
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 0, 0, 0.526384 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 0.526384 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.526384 )
@@ -86,11 +86,12 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.93644, 0.37458 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="DetectionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2( -0.749153, 0.37458 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 [connection signal="body_entered" from="DetectionArea" to="." method="_OnDetectionAreaBodyEntered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_OnDetectionAreaBodyExited"]
