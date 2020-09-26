@@ -1,4 +1,0 @@
-# System topics
-topic: ~xpost_control_cow system repeat ()
-
-t: ( $$dialogueOption ) ^postprintbefore( ^jsonwrite($$dialogueOption) )

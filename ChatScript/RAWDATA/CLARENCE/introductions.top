@@ -6,7 +6,7 @@ t: FIRST_WELCOME (%input<%userfirstline)
 	^DialogueOption(^"Yes")
 	^DialogueOption(^"No")
 	^DialogueOption(^"What do you mean?")
-	^NewFact(^"AmPostman")
+	^NewFact(^"SaidHello")
 
 	#! yes
 	a: (~yes)

@@ -1,5 +1,5 @@
 # System topics
-topic: ~xpost_control_olive system repeat ()
+topic: ~xpost_control system repeat ()
 
 t: ( $$dialogueOptions )
     $_response = ^jsoncreate(object)

@@ -5,9 +5,9 @@ outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
 ## Olive
 outputmacro: Olive()
 
-$cs_control_pre = ~xpre_control_olive
-$cs_control_main = ~xmain_control_olive
-$cs_control_post = ~xpost_control_olive
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Olive: "
@@ -21,9 +21,9 @@ $defaultCsToken = $cs_token
 ## Clarence
 outputmacro: Clarence()
 
-$cs_control_pre = ~xpre_control_clarence
-$cs_control_main = ~xmain_control_clarence
-$cs_control_post = ~xpost_control_clarence
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Clarence: "
@@ -37,9 +37,9 @@ $defaultCsToken = $cs_token
 ## Cow
 outputmacro: Cow()
 
-$cs_control_pre = ~xpre_control_cow
-$cs_control_main = ~xmain_control_cow
-$cs_control_post = ~xpost_control_cow
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Cow: "
@@ -53,9 +53,9 @@ $defaultCsToken = $cs_token
 ## Reggie
 outputmacro: Reggie()
 
-$cs_control_pre = ~xpre_control_reggie
-$cs_control_main = ~xmain_control_reggie
-$cs_control_post = ~xpost_control_reggie
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Reggie: "

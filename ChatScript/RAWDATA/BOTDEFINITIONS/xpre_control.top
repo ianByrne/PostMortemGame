@@ -1,5 +1,5 @@
 # System topics
-topic: ~xpre_control_olive system repeat ()
+topic: ~xpre_control system repeat ()
 
 t: ()
     $$dialogueOptions = ^jsoncreate(array)
