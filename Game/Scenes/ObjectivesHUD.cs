@@ -2,6 +2,7 @@ using Godot;
 using IanByrne.ResearchProject.Shared.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -24,16 +25,12 @@ namespace IanByrne.ResearchProject.Game
             ShowObjectives();
         }
 
-        public void RemoveObjective(Type target)
+        public void MarkObjectiveAsDone(Objective objective)
         {
-            Objectives.RemoveAll(o => o.Target == target);
-
-            ShowObjectives();
-        }
-
-        public void ClearObjectives()
-        {
-            Objectives.Clear();
+            Objectives
+                .Where(o => o == objective)
+                .ToList()
+                .ForEach(o => o.Done = true);
 
             ShowObjectives();
         }
@@ -45,7 +42,8 @@ namespace IanByrne.ResearchProject.Game
 
             foreach(var objective in Objectives)
             {
-                _objectivesLabel.Text += i++ + ". " + objective.Text + "\n";
+                if(!objective.Done)
+                    _objectivesLabel.Text += i++ + ". " + objective.Text + "\n";
             }
         }
     }

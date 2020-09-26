@@ -15,12 +15,12 @@ namespace IanByrne.ResearchProject.Game
         private Barkeep _olive;
         private Farmer _clarence;
 
-        // Blackboard stuff
-        private PlayerLocation _playerLocation;
-        private Dictionary<string, string> _facts;
+        private MapLocation _playerLocation;
+        private List<string> _facts;
 
         public override void _Ready()
         {
+            _facts = new List<string>();
             _objectivesHUD = GetNode<ObjectivesHUD>("YSort/Player/Player/ObjectivesHUD");
             _letterBox = GetNode<LetterBox>("YSort/Buildings/LetterBox");
             _reggie = GetNode<DeadBody>("YSort/NPCs/DeadBody");
@@ -32,96 +32,107 @@ namespace IanByrne.ResearchProject.Game
             _letterBox.Connect("PlayerAtLetterBox", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _letterBox }));
             _letterBox.Connect("PlayerLeftLetterBox", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _letterBox }));
             _letterBox.Connect("NewObjectives", this, "NewObjectives");
+            _letterBox.Connect("NewFacts", this, "NewFacts");
             _reggie.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _reggie }));
             _reggie.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _reggie }));
             _reggie.Connect("NewObjectives", this, "NewObjectives");
+            _reggie.Connect("NewFacts", this, "NewFacts");
             _cow.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _cow }));
             _cow.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _cow }));
             _cow.Connect("NewObjectives", this, "NewObjectives");
+            _cow.Connect("NewFacts", this, "NewFacts");
             _olive.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _olive }));
             _olive.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _olive }));
             _olive.Connect("NewObjectives", this, "NewObjectives");
+            _olive.Connect("NewFacts", this, "NewFacts");
             _clarence.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _clarence }));
             _clarence.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _clarence }));
             _clarence.Connect("NewObjectives", this, "NewObjectives");
+            _clarence.Connect("NewFacts", this, "NewFacts");
 
             // Add first objective (go to letterbox)
-            _objectivesHUD.ClearObjectives();
             _objectivesHUD.AddObjective(new Objective()
             {
-                Target = typeof(LetterBox),
+                Target = MapLocation.LetterBox,
                 Text = "Collect mail from letterbox"
             });
             _letterBox.ShowNotification();
 
-            _playerLocation = PlayerLocation.Wandering;
+            _playerLocation = MapLocation.Wandering;
         }
 
-        // Blackboard
+        /// <summary>
+        /// Blackboard:
+        /// I have heard the term before but clearly have very little
+        /// understanding of what it is or how to implement one
+        /// </summary>
         private void HandleObjectives()
         {
-            switch(_playerLocation)
+            var unfinishedObjectives = _objectivesHUD.Objectives.Where(o => !o.Done).ToList();
+
+            foreach (var objective in unfinishedObjectives)
             {
-                case PlayerLocation.LetterBox:
-                    if (_objectivesHUD.Objectives.Any(o => o.Target == typeof(LetterBox)))
-                    {
-                        _objectivesHUD.RemoveObjective(typeof(LetterBox));
-                    }
-                    break;
+                if (_playerLocation == objective.Target
+                    && (objective.RequiredFacts == null || objective.RequiredFacts.All(_facts.Contains)))
+                {
+                    _objectivesHUD.MarkObjectiveAsDone(objective);
 
-                case PlayerLocation.Reggie:
-                    if (_objectivesHUD.Objectives.Any(o => o.Target == typeof(DeadBody)))
+                    /// Objectives
+                    if(objective.Target == MapLocation.LetterBox
+                        && objective.Text == "Collect mail from letterbox"
+                        && !_objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
                     {
-                        _objectivesHUD.RemoveObjective(typeof(DeadBody));
+                        _objectivesHUD.AddObjective(new Objective()
+                        {
+                            Target = MapLocation.Clarence,
+                            Text = "Deliver welcome pamphlet to Clarence"
+                        });
                     }
-                    break;
 
-                case PlayerLocation.Cow:
-                    if (_objectivesHUD.Objectives.Any(o => o.Target == typeof(Cow)))
+                    if (objective.Target == MapLocation.Clarence
+                        && objective.Text == "Deliver welcome pamphlet to Clarence")
                     {
-                        _objectivesHUD.RemoveObjective(typeof(Cow));
+                        _objectivesHUD.AddObjective(new Objective()
+                        {
+                            Target = MapLocation.LetterBox,
+                            Text = "Get more mail!"
+                        });
                     }
-                    break;
 
-                case PlayerLocation.Olive:
-                    if (_objectivesHUD.Objectives.Any(o => o.Target == typeof(Barkeep)))
+                    if (objective.Target == MapLocation.Clarence
+                        && objective.Text == "Tell Clarence about the cow"
+                        && objective.RequiredFacts.Contains("Told Clarence about the cow"))
                     {
-                        _objectivesHUD.RemoveObjective(typeof(Barkeep));
+                        // End game
+                        GD.Print("Game over, man!");
                     }
-                    break;
-
-                case PlayerLocation.Clarence:
-                    if (_objectivesHUD.Objectives.Any(o => o.Target == typeof(Farmer)))
-                    {
-                        _objectivesHUD.RemoveObjective(typeof(Farmer));
-                    }
-                    break;
+                }
             }
         }
 
         // Signal handlers
         private void PlayerAtLocation(Godot.Object sender)
         {
-            switch(sender)
+            switch (sender)
             {
                 case LetterBox letterBox:
-                    _playerLocation = PlayerLocation.LetterBox;
+                    _playerLocation = MapLocation.LetterBox;
                     break;
 
                 case DeadBody reggie:
-                    _playerLocation = PlayerLocation.Reggie;
+                    _playerLocation = MapLocation.Reggie;
                     break;
 
                 case Cow cow:
-                    _playerLocation = PlayerLocation.Cow;
+                    _playerLocation = MapLocation.Cow;
                     break;
 
                 case Barkeep olive:
-                    _playerLocation = PlayerLocation.Olive;
+                    _playerLocation = MapLocation.Olive;
                     break;
 
                 case Farmer clarence:
-                    _playerLocation = PlayerLocation.Clarence;
+                    _playerLocation = MapLocation.Clarence;
                     break;
             }
 
@@ -130,7 +141,7 @@ namespace IanByrne.ResearchProject.Game
 
         private void PlayerLeftLocation(Godot.Object sender)
         {
-            _playerLocation = PlayerLocation.Wandering;
+            _playerLocation = MapLocation.Wandering;
 
             HandleObjectives();
         }
@@ -141,6 +152,13 @@ namespace IanByrne.ResearchProject.Game
             {
                 _objectivesHUD.AddObjective(objective);
             }
+
+            HandleObjectives();
+        }
+
+        private void NewFacts(List<string> facts)
+        {
+            _facts.AddRange(facts);
 
             HandleObjectives();
         }

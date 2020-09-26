@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace IanByrne.ResearchProject.Shared.Models
 {
@@ -33,5 +34,6 @@ namespace IanByrne.ResearchProject.Shared.Models
         public string Message { get; set; }
         public string[] DialogueOptions { get; set; }
         public List<Objective> Objectives { get; set; }
+        public List<string> Facts { get; set; }
     }
 }

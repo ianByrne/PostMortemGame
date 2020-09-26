@@ -1,6 +1,6 @@
 ﻿namespace IanByrne.ResearchProject.Shared.Models
 {
-    public enum PlayerLocation
+    public enum MapLocation
     {
         Wandering,
         LetterBox,

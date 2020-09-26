@@ -15,6 +15,8 @@ namespace IanByrne.ResearchProject.Game
 		public delegate void PlayerLeftNpc();
 		[Signal]
 		public delegate void NewObjectives(List<Objective> objectives);
+		[Signal]
+		public delegate void NewFacts(List<string> facts);
 
 		private Console _console;
 		private Player _player;

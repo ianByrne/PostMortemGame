@@ -12,6 +12,8 @@ namespace IanByrne.ResearchProject.Game
 		public delegate void PlayerLeftLetterBox();
 		[Signal]
 		public delegate void NewObjectives(List<Objective> objectives);
+		[Signal]
+		public delegate void NewFacts(List<string> facts);
 
 		private Label _notification;
 
@@ -41,8 +43,6 @@ namespace IanByrne.ResearchProject.Game
 		{
 			if (body is Player player)
 			{
-				_notification.Hide();
-
 				EmitSignal(nameof(PlayerLeftLetterBox));
 			}
 		}
