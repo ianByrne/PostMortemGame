@@ -23,6 +23,7 @@ namespace IanByrne.ResearchProject.Game
         private VBoxContainer _dialogueOptionsContainer;
         private bool _welcomeSent;
         private PostMortemContext _context;
+        private SendMessageResponse _lastResponse;
 
         public string BotName { get; set; }
 
@@ -69,6 +70,13 @@ namespace IanByrne.ResearchProject.Game
                 if (_gameMode == GameMode.DialogueTree)
                 {
                     SetDialogueOptions(response);
+                }
+            }
+            else
+            {
+                if (_gameMode == GameMode.DialogueTree && _lastResponse != null)
+                {
+                    SetDialogueOptions(_lastResponse);
                 }
             }
 
@@ -153,6 +161,8 @@ namespace IanByrne.ResearchProject.Game
                 {
                     EmitSignal(nameof(NewObjectives), response.Objectives);
                 }
+
+                _lastResponse = response;
 
                 return response;
             }

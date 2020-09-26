@@ -22,6 +22,7 @@ namespace IanByrne.ResearchProject.Game
             base._Ready();
 
 			_notification = GetNode<Label>("Notification");
+			_notification.Hide();
         }
 
 		public void ShowNotification()

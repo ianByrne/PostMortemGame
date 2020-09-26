@@ -50,14 +50,6 @@ namespace IanByrne.ResearchProject.Game
             _clarence.Connect("NewObjectives", this, "NewObjectives");
             _clarence.Connect("NewFacts", this, "NewFacts");
 
-            // Add first objective (go to letterbox)
-            _objectivesHUD.AddObjective(new Objective()
-            {
-                Target = MapLocation.LetterBox,
-                Text = "Collect mail from letterbox"
-            });
-            _letterBox.ShowNotification();
-
             _playerLocation = MapLocation.Wandering;
         }
 
@@ -78,10 +70,12 @@ namespace IanByrne.ResearchProject.Game
                     _objectivesHUD.MarkObjectiveAsDone(objective);
 
                     /// Objectives
-                    if(objective.Target == MapLocation.LetterBox
+                    if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
+                        && !_facts.Contains("Collected first delivery from letterbox"))
                     {
+                        _facts.Add("Collected first delivery from letterbox");
+
                         _objectivesHUD.AddObjective(new Objective()
                         {
                             Target = MapLocation.Clarence,
@@ -89,24 +83,96 @@ namespace IanByrne.ResearchProject.Game
                         });
                     }
 
-                    if (objective.Target == MapLocation.Clarence
-                        && objective.Text == "Deliver welcome pamphlet to Clarence")
+                    if (objective.Target == MapLocation.LetterBox
+                        && objective.Text == "Collect mail from letterbox"
+                        && !_facts.Contains("Collected first delivery from letterbox")
+                        && !_facts.Contains("Collected second delivery from letterbox"))
                     {
+                        _facts.Add("Collected second delivery from letterbox");
+
                         _objectivesHUD.AddObjective(new Objective()
                         {
-                            Target = MapLocation.LetterBox,
-                            Text = "Get more mail!"
+                            Target = MapLocation.Clarence,
+                            Text = "Deliver flyer to Clarence"
+                        });
+
+                        _objectivesHUD.AddObjective(new Objective()
+                        {
+                            Target = MapLocation.Olive,
+                            Text = "Deliver parcel to Olive"
                         });
                     }
 
-                    if (objective.Target == MapLocation.Clarence
-                        && objective.Text == "Tell Clarence about the cow"
-                        && objective.RequiredFacts.Contains("Told Clarence about the cow"))
+                    if (objective.Target == MapLocation.LetterBox
+                        && objective.Text == "Collect mail from letterbox"
+                        && !_facts.Contains("Collected first delivery from letterbox")
+                        && !_facts.Contains("Collected second delivery from letterbox")
+                        && !_facts.Contains("Collected third delivery from letterbox"))
                     {
-                        // End game
-                        GD.Print("Game over, man!");
+                        _facts.Add("Collected third delivery from letterbox");
+
+                        _objectivesHUD.AddObjective(new Objective()
+                        {
+                            Target = MapLocation.Clarence,
+                            Text = "Deliver letter to Clarence"
+                        });
                     }
                 }
+            }
+
+            if(_facts.Contains("I am a postman")
+                && !_facts.Contains("Collected first delivery from letterbox"))
+            {
+                var objective = new Objective()
+                {
+                    Target = MapLocation.LetterBox,
+                    Text = "Collect mail from letterbox"
+                };
+
+                if (!_objectivesHUD.Objectives.Contains(objective))
+                {
+                    _objectivesHUD.AddObjective(objective);
+                    _letterBox.ShowNotification();
+                }
+            }
+
+            if (!_facts.Contains("Collected second delivery from letterbox")
+                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
+            {
+                var objective = new Objective()
+                {
+                    Target = MapLocation.LetterBox,
+                    Text = "Collect mail from letterbox"
+                };
+
+                if (!_objectivesHUD.Objectives.Contains(objective))
+                {
+                    _objectivesHUD.AddObjective(objective, 10);
+                    _letterBox.ShowNotification();
+                }
+            }
+
+            if (!_facts.Contains("Collected third delivery from letterbox")
+                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver flyer to Clarence" && o.Done)
+                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver parcel to Olive" && o.Done))
+            {
+                var objective = new Objective()
+                {
+                    Target = MapLocation.LetterBox,
+                    Text = "Collect mail from letterbox"
+                };
+
+                if (!_objectivesHUD.Objectives.Contains(objective))
+                {
+                    _objectivesHUD.AddObjective(objective, 10);
+                    _letterBox.ShowNotification();
+                }
+            }
+
+            if (_facts.Contains("Told Clarence about the cow"))
+            {
+                // End game
+                GD.Print("Game over, man!");
             }
         }
 

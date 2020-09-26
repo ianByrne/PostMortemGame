@@ -9,20 +9,35 @@ namespace IanByrne.ResearchProject.Game
     public class ObjectivesHUD : VBoxContainer
     {
         private Label _objectivesLabel;
+        private Timer _timer;
         
         public List<Objective> Objectives { get; private set; }
 
         public override void _Ready()
         {
             _objectivesLabel = GetNode<Label>("Objectives");
+            _timer = new Timer();
             Objectives = new List<Objective>();
+
+            _timer.Connect("timeout", this, "ShowObjectives");
+            AddChild(_timer);
+
+            Objectives.Clear();
+            ShowObjectives();
         }
 
-        public void AddObjective(Objective objective)
+        public void AddObjective(Objective objective, float delay = 0)
         {
             Objectives.Add(objective);
 
-            ShowObjectives();
+            if (delay > 0)
+            {
+                _timer.Start(delay);
+            }
+            else
+            {
+                ShowObjectives();
+            }
         }
 
         public void MarkObjectiveAsDone(Objective objective)
