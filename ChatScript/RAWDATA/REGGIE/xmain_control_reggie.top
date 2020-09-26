@@ -98,5 +98,5 @@ u: ()
 	{
 		^repeat()
 		Groan
-		^OOB(^"Ok")
+		^DialogueOption(^"Ok")
 	}

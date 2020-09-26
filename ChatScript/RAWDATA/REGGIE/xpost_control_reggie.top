@@ -1,4 +1,4 @@
 # System topics
 topic: ~xpost_control_reggie system repeat ()
 
-t: ( $$oob ) ^postprintbefore( ^jsonwrite($$oob) )
+t: ( $$dialogueOption ) ^postprintbefore( ^jsonwrite($$dialogueOption) )

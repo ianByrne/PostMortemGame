@@ -1,4 +1,6 @@
 # System topics
 topic: ~xpre_control_olive system repeat ()
 
-t: () $$oob = ^jsoncreate(array)
+t: ()
+    $$dialogueOptions = ^jsoncreate(array)
+    $$newFacts = ^jsoncreate(array)

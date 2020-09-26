@@ -152,14 +152,9 @@ namespace IanByrne.ResearchProject.Game
                     }
                 }
 
-                if (response.Facts != null && response.Facts.Count > 0)
+                if (response.NewFacts != null && response.NewFacts.Length > 0)
                 {
-                    EmitSignal(nameof(NewFacts), response.Facts);
-                }
-
-                if (response.Objectives != null && response.Objectives.Count > 0)
-                {
-                    EmitSignal(nameof(NewObjectives), response.Objectives);
+                    EmitSignal(nameof(NewFacts), response.NewFacts);
                 }
 
                 _lastResponse = response;

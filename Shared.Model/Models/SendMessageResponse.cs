@@ -15,15 +15,18 @@ namespace IanByrne.ResearchProject.Shared.Models
         {
             rawResponse = rawResponse.Trim();
 
-            if(rawResponse[0] == '[')
+            if(rawResponse[0] == '{')
             {
-                int index = rawResponse.IndexOf(']');
+                int index = rawResponse.IndexOf('}');
 
-                string oob = rawResponse.Substring(0, index + 1);
+                string oobStr = rawResponse.Substring(0, index + 1);
                 string message = rawResponse.Substring(index + 1);
 
+                var oob = JsonConvert.DeserializeObject<ChatScriptResponse>(oobStr);
+                
                 Message = message.Trim();
-                DialogueOptions = JsonConvert.DeserializeObject<string[]>(oob);
+                DialogueOptions = oob.DialogueOptions;
+                NewFacts = oob.NewFacts;
             }
             else
             {
@@ -33,7 +36,6 @@ namespace IanByrne.ResearchProject.Shared.Models
 
         public string Message { get; set; }
         public string[] DialogueOptions { get; set; }
-        public List<Objective> Objectives { get; set; }
-        public List<string> Facts { get; set; }
+        public string[] NewFacts { get; set; }
     }
 }

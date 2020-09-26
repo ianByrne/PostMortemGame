@@ -9,7 +9,7 @@ u: (< [~yesanswer ~more]>)
 #! What is my name?
 ?: WHAT_NAME (what be I name $playerName==unknown)
 	How should I know? What is your name?
-	^OOB(^"TestPlayer5000")
+	^DialogueOption(^"TestPlayer5000")
 
 		#! I want to be called Pants Magee
 		a: SET_NAME ({"call me" call name} {my name be} _*)
@@ -33,7 +33,7 @@ u: (< [~yesanswer ~more]>)
 			{
 				$playerName = '_0
 				Alrighty $playerName. Great to meet you
-				^OOB(^"Cool")
+				^DialogueOption(^"Cool")
 			}
 
     		$cs_token = $defaultCsToken
@@ -47,7 +47,7 @@ u: (< [~yesanswer ~more]>)
 	^keep()
 	^repeat()
 	You've told me your name is $playerName. Can't change it now!
-	^OOB(^"Dang")
+	^DialogueOption(^"Dang")
 
 #! Who am I?
 ?: (who be I)

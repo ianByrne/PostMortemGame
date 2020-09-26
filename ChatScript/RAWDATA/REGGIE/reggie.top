@@ -2,9 +2,9 @@ topic: ~reggie (groan)
 
 t: FIRST_GROAN (%input<%userfirstline %input>0)
 	Groan
-	^OOB(^"Did you just say the word groan?")
+	^DialogueOption(^"Did you just say the word groan?")
 
 #! Did you just say the word groan?
 ?: DID_YOU_JUST (groan)
 	... Hnnnngggggg
-	^OOB(^"Ok")
+	^DialogueOption(^"Ok")

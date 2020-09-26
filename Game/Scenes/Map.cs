@@ -1,6 +1,5 @@
 using Godot;
 using IanByrne.ResearchProject.Shared.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -72,9 +71,9 @@ namespace IanByrne.ResearchProject.Game
                     /// Objectives
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("Collected first delivery from letterbox"))
+                        && !_facts.Contains("CollectedFirstDelivery"))
                     {
-                        _facts.Add("Collected first delivery from letterbox");
+                        _facts.Add("CollectedFirstDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -85,10 +84,10 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("Collected first delivery from letterbox")
-                        && !_facts.Contains("Collected second delivery from letterbox"))
+                        && !_facts.Contains("CollectedFirstDelivery")
+                        && !_facts.Contains("CollectedSecondDelivery"))
                     {
-                        _facts.Add("Collected second delivery from letterbox");
+                        _facts.Add("CollectedSecondDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -105,11 +104,11 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("Collected first delivery from letterbox")
-                        && !_facts.Contains("Collected second delivery from letterbox")
-                        && !_facts.Contains("Collected third delivery from letterbox"))
+                        && !_facts.Contains("CollectedFirstDelivery")
+                        && !_facts.Contains("CollectedSecondDelivery")
+                        && !_facts.Contains("CollectedThirdDelivery"))
                     {
-                        _facts.Add("Collected third delivery from letterbox");
+                        _facts.Add("CollectedThirdDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -120,8 +119,8 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if(_facts.Contains("I am a postman")
-                && !_facts.Contains("Collected first delivery from letterbox"))
+            if(_facts.Contains("AmPostman")
+                && !_facts.Contains("CollectedFirstDelivery"))
             {
                 var objective = new Objective()
                 {
@@ -136,7 +135,7 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (!_facts.Contains("Collected second delivery from letterbox")
+            if (!_facts.Contains("CollectedSecondDelivery")
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
             {
                 var objective = new Objective()
@@ -152,7 +151,7 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (!_facts.Contains("Collected third delivery from letterbox")
+            if (!_facts.Contains("CollectedThirdDelivery")
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver flyer to Clarence" && o.Done)
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver parcel to Olive" && o.Done))
             {
@@ -169,7 +168,7 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (_facts.Contains("Told Clarence about the cow"))
+            if (_facts.Contains("DeliveredClarencesLetter"))
             {
                 // End game
                 GD.Print("Game over, man!");

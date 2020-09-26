@@ -1,5 +1,6 @@
 ## OOB function
-outputmacro: ^OOB(^value) ^jsonarrayinsert(unique $$oob ^value)
+outputmacro: ^DialogueOption(^value) ^jsonarrayinsert(unique $$dialogueOptions ^value)
+outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
 
 ## Olive
 outputmacro: Olive()
@@ -10,9 +11,6 @@ $cs_control_post = ~xpost_control_olive
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Olive: "
-
-$playerName = unknown
-$wasWhoAreYouAsked = false
 
 $cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
@@ -29,9 +27,6 @@ $cs_control_post = ~xpost_control_clarence
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Clarence: "
-
-$playerName = unknown
-$wasWhoAreYouAsked = false
 
 $cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
@@ -75,4 +70,4 @@ $defaultCsToken = $cs_token
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Cow
+Olive

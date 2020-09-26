@@ -98,5 +98,5 @@ u: ()
 	{
 		^repeat()
 		Moo
-		^OOB(^"Oh")
+		^DialogueOption(^"Oh")
 	}

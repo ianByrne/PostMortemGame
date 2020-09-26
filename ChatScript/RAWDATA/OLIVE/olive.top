@@ -13,7 +13,7 @@ topic: ~olive (name who)
 	else
 	{
 		[It's... It's Olive][I'm Olive. You know this][You've already forgotten? I'm Olive]
-		^OOB(^"Oh yeah")
+		^DialogueOption(^"Oh yeah")
 	}
 
 #! What is your name?
