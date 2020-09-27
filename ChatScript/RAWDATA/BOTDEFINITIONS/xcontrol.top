@@ -1,6 +1,20 @@
-## OOB function
+## OOB functions
 outputmacro: ^DialogueOption(^value) ^jsonarrayinsert(unique $$dialogueOptions ^value)
 outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
+outputmacro: ^CheckFact(^value)
+# Loops through the JSON input for the existence of a passed fact
+# This is friggin dumb
+$_factFound = false
+@0 = ^query(direct_s $$inputOob ? ?)
+^loop()
+{
+    _0 = ^first(@0all)
+    if(_2 == ^value)
+    {
+        $_factFound = true
+    }
+}
+$_factFound
 
 ## Olive
 outputmacro: Olive()

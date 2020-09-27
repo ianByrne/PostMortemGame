@@ -103,7 +103,7 @@ u: (< \[ _* )
 	if (%response == $_responseCount)
 	{
 		^repeat()
-		I am literally speechless
+		I am literally speechless.
 	}
 
 u: ()

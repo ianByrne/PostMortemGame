@@ -10,8 +10,13 @@ t: FIRST_WELCOME (%input<%userfirstline)
 
 	#! yes
 	a: (~yes)
-	Oh good! You can go and start by the pot plant $$inputOob[0]
-	^DialogueOption(^"What plant?")
+		Oh good! You can go and start by the pot plant
+		$factExists = ^CheckFact(^"wat")
+		if($factExists == true)
+		{
+			YO!
+		}
+		^DialogueOption(^"What plant?")
 
 		#! What plant?
 		b: (plant)
