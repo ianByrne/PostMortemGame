@@ -16,7 +16,6 @@ t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedSecondDelivery")==false)
 	^DialogueOption(^"Where are we?")
 	^DialogueOption(^"What do you mean?")
 	^DialogueOption(^"Who are you?")
-	^NewFact(^"DeliveredClarencesLetter")
 
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)

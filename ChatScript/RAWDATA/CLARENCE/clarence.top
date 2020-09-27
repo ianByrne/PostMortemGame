@@ -6,6 +6,7 @@ topic: ~clarence_clarence (name clarence you)
 	^repeat()
 	I'm Clarence
 	^DialogueOption(^"Oh yeah")
+	^NewFact(^"DeliveredClarencesLetter")
 
 #! What is your name?
 ?: (what be your name)

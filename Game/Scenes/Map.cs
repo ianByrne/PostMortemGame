@@ -166,7 +166,9 @@ namespace IanByrne.ResearchProject.Game
             if (Facts.Contains("DeliveredClarencesLetter"))
             {
                 // End game
-                GD.Print("Game over, man!");
+                var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
+
+                sceneSwitcher.ChangeScene("res://Scenes/EndScreen.tscn");
             }
 
             // Remove duplicate facts
