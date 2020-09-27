@@ -20,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
             Objectives = new List<Objective>();
 
             _timer.Connect("timeout", this, "ShowObjectives");
+            _timer.OneShot = true;
             AddChild(_timer);
 
             Objectives.Clear();

@@ -4,7 +4,13 @@ topic: ~xmain_control system ()
 u: (%input<%userfirstline)
 	^gambit(~introductions)
 
-u: ()
+u: (< \[ _* )
+	## Parse JSON input
+	$$inputOob = ^jsonparse(safe _0)
+	
+	# Continue with the rest of the input
+	^next(input)
+
     $_responseCount = %response
     $$currenttopic = %topic
 
@@ -99,3 +105,7 @@ u: ()
 		^repeat()
 		I am literally speechless
 	}
+
+u: ()
+	^repeat()
+	An error occurred (missing input OOB)

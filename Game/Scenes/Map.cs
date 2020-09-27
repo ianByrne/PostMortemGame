@@ -13,13 +13,14 @@ namespace IanByrne.ResearchProject.Game
         private Cow _cow;
         private Barkeep _olive;
         private Farmer _clarence;
-
         private MapLocation _playerLocation;
-        private List<string> _facts;
+
+        public List<string> Facts { get; private set; }
 
         public override void _Ready()
         {
-            _facts = new List<string>();
+            Facts = new List<string>();
+            Facts.Add("Testing123");
             _objectivesHUD = GetNode<ObjectivesHUD>("YSort/Player/Player/ObjectivesHUD");
             _letterBox = GetNode<LetterBox>("YSort/Buildings/LetterBox");
             _reggie = GetNode<DeadBody>("YSort/NPCs/DeadBody");
@@ -30,23 +31,18 @@ namespace IanByrne.ResearchProject.Game
             // Connect to signals
             _letterBox.Connect("PlayerAtLetterBox", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _letterBox }));
             _letterBox.Connect("PlayerLeftLetterBox", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _letterBox }));
-            _letterBox.Connect("NewObjectives", this, "NewObjectives");
             _letterBox.Connect("NewFacts", this, "NewFacts");
             _reggie.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _reggie }));
             _reggie.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _reggie }));
-            _reggie.Connect("NewObjectives", this, "NewObjectives");
             _reggie.Connect("NewFacts", this, "NewFacts");
             _cow.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _cow }));
             _cow.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _cow }));
-            _cow.Connect("NewObjectives", this, "NewObjectives");
             _cow.Connect("NewFacts", this, "NewFacts");
             _olive.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _olive }));
             _olive.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _olive }));
-            _olive.Connect("NewObjectives", this, "NewObjectives");
             _olive.Connect("NewFacts", this, "NewFacts");
             _clarence.Connect("PlayerAtNpc", this, "PlayerAtLocation", new Godot.Collections.Array(new[] { _clarence }));
             _clarence.Connect("PlayerLeftNpc", this, "PlayerLeftLocation", new Godot.Collections.Array(new[] { _clarence }));
-            _clarence.Connect("NewObjectives", this, "NewObjectives");
             _clarence.Connect("NewFacts", this, "NewFacts");
 
             _playerLocation = MapLocation.Wandering;
@@ -64,16 +60,16 @@ namespace IanByrne.ResearchProject.Game
             foreach (var objective in unfinishedObjectives)
             {
                 if (_playerLocation == objective.Target
-                    && (objective.RequiredFacts == null || objective.RequiredFacts.All(_facts.Contains)))
+                    && (objective.RequiredFacts == null || objective.RequiredFacts.All(Facts.Contains)))
                 {
                     _objectivesHUD.MarkObjectiveAsDone(objective);
 
                     /// Objectives
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("CollectedFirstDelivery"))
+                        && !Facts.Contains("CollectedFirstDelivery"))
                     {
-                        _facts.Add("CollectedFirstDelivery");
+                        Facts.Add("CollectedFirstDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -84,10 +80,10 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("CollectedFirstDelivery")
-                        && !_facts.Contains("CollectedSecondDelivery"))
+                        && !Facts.Contains("CollectedFirstDelivery")
+                        && !Facts.Contains("CollectedSecondDelivery"))
                     {
-                        _facts.Add("CollectedSecondDelivery");
+                        Facts.Add("CollectedSecondDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -104,11 +100,11 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !_facts.Contains("CollectedFirstDelivery")
-                        && !_facts.Contains("CollectedSecondDelivery")
-                        && !_facts.Contains("CollectedThirdDelivery"))
+                        && !Facts.Contains("CollectedFirstDelivery")
+                        && !Facts.Contains("CollectedSecondDelivery")
+                        && !Facts.Contains("CollectedThirdDelivery"))
                     {
-                        _facts.Add("CollectedThirdDelivery");
+                        Facts.Add("CollectedThirdDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
@@ -119,8 +115,8 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if(_facts.Contains("AmPostman")
-                && !_facts.Contains("CollectedFirstDelivery"))
+            if(Facts.Contains("AmPostman")
+                && !Facts.Contains("CollectedFirstDelivery"))
             {
                 var objective = new Objective()
                 {
@@ -128,14 +124,14 @@ namespace IanByrne.ResearchProject.Game
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Contains(objective))
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective);
                     _letterBox.ShowNotification();
                 }
             }
 
-            if (!_facts.Contains("CollectedSecondDelivery")
+            if (!Facts.Contains("CollectedSecondDelivery")
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
             {
                 var objective = new Objective()
@@ -151,7 +147,7 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (!_facts.Contains("CollectedThirdDelivery")
+            if (!Facts.Contains("CollectedThirdDelivery")
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver flyer to Clarence" && o.Done)
                 && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver parcel to Olive" && o.Done))
             {
@@ -168,7 +164,7 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (_facts.Contains("DeliveredClarencesLetter"))
+            if (Facts.Contains("DeliveredClarencesLetter"))
             {
                 // End game
                 GD.Print("Game over, man!");
@@ -221,9 +217,9 @@ namespace IanByrne.ResearchProject.Game
             HandleObjectives();
         }
 
-        private void NewFacts(List<string> facts)
+        private void NewFacts(string[] facts)
         {
-            _facts.AddRange(facts);
+            Facts.AddRange(facts);
 
             HandleObjectives();
         }

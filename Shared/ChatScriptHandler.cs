@@ -48,9 +48,11 @@ namespace IanByrne.ResearchProject.Shared
             LogMessage(context, request.BotName, request.UserCookieId, TranscriptMessageDirection.Outbound, request.Message);
 
             string prefix = request.UserCookieId + char.MinValue + request.BotName + char.MinValue;
-            string message = prefix + request.Message + char.MinValue;
+            string message = request.Message == null ? request.Message : "[ " + request.InputData + " ] " + request.Message;
+            string sendDataStr = prefix + message + char.MinValue;
+            Console.WriteLine(sendDataStr);
 
-            var sendData = System.Text.Encoding.ASCII.GetBytes(message);
+            var sendData = System.Text.Encoding.ASCII.GetBytes(sendDataStr);
 
             if (_tcpClient.Connected)
             {

@@ -4,7 +4,6 @@ using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace IanByrne.ResearchProject.Game
@@ -12,9 +11,7 @@ namespace IanByrne.ResearchProject.Game
     public class Console : VBoxContainer
     {
         [Signal]
-        public delegate void NewObjectives(List<Objective> objectives);
-        [Signal]
-        public delegate void NewFacts(List<string> facts);
+        public delegate void NewFacts(string[] facts);
 
         private GameMode _gameMode;
         private Guid _userCookieId;
@@ -121,11 +118,14 @@ namespace IanByrne.ResearchProject.Game
         {
             try
             {
+                var map = GetNode<Map>("/root/Map");
+
                 var request = new SendMessageRequest
                 {
                     UserCookieId = _userCookieId.ToString(),
                     BotName = BotName,
-                    Message = text
+                    Message = text,
+                    InputData = JsonConvert.SerializeObject(map.Facts)
                 };
 
                 SendMessageResponse response;
@@ -154,7 +154,7 @@ namespace IanByrne.ResearchProject.Game
 
                 if (response.NewFacts != null && response.NewFacts.Length > 0)
                 {
-                    EmitSignal(nameof(NewFacts), response.NewFacts);
+                    EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
                 }
 
                 _lastResponse = response;

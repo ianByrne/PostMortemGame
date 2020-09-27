@@ -16,7 +16,7 @@ namespace IanByrne.ResearchProject.Game
 		[Signal]
 		public delegate void NewObjectives(List<Objective> objectives);
 		[Signal]
-		public delegate void NewFacts(List<string> facts);
+		public delegate void NewFacts(string[] facts);
 
 		private Console _console;
 		private Player _player;
@@ -27,6 +27,7 @@ namespace IanByrne.ResearchProject.Game
 
 			_console = GetNode<Console>("HUD/Console");
 			_console.BotName = BotName;
+			_console.Connect("NewFacts", this, "_NewFacts");
 		}
 
 		public override void _Process(float delta)
@@ -64,6 +65,11 @@ namespace IanByrne.ResearchProject.Game
 
 				EmitSignal(nameof(PlayerLeftNpc));
 			}
+		}
+
+		private void _NewFacts(string[] facts)
+        {
+			EmitSignal(nameof(NewFacts), new[] { facts });
 		}
 	}
 }

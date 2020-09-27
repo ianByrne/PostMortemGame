@@ -10,8 +10,8 @@ t: FIRST_WELCOME (%input<%userfirstline)
 
 	#! yes
 	a: (~yes)
-		Oh good! You can go and start by the pot plant
-		^DialogueOption(^"What plant?")
+	Oh good! You can go and start by the pot plant $$inputOob[0]
+	^DialogueOption(^"What plant?")
 
 		#! What plant?
 		b: (plant)
