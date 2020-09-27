@@ -1,0 +1,8 @@
+topic: ~clarence_world (where what who place world village town post postman)
+
+#! Where are we?
+?: WHERE_BE_WE ([where] [be])
+	No idea!
+
+?: WHO_BE_I (who be I)
+	How should I know!

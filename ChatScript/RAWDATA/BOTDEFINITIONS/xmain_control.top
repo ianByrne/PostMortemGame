@@ -1,8 +1,17 @@
 # System topics
 topic: ~xmain_control system ()
 
-u: (%input<%userfirstline)
-	^gambit(~introductions)
+u: (%bot=Olive %input<%userfirstline)
+	^gambit(~olive_introductions)
+
+u: (%bot=Clarence %input<%userfirstline)
+	^gambit(~clarence_introductions)
+
+u: (%bot=Cow %input<%userfirstline)
+	^gambit(~cow_introductions)
+
+u: (%bot=Reggie %input<%userfirstline)
+	^gambit(~reggie_introductions)
 
 u: (< \[ _* )
 	## Parse JSON input
@@ -50,7 +59,22 @@ u: (< \[ _* )
 	# if no topic reacts, go to the last ditch keywordless topic
 	if (%response == $_responseCount) 
 	{
-		^nofail(TOPIC ^respond(~keywordless))
+		if(%bot == Olive)
+		{
+			^nofail(TOPIC ^respond(~olive_keywordless))
+		}
+		else if(%bot == Clarence)
+		{
+			^nofail(TOPIC ^respond(~clarence_keywordless))
+		}
+		else if(%bot == Cow)
+		{
+			^nofail(TOPIC ^respond(~cow_keywordless))
+		}
+		else if(%bot == Reggie)
+		{
+			^nofail(TOPIC ^respond(~reggie_keywordless))
+		}
 	}
 	
 	# Process internal commands (eg 'stats')

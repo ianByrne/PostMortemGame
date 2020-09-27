@@ -50,7 +50,6 @@ namespace IanByrne.ResearchProject.Shared
             string prefix = request.UserCookieId + char.MinValue + request.BotName + char.MinValue;
             string message = request.Message == null ? request.Message : "[ " + request.InputData + " ] " + request.Message;
             string sendDataStr = prefix + message + char.MinValue;
-            Console.WriteLine(sendDataStr);
 
             var sendData = System.Text.Encoding.ASCII.GetBytes(sendDataStr);
 
@@ -60,7 +59,7 @@ namespace IanByrne.ResearchProject.Shared
 
                 var response = GetResponse();
 
-                LogMessage(context, request.BotName, request.UserCookieId, TranscriptMessageDirection.Inbound, response.Message);
+                LogMessage(context, request.BotName, request.UserCookieId, TranscriptMessageDirection.Inbound, string.Join("\n", response.Messages));
 
                 return response;
             }

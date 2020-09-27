@@ -20,7 +20,6 @@ namespace IanByrne.ResearchProject.Game
         public override void _Ready()
         {
             Facts = new List<string>();
-            Facts.Add("Testing123");
             _objectivesHUD = GetNode<ObjectivesHUD>("YSort/Player/Player/ObjectivesHUD");
             _letterBox = GetNode<LetterBox>("YSort/Buildings/LetterBox");
             _reggie = GetNode<DeadBody>("YSort/NPCs/DeadBody");
@@ -140,7 +139,7 @@ namespace IanByrne.ResearchProject.Game
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Contains(objective))
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective, 10);
                     _letterBox.ShowNotification();
@@ -157,7 +156,7 @@ namespace IanByrne.ResearchProject.Game
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Contains(objective))
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective, 10);
                     _letterBox.ShowNotification();
@@ -169,6 +168,9 @@ namespace IanByrne.ResearchProject.Game
                 // End game
                 GD.Print("Game over, man!");
             }
+
+            // Remove duplicate facts
+            Facts = Facts.Distinct().ToList();
         }
 
         // Signal handlers

@@ -62,7 +62,10 @@ namespace IanByrne.ResearchProject.Game
             {
                 var response = SendMessageToChatScript(null);
 
-                UpdateLog(BotName + ": " + response.Message);
+                foreach (string message in response.Messages)
+                {
+                    UpdateLog(BotName + ": " + message);
+                }
 
                 if (_gameMode == GameMode.DialogueTree)
                 {
@@ -96,7 +99,10 @@ namespace IanByrne.ResearchProject.Game
 
             var response = SendMessageToChatScript(text);
 
-            UpdateLog(BotName + ": " + response.Message);
+            foreach (string message in response.Messages)
+            {
+                UpdateLog(BotName + ": " + message);
+            }
 
             _welcomeSent = false;
         }
@@ -107,7 +113,10 @@ namespace IanByrne.ResearchProject.Game
 
             var response = SendMessageToChatScript(text);
 
-            UpdateLog(BotName + ": " + response.Message);
+            foreach (string message in response.Messages)
+            {
+                UpdateLog(BotName + ": " + message);
+            }
 
             SetDialogueOptions(response);
 
@@ -165,7 +174,7 @@ namespace IanByrne.ResearchProject.Game
             {
                 return new SendMessageResponse()
                 {
-                    Message = $"Failed to send to ChatScript: {ex.Message}"
+                    Messages = new string[] { $"Failed to send to ChatScript: {ex.Message}" }
                 };
             }
         }

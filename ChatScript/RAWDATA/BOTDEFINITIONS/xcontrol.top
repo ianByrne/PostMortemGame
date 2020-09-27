@@ -84,4 +84,4 @@ $defaultCsToken = $cs_token
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Olive
+Clarence

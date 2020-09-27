@@ -1,10 +1,10 @@
-topic: ~olive_olive (name olive you)
+topic: ~clarence_clarence (name clarence you)
 
 #! Who are you?
 ?: WHO_ARE_YOU ([who what] be you >)
 	^keep()
 	^repeat()
-	[You've really forgotten? I'm Olive, man!][I'm Olive. You know this][It's... It's Olive]
+	I'm Clarence
 	^DialogueOption(^"Oh yeah")
 
 #! What is your name?

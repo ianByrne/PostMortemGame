@@ -1,0 +1,15 @@
+topic: ~olive_world (where what who place world village town post postman)
+
+#! Where are we?
+#! What do you mean?
+?: WHERE_BE_WE ([where what] [be do])
+	Are you losing your memory again? I suppose you’ve been here longer than most - not long now before you end up like Reggie here!
+	^DialogueOption(^"Who is Reggie?")
+
+	a: (reggie)
+		Is your sight going too?
+		^reuse(reggie.WHO_BE_REGGIE)
+
+?: WHO_BE_I (who be I)
+	Wow you really have lost your marbles. You're the postman, and you've probably got deliveries to do.
+	^NewFact(^"AmPostman")

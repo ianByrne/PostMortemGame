@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
@@ -24,17 +25,17 @@ namespace IanByrne.ResearchProject.Shared.Models
 
                 var oob = JsonConvert.DeserializeObject<ChatScriptResponse>(oobStr);
                 
-                Message = message.Trim();
+                Messages = message.Trim().Split(new[] { "\\n" }, StringSplitOptions.None);
                 DialogueOptions = oob.DialogueOptions;
                 NewFacts = oob.NewFacts;
             }
             else
             {
-                Message = rawResponse;
+                Messages = rawResponse.Split(new[] { "\\n" }, StringSplitOptions.None);
             }
         }
 
-        public string Message { get; set; }
+        public string[] Messages { get; set; }
         public string[] DialogueOptions { get; set; }
         public string[] NewFacts { get; set; }
     }

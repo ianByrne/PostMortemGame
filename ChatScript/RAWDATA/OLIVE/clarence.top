@@ -1,0 +1,10 @@
+topic: ~olive_clarence (clarence new guy)
+
+#! Who is Clarence?
+?: WHO_BE_CLARENCE ([who what] be [clarence "new guy"])
+	He just arrived this morning. Poor guy, probably a bit rattled. They all are at first.
+
+t: HELP_CLARENCE ()
+	Well, you're the postman. You should probably go and check if there's any new mail for the new guy, there usually is
+	\n Might help you jog your memory along too...
+	^NewFact(^"AmPostman")
