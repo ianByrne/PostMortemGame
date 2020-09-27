@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace IanByrne.ResearchProject.Shared.Models
 {
@@ -14,23 +16,27 @@ namespace IanByrne.ResearchProject.Shared.Models
         {
             rawResponse = rawResponse.Trim();
 
-            if(rawResponse[0] == '[')
+            if(rawResponse[0] == '{')
             {
-                int index = rawResponse.IndexOf(']');
+                int index = rawResponse.IndexOf('}');
 
-                string oob = rawResponse.Substring(0, index + 1);
+                string oobStr = rawResponse.Substring(0, index + 1);
                 string message = rawResponse.Substring(index + 1);
 
-                Message = message.Trim();
-                DialogueOptions = JsonConvert.DeserializeObject<string[]>(oob);
+                var oob = JsonConvert.DeserializeObject<ChatScriptResponse>(oobStr);
+                
+                Messages = message.Trim().Split(new[] { "\\n" }, StringSplitOptions.None);
+                DialogueOptions = oob.DialogueOptions;
+                NewFacts = oob.NewFacts;
             }
             else
             {
-                Message = rawResponse;
+                Messages = rawResponse.Split(new[] { "\\n" }, StringSplitOptions.None);
             }
         }
 
-        public string Message { get; set; }
+        public string[] Messages { get; set; }
         public string[] DialogueOptions { get; set; }
+        public string[] NewFacts { get; set; }
     }
 }

@@ -1,20 +1,11 @@
-topic: ~olive (name who)
+topic: ~olive_olive (name olive you)
 
 #! Who are you?
 ?: WHO_ARE_YOU ([who what] be you >)
 	^keep()
 	^repeat()
-
-	if($wasWhoAreYouAsked = false)
-	{
-		$wasWhoAreYouAsked = true
-		My name is Olive. I'm a hollow shell of a personality for the purposes of testing.
-	}
-	else
-	{
-		[It's... It's Olive][I'm Olive. You know this][You've already forgotten? I'm Olive]
-		^OOB(^"Oh yeah")
-	}
+	[You've really forgotten? I'm Olive, man!][I'm Olive. You know this][It's... It's Olive]
+	^DialogueOption(^"Oh yeah")
 
 #! What is your name?
 ?: (what be your name)

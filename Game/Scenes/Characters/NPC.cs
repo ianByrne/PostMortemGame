@@ -1,6 +1,6 @@
 using Godot;
-using System;
-using System.Threading.Tasks;
+using IanByrne.ResearchProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -8,6 +8,15 @@ namespace IanByrne.ResearchProject.Game
 	{
 		[Export]
 		public string BotName { get; set; }
+
+		[Signal]
+		public delegate void PlayerAtNpc();
+		[Signal]
+		public delegate void PlayerLeftNpc();
+		[Signal]
+		public delegate void NewObjectives(List<Objective> objectives);
+		[Signal]
+		public delegate void NewFacts(string[] facts);
 
 		private Console _console;
 		private Player _player;
@@ -18,6 +27,7 @@ namespace IanByrne.ResearchProject.Game
 
 			_console = GetNode<Console>("HUD/Console");
 			_console.BotName = BotName;
+			_console.Connect("NewFacts", this, "_NewFacts");
 		}
 
 		public override void _Process(float delta)
@@ -40,6 +50,8 @@ namespace IanByrne.ResearchProject.Game
 				_console.SetGameMode(player.GameMode);
 				_console.Show();
 				_console.SendWelcome();
+
+				EmitSignal(nameof(PlayerAtNpc));
 			}
 		}
 
@@ -50,7 +62,14 @@ namespace IanByrne.ResearchProject.Game
 				_player = null;
 
 				_console.Hide();
+
+				EmitSignal(nameof(PlayerLeftNpc));
 			}
+		}
+
+		private void _NewFacts(string[] facts)
+        {
+			EmitSignal(nameof(NewFacts), new[] { facts });
 		}
 	}
 }

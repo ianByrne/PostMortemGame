@@ -1,4 +1,0 @@
-# System topics
-topic: ~xpost_control_clarence system repeat ()
-
-t: ( $$oob ) ^postprintbefore( ^jsonwrite($$oob) )

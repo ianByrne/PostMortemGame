@@ -1,0 +1,16 @@
+topic: ~reggie_introductions ()
+
+t: FIRST_GROAN ()
+	Groan
+	^DialogueOption(^"Did you just say the word groan?")
+
+#! Did you just say the word groan?
+?: DID_YOU_JUST (groan)
+	... Hnnnngggggg
+	^DialogueOption(^"Ok")
+
+t: ALL_THE_GROANS ()
+	^keep()
+	^repeat()
+	Groan
+	^DialogueOption(^"I see")

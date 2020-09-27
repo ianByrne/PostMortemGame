@@ -1,62 +1,17 @@
-topic: ~introductions ()
+topic: ~olive_introductions ()
+
+#!x Start of a new conversation
+t: FIRST_WELCOME (%input<%userfirstline)
+	No mail for me today then, huh? I ordered stuff online like three weeks ago!
+	\n I don't know why I pay for a Nile Prime subscription, next day delivery my arse...
+	\n Although I must admit I can't even begin to understand the logistics involved with transporting good here
+	^DialogueOption(^"Where are we?")
+	^DialogueOption(^"What do you mean?")
+	^DialogueOption(^"Who are you?")
 
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)
 	^keep()
 	^repeat()
 	[Welcome back!][Hello again!]
-	^OOB(^"Who are you?")
-	^OOB(^"Who am I?")
-
-#!x Start of a new conversation
-t: FIRST_WELCOME (%input < %userfirstline)
-	Howdy! Are you here to solve the content problem?
-	^OOB(^"Yes")
-	^OOB(^"No")
-	^OOB(^"What do you mean?")
-
-	#! yes
-	a: (~yes)
-		Oh good! You can go and start by the pot plant
-		^OOB(^"What plant?")
-
-		#! What plant?
-		b: (plant)
-			There isn't one!
-			^reuse(INTRO_PREAMBLE)
-
-		#! ok
-		b: (~yes)
-			You must be pretty new here... There isn't one.
-			^reuse(INTRO_PREAMBLE)
-
-	#! no
-	a: FIRST_WELCOME_NO (~no)
-		Well, I hope you enjoy basking in desolation
-		^OOB(^"Oh")
-
-	#! I don't know
-	a: ([~emoignorance ~emomaybe])
-		^reuse(FIRST_WELCOME_NO)
-
-	#! What?
-	a: (what)
-		^reuse(INTRO_PREAMBLE)
-		
-	#! What do you mean by that?
-	a: (what << [that you] mean >>)
-		^reuse(INTRO_PREAMBLE)
-
-	#! Who are you?
-	a: ([what who] be you)
-		^reuse(olive.WHO_ARE_YOU)
-
-	# (anything else)
-	#! eggs
-	a: ()
-		Err... Okay... That was an unexpected response. Perhaps you're as unfinished as the rest of this place.
-		^reuse(INTRO_PREAMBLE)
-
-t: INTRO_PREAMBLE ()
-	There isn't anything! This whole place is a bleak emptiness of placeholder junk
-	^OOB(^"Oh")
+	^DialogueOption(^"Who are you?")

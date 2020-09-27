@@ -17,9 +17,9 @@ namespace IanByrne.ResearchProject.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddPostMortemContext();
             services.AddRazorPages();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-            services.AddPostMortemContext();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/Characters/NPC.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Animations/DeadBody/Run_NE.tres" type="Animation" id=2]
@@ -18,10 +18,12 @@
 [ext_resource path="res://Resources/Animations/DeadBody/Idle_W.tres" type="Animation" id=16]
 [ext_resource path="res://Resources/Animations/DeadBody/Run_E.tres" type="Animation" id=17]
 [ext_resource path="res://Resources/Animations/DeadBody/Idle_S.tres" type="Animation" id=18]
+[ext_resource path="res://Scenes/Characters/DeadBody.cs" type="Script" id=19]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [node name="DeadBody" instance=ExtResource( 1 )]
+script = ExtResource( 19 )
 
 [node name="AnimationPlayer" parent="." index="0"]
 anims/Idle_E = ExtResource( 10 )

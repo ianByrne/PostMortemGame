@@ -10,7 +10,22 @@ namespace IanByrne.ResearchProject.Game
 
         public void ChangeScene(string nextScene, Dictionary<string, object> parameters = null)
         {
-            _parameters = parameters;
+            if(_parameters == null)
+            {
+                _parameters = new Dictionary<string, object>();
+            }
+
+            if(parameters != null)
+            {
+                foreach(var parameter in parameters)
+                {
+                    if(!_parameters.ContainsKey(parameter.Key))
+                    {
+                        _parameters.Add(parameter.Key, parameter.Value);
+                    }
+                }
+            }
+
             GetTree().ChangeScene(nextScene);
         }
 

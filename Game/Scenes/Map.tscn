@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Props/FenceMain_NE.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/Props/LetterBox.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Props/FenceBroken_NE.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Props/Plant1.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Map.cs" type="Script" id=17]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1098.5, 16.1582, 1984, 0, 2080, 10, 1329.38, 466.301, 1085.77, 34.5431, 2176, 0, 2253.35, 4.46628, 2140, -20, 1760, -270, 1890, -210, 1860, -190, 1700, -250, 462.644, -39.9565, 946.47, -27.6825, 1860, -160, 1920, -128, 1900, -110, 1413, -345, 1440, -370, 1440, -340, 1411, -194, 1280, -448, 1133, -345, 1130.06, -198.444, 954.956, -51.0171, 1472, -320, 1472, -288, 1984, -64, 1600, -288 )
@@ -23,6 +24,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 3 ), PoolIntArra
 outlines = [ PoolVector2Array( 462.644, -39.9565, 1280, -448, 1440, -370, 1440, -340, 1472, -320, 1472, -288, 1600, -288, 1700, -250, 1760, -270, 1890, -210, 1860, -190, 1860, -160, 1920, -128, 1900, -110, 1984, -64, 1984, 0, 2080, 10, 2140, -20, 2176, 0, 2253.35, 4.46628, 1329.38, 466.301 ), PoolVector2Array( 1130.06, -198.444, 1411, -194, 1413, -345, 1133, -345 ), PoolVector2Array( 954.956, -51.0171, 1098.5, 16.1582, 1085.77, 34.5431, 946.47, -27.6825 ) ]
 
 [node name="Map" type="Node2D"]
+script = ExtResource( 17 )
 
 [node name="Ground" type="TileMap" parent="."]
 mode = 1
@@ -50,7 +52,7 @@ tile_data = PoolIntArray( -2752509, 2, 4, -2686973, 2, 0, -2621437, 2, 4, -25559
 [node name="Player" type="YSort" parent="YSort"]
 
 [node name="Player" parent="YSort/Player" instance=ExtResource( 1 )]
-position = Vector2( 1526.83, 236.972 )
+position = Vector2( 1644.26, -232.622 )
 
 [node name="NPCs" type="YSort" parent="YSort"]
 

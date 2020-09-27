@@ -1,10 +1,25 @@
 # System topics
-topic: ~xmain_control_clarence system ()
+topic: ~xmain_control system ()
 
-u: (%input<%userfirstline)
-	^gambit(~introductions)
+u: (%bot=Olive %input<%userfirstline)
+	^gambit(~olive_introductions)
 
-u: ()
+u: (%bot=Clarence %input<%userfirstline)
+	^gambit(~clarence_introductions)
+
+u: (%bot=Cow %input<%userfirstline)
+	^gambit(~cow_introductions)
+
+u: (%bot=Reggie %input<%userfirstline)
+	^gambit(~reggie_introductions)
+
+u: (< \[ _* )
+	## Parse JSON input
+	$$inputOob = ^jsonparse(safe _0)
+	
+	# Continue with the rest of the input
+	^next(input)
+
     $_responseCount = %response
     $$currenttopic = %topic
 
@@ -44,7 +59,22 @@ u: ()
 	# if no topic reacts, go to the last ditch keywordless topic
 	if (%response == $_responseCount) 
 	{
-		^nofail(TOPIC ^respond(~keywordless))
+		if(%bot == Olive)
+		{
+			^nofail(TOPIC ^respond(~olive_keywordless))
+		}
+		else if(%bot == Clarence)
+		{
+			^nofail(TOPIC ^respond(~clarence_keywordless))
+		}
+		else if(%bot == Cow)
+		{
+			^nofail(TOPIC ^respond(~cow_keywordless))
+		}
+		else if(%bot == Reggie)
+		{
+			^nofail(TOPIC ^respond(~reggie_keywordless))
+		}
 	}
 	
 	# Process internal commands (eg 'stats')
@@ -97,5 +127,9 @@ u: ()
 	if (%response == $_responseCount)
 	{
 		^repeat()
-		I am literally speechless
+		I am literally speechless.
 	}
+
+u: ()
+	^repeat()
+	An error occurred (missing input OOB)

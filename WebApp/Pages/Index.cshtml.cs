@@ -44,7 +44,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                response.Messages = new string[] { ex.Message };
             }
 
             string responseJson = JsonConvert.SerializeObject(response);

@@ -1,4 +1,0 @@
-# System topics
-topic: ~xpost_control_olive system repeat ()
-
-t: ( $$oob ) ^postprintbefore( ^jsonwrite($$oob) )

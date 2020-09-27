@@ -10,6 +10,9 @@ namespace IanByrne.ResearchProject.Game
 {
     public class Console : VBoxContainer
     {
+        [Signal]
+        public delegate void NewFacts(string[] facts);
+
         private GameMode _gameMode;
         private Guid _userCookieId;
         private TextEdit _log;
@@ -17,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
         private VBoxContainer _dialogueOptionsContainer;
         private bool _welcomeSent;
         private PostMortemContext _context;
+        private SendMessageResponse _lastResponse;
 
         public string BotName { get; set; }
 
@@ -58,11 +62,21 @@ namespace IanByrne.ResearchProject.Game
             {
                 var response = SendMessageToChatScript(null);
 
-                UpdateLog(BotName + ": " + response.Message);
+                foreach (string message in response.Messages)
+                {
+                    UpdateLog(BotName + ": " + message);
+                }
 
                 if (_gameMode == GameMode.DialogueTree)
                 {
                     SetDialogueOptions(response);
+                }
+            }
+            else
+            {
+                if (_gameMode == GameMode.DialogueTree && _lastResponse != null)
+                {
+                    SetDialogueOptions(_lastResponse);
                 }
             }
 
@@ -85,7 +99,10 @@ namespace IanByrne.ResearchProject.Game
 
             var response = SendMessageToChatScript(text);
 
-            UpdateLog(BotName + ": " + response.Message);
+            foreach (string message in response.Messages)
+            {
+                UpdateLog(BotName + ": " + message);
+            }
 
             _welcomeSent = false;
         }
@@ -96,7 +113,10 @@ namespace IanByrne.ResearchProject.Game
 
             var response = SendMessageToChatScript(text);
 
-            UpdateLog(BotName + ": " + response.Message);
+            foreach (string message in response.Messages)
+            {
+                UpdateLog(BotName + ": " + message);
+            }
 
             SetDialogueOptions(response);
 
@@ -107,12 +127,17 @@ namespace IanByrne.ResearchProject.Game
         {
             try
             {
+                var map = GetNode<Map>("/root/Map");
+
                 var request = new SendMessageRequest
                 {
                     UserCookieId = _userCookieId.ToString(),
                     BotName = BotName,
-                    Message = text
+                    Message = text,
+                    InputData = JsonConvert.SerializeObject(map.Facts)
                 };
+
+                SendMessageResponse response;
 
                 if (OS.HasFeature("JavaScript"))
                 {
@@ -123,8 +148,7 @@ namespace IanByrne.ResearchProject.Game
 						";
                     string jsResponse = JavaScript.Eval(javaScript).ToString();
 
-                    var responseModel = JsonConvert.DeserializeObject<SendMessageResponse>(jsResponse);
-                    return responseModel;
+                    response = JsonConvert.DeserializeObject<SendMessageResponse>(jsResponse);
                 }
                 else
                 {
@@ -133,16 +157,24 @@ namespace IanByrne.ResearchProject.Game
                     {
                         var chatScript = new ChatScriptHandler(client);
 
-                        var response = chatScript.SendMessage(request, _context);
-                        return response;
+                        response = chatScript.SendMessage(request, _context);
                     }
                 }
+
+                if (response.NewFacts != null && response.NewFacts.Length > 0)
+                {
+                    EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
+                }
+
+                _lastResponse = response;
+
+                return response;
             }
             catch (Exception ex)
             {
                 return new SendMessageResponse()
                 {
-                    Message = $"Failed to send to ChatScript: {ex.Message}"
+                    Messages = new string[] { $"Failed to send to ChatScript: {ex.Message}" }
                 };
             }
         }

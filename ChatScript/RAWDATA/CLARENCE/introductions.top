@@ -1,0 +1,25 @@
+topic: ~clarence_introductions ()
+
+t: BEFORE_FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedFirstDelivery")==false)
+	Who are you? Where am I? Stay away from me!
+
+t: BEFORE_FIRST_DELIVERY_RETURNED_WELCOME (^CheckFact(^"CollectedFirstDelivery")==false)
+	^keep()
+	^repeat()
+	[Aaah!][*whimper*][Stay away!][Leave me alone!][Go away!][Where am I?! Go away!]
+
+#!x Start of a new conversation
+t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedSecondDelivery")==false)
+	What's this? A brochure? Are you the postman here or something?
+	\n "Welcome to the afterlife! We hope you enjoy your stay!"
+	\n Oh. I guess I'm dead then, huh? Well, that would explain a few things
+	^DialogueOption(^"Where are we?")
+	^DialogueOption(^"What do you mean?")
+	^DialogueOption(^"Who are you?")
+
+#!x Start of a returned conversation 
+t: RETURNED_WELCOME (%input<%userfirstline %input>0)
+	^keep()
+	^repeat()
+	[Welcome back!][Hello again!]
+	^DialogueOption(^"Who are you?")

@@ -1,18 +1,30 @@
-## OOB function
-outputmacro: ^OOB(^value) ^jsonarrayinsert(unique $$oob ^value)
+## OOB functions
+outputmacro: ^DialogueOption(^value) ^jsonarrayinsert(unique $$dialogueOptions ^value)
+outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
+outputmacro: ^CheckFact(^value)
+# Loops through the JSON input for the existence of a passed fact
+# This is friggin dumb
+$_factFound = false
+@0 = ^query(direct_s $$inputOob ? ?)
+^loop()
+{
+    _0 = ^first(@0all)
+    if(_2 == ^value)
+    {
+        $_factFound = true
+    }
+}
+$_factFound
 
 ## Olive
 outputmacro: Olive()
 
-$cs_control_pre = ~xpre_control_olive
-$cs_control_main = ~xmain_control_olive
-$cs_control_post = ~xpost_control_olive
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Olive: "
-
-$playerName = unknown
-$wasWhoAreYouAsked = false
 
 $cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
@@ -23,15 +35,12 @@ $defaultCsToken = $cs_token
 ## Clarence
 outputmacro: Clarence()
 
-$cs_control_pre = ~xpre_control_clarence
-$cs_control_main = ~xmain_control_clarence
-$cs_control_post = ~xpost_control_clarence
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Clarence: "
-
-$playerName = unknown
-$wasWhoAreYouAsked = false
 
 $cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
@@ -42,9 +51,9 @@ $defaultCsToken = $cs_token
 ## Cow
 outputmacro: Cow()
 
-$cs_control_pre = ~xpre_control_cow
-$cs_control_main = ~xmain_control_cow
-$cs_control_post = ~xpost_control_cow
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Cow: "
@@ -58,9 +67,9 @@ $defaultCsToken = $cs_token
 ## Reggie
 outputmacro: Reggie()
 
-$cs_control_pre = ~xpre_control_reggie
-$cs_control_main = ~xmain_control_reggie
-$cs_control_post = ~xpost_control_reggie
+$cs_control_pre = ~xpre_control
+$cs_control_main = ~xmain_control
+$cs_control_post = ~xpost_control
 
 $userprompt = ^"%user: >"
 $botprompt = ^"Reggie: "
@@ -75,4 +84,4 @@ $defaultCsToken = $cs_token
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Cow
+Clarence

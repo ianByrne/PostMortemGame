@@ -1,0 +1,9 @@
+# System topics
+topic: ~xpost_control system repeat ()
+
+t: ( $$dialogueOptions )
+    $_response = ^jsoncreate(object)
+    $_response.dialogueOptions = $$dialogueOptions
+    $_response.newFacts = $$newFacts
+
+    ^postprintbefore( ^jsonwrite($_response) )

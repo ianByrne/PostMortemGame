@@ -1,0 +1,6 @@
+# System topics
+topic: ~xpre_control system repeat ()
+
+t: ()
+    $$dialogueOptions = ^jsoncreate(array)
+    $$newFacts = ^jsoncreate(array)
