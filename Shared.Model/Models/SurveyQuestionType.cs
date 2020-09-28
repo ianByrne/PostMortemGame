@@ -2,7 +2,12 @@
 {
     public enum SurveyQuestionType
     {
-        LikertScale,
+        LikertScale_ALot,
+        LikertScale_VeryMuchSo,
+        LikertScale_VeryAware,
+        LikertScale_VeryDifficult,
+        LikertScale_VeryWell,
+        LikertScale_DefinitelyYes,
         FreeText,
         Age,
         Gender
