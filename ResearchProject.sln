@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{DF805EF9-C06F-4D22-968C-5695B67034DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Model", "Shared.Model\Shared.Model.csproj", "{B5E32AAD-DAC6-40F0-A25D-2357E6A5A9B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Model", "Shared.Model\Shared.Model.csproj", "{B5E32AAD-DAC6-40F0-A25D-2357E6A5A9B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

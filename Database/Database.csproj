@@ -5,6 +5,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\20200915235413_InitialMigration.cs" />
+	  <Compile Remove="Migrations\20200915235413_InitialMigration.Designer.cs" />
+	  <Compile Remove="Migrations\20200920122644_FixUserEntity.cs" />
+	  <Compile Remove="Migrations\20200920122644_FixUserEntity.Designer.cs" />
+	  <Compile Remove="Migrations\20200920172255_UpdateBotNames.cs" />
+	  <Compile Remove="Migrations\20200920172255_UpdateBotNames.Designer.cs" />
+	  <Compile Remove="Migrations\20200924173740_AddDevCommandProperty.cs" />
+	  <Compile Remove="Migrations\20200924173740_AddDevCommandProperty.Designer.cs" />
+	  <Compile Remove="Migrations\20200928204858_AddSurveyQuestions.cs" />
+	  <Compile Remove="Migrations\20200928204858_AddSurveyQuestions.Designer.cs" />
+	  <Compile Remove="Migrations\20200928224124_ReStructureSurveys.cs" />
+	  <Compile Remove="Migrations\20200928224124_ReStructureSurveys.Designer.cs" />
+	  <Compile Remove="Migrations\20200928224558_InitialMigration.cs" />
+	  <Compile Remove="Migrations\20200928224558_InitialMigration.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Shared.Model\Shared.Model.csproj" />
 	</ItemGroup>
 	

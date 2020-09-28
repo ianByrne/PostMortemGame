@@ -7,6 +7,7 @@ using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -26,6 +27,15 @@ namespace IanByrne.ResearchProject.WebApp.Pages
         public void OnGet()
         {
 
+        }
+
+        public PartialViewResult OnGetSurveyModalPartial()
+        {
+            return new PartialViewResult
+            {
+                ViewName = "_SurveyModalPartial",
+                ViewData = new ViewDataDictionary<Survey>(ViewData, new Survey { })
+            };
         }
 
         public async Task<ActionResult> OnPostSendMessageToChatScript(SendMessageRequest request)

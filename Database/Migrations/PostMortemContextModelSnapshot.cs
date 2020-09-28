@@ -53,245 +53,120 @@ namespace Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyAnswer", b =>
+            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Survey", b =>
                 {
                     b.Property<uint>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int unsigned");
 
-                    b.Property<string>("Answer")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<uint?>("QuestionId")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<uint?>("UserId")
-                        .HasColumnType("int unsigned");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SurveyAnswers");
-                });
-
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyQuestion", b =>
-                {
-                    b.Property<uint>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int unsigned");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("Type")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q11")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q12")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q13")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q14")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q15")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q16")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q17")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q18")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q19")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q20")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q21")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q22")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q23")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q24")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q25")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q26")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q27")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q28")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q29")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q30")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q31")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q9")
+                        .HasColumnType("int");
+
+                    b.Property<uint>("UserId")
+                        .HasColumnType("int unsigned");
+
                     b.HasKey("Id");
 
-                    b.ToTable("SurveyQuestions");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1u,
-                            Question = "Age",
-                            Type = 7
-                        },
-                        new
-                        {
-                            Id = 2u,
-                            Question = "Gender",
-                            Type = 8
-                        },
-                        new
-                        {
-                            Id = 3u,
-                            Question = "To what extent did the game hold your attention?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 4u,
-                            Question = "To what extent did you feel you were focused on the game?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 5u,
-                            Question = "How much effort did you put into playing the game?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 6u,
-                            Question = "Did you feel that you were trying you best?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 7u,
-                            Question = "To what extent did you lose track of time?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 8u,
-                            Question = "To what extent did you feel consciously aware of being in the real world whilst playing?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 9u,
-                            Question = "To what extent did you forget about your everyday concerns?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 10u,
-                            Question = "To what extent were you aware of yourself in your surroundings?",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 11u,
-                            Question = "To what extent did you notice events taking place around you?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 12u,
-                            Question = "Did you feel the urge at any point to stop playing and see what was happening around you?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 13u,
-                            Question = "To what extent did you feel that you were interacting with the game environment?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 14u,
-                            Question = "To what extent did you feel as though you were separated from your real-world environment?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 15u,
-                            Question = "To what extent did you feel that the game was something you were experiencing, rather than something you were just doing?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 16u,
-                            Question = "To what extent was your sense of being in the game environment stronger than your sense of being in the real world?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 17u,
-                            Question = "At any point did you find yourself become so involved that you were unaware you were even using controls?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 18u,
-                            Question = "To what extent did you feel as though you were moving through the game according to you own will?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 19u,
-                            Question = "To what extent did you find the game challenging?",
-                            Type = 3
-                        },
-                        new
-                        {
-                            Id = 20u,
-                            Question = "Were there any times during the game in which you just wanted to give up?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 21u,
-                            Question = "To what extent did you feel motivated while playing?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 22u,
-                            Question = "To what extent did you find the game easy?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 23u,
-                            Question = "To what extent did you feel like you were making progress towards the end of the game?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 24u,
-                            Question = "How well do you think you performed in the game?",
-                            Type = 4
-                        },
-                        new
-                        {
-                            Id = 25u,
-                            Question = "To what extent did you feel emotionally attached to the game?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 26u,
-                            Question = "To what extent were you interested in seeing how the game's events would progress?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 27u,
-                            Question = "How much did you want to \"win\" the game?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 28u,
-                            Question = "Were you in suspense about whether or not you would win or lose the game?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 29u,
-                            Question = "At any point did you find yourself become so involved that you wanted to speak to the game directly?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 30u,
-                            Question = "To what extent did you enjoy the graphics and the imagery?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 31u,
-                            Question = "How much would you say you enjoyed playing the game?",
-                            Type = 0
-                        },
-                        new
-                        {
-                            Id = 32u,
-                            Question = "When interrupted, were you disappointed that the game was over?",
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 33u,
-                            Question = "Would you like to play the game again?",
-                            Type = 5
-                        });
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Transcript", b =>
@@ -350,15 +225,13 @@ namespace Database.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyAnswer", b =>
+            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Survey", b =>
                 {
-                    b.HasOne("IanByrne.ResearchProject.Shared.Models.SurveyQuestion", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
-
                     b.HasOne("IanByrne.ResearchProject.Shared.Models.User", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId");
+                        .WithOne("Survey")
+                        .HasForeignKey("IanByrne.ResearchProject.Shared.Models.Survey", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Transcript", b =>

@@ -14,8 +14,7 @@ namespace IanByrne.ResearchProject.Database
         public PostMortemContext(DbContextOptions<PostMortemContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
-        public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
         public DbSet<Bot> Bots { get; set; }
         public DbSet<Transcript> Transcripts { get; set; }
 
@@ -32,39 +31,31 @@ namespace IanByrne.ResearchProject.Database
         {
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(u => u.Id);
+                entity.HasOne(u => u.Survey)
+                    .WithOne(s => s.User)
+                    .HasForeignKey<Survey>(s => s.UserId);
             });
 
-            modelBuilder.Entity<SurveyQuestion>(entity =>
+            modelBuilder.Entity<Survey>(entity =>
             {
-                entity.HasKey(e => e.Id);
-
-                entity.SeedSurveyQuestions();
-            });
-
-            modelBuilder.Entity<SurveyAnswer>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Answers);
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.Answers);
+                entity.HasKey(s => s.Id);
             });
 
             modelBuilder.Entity<Bot>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(b => b.Id);
 
                 entity.SeedBots();
             });
 
             modelBuilder.Entity<Transcript>(entity =>
             {
-                entity.HasKey(e => e.Id);
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Transcripts);
-                entity.HasOne(d => d.Bot)
-                    .WithMany(p => p.Transcripts);
+                entity.HasKey(t => t.Id);
+                entity.HasOne(t => t.User)
+                    .WithMany(u => u.Transcripts);
+                entity.HasOne(t => t.Bot)
+                    .WithMany(b => b.Transcripts);
             });
 
             base.OnModelCreating(modelBuilder);
