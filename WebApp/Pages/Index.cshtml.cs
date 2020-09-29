@@ -103,7 +103,9 @@ namespace IanByrne.ResearchProject.WebApp.Pages
         {
             if(ModelState.IsValid)
             {
-                // Save response
+                var user = _context.Users.Single(u => u.Id == 1);
+                user.Survey = survey;
+                _context.SaveChanges();
             }
 
             return new PartialViewResult()

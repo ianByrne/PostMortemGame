@@ -9,10 +9,10 @@ namespace IanByrne.ResearchProject.Shared.Models
         public uint UserId { get; set; }
 
         [Display(Name = "Age")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
         [Display(Name = "Gender")]
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         [Display(Name = "To what extent did the game hold your attention?")]
         [LikertType(LikertType.Alot)]
