@@ -118,19 +118,49 @@ function SaveUser(user) {
     return true;
 }
 
-// https://softdevpractice.com/blog/razor-pages-ajax-modals-with-validation/
 $(document).ready(function () {
     $('button[data-toggle="ajax-modal"]').click(function (event) {
         $.ajax({
             type: "GET",
-            url: '/Index?handler=SurveyModalPartial',
+            url: $(this).data('url'),
             async: false,
             success: function (data) {
-                $(document.body).append(data).find('.modal').modal('show');
+                $("#modal-container").html(data);
+                $("#modal-container").find('.modal').modal('show');
             },
             error: function (data) {
                 console.log("Error");
                 console.log(data);
+            }
+        });
+    });
+
+    $("#modal-container").on('click', '[data-save="modal"]', function (event) {
+        event.preventDefault();
+
+        var form = $(this).parents('.modal').find('form');
+        var dataToSend = form.serialize();
+
+        $.ajax({
+            type: "POST",
+            url: form.attr('action'),
+            data: dataToSend,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (data) {
+                $("#modal-container").find('.modal-body').replaceWith($('.modal-body', data));
+
+                var isValid = $("#modal-container").find('.modal-body').find('[name="IsValid"]').val() == 'True';
+
+                if (isValid) {
+                    $("#modal-container").find('.modal').modal('hide');
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(ajaxResponse);
             }
         });
     });

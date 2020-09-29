@@ -5,10 +5,12 @@
 
 <div class="text-center">
     <h1 class="display-4">Research Project</h1>
-    <iframe id="game" name="game" src="~/export/index.html" style="width: 1024px; height: 600px"></iframe>
+    @*<iframe id="game" name="game" src="~/export/index.html" style="width: 1024px; height: 600px"></iframe>*@
     <span class="AntiForge"> @Html.AntiForgeryToken() </span>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="ajax-modal">
+<div id="modal-container"></div>
+
+<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-url="@Url.Page("Index", "SurveyModalPartial")">
     Add contact
 </button>

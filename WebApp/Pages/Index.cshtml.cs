@@ -98,5 +98,19 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
             return new NoContentResult();
         }
+
+        public PartialViewResult OnPostSurveyModalPartial(Survey survey)
+        {
+            if(ModelState.IsValid)
+            {
+                // Save response
+            }
+
+            return new PartialViewResult()
+            {
+                ViewName = "_SurveyModalPartial",
+                ViewData = new ViewDataDictionary<Survey>(ViewData, survey)
+            };
+        }
     }
 }
