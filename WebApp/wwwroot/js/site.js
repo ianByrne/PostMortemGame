@@ -118,11 +118,33 @@ function SaveUser(user) {
     return true;
 }
 
-$(document).ready(function () {
-    $('button[data-toggle="ajax-modal"]').click(function (event) {
+function GameOver(user) {
+    // Set wintime
+    $.ajax({
+        type: "POST",
+        url: '/Index?handler=SetWinTime',
+        async: false,
+        data: user,
+        accept: "application/json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        success: function (ajaxResponse) {
+            //
+        },
+        error: function (ajaxResponse) {
+            console.log("Error");
+            console.log(ajaxResponse);
+        }
+    });
+
+    // Show survey
+    console.log(user);
+    if (user.Survey == null) {
         $.ajax({
             type: "GET",
-            url: $(this).data('url'),
+            url: "/Index?handler=SurveyModalPartial",
             async: false,
             success: function (data) {
                 $("#modal-container").html(data);
@@ -133,11 +155,20 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }
+
+    return true;
+}
+
+$(document).ready(function () {
+    $('button[data-toggle="ajax-modal"]').click(function (event) {
+        
     });
 
     $("#modal-container").on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
 
+        $("#SurveyFormCookieId").val(Cookies.get("id"));
         var form = $(this).parents('.modal').find('form');
         var dataToSend = form.serialize();
 

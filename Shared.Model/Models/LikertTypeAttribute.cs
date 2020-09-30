@@ -3,13 +3,9 @@
 namespace IanByrne.ResearchProject.Shared.Models
 {
     [AttributeUsage(AttributeTargets.All)]
-    public class LikertTypeAttribute : Attribute
+    public class LikertLabelsAttribute : Attribute
     {
-        public LikertTypeAttribute(LikertType likertType)
-        {
-            LikertType = likertType;
-        }
-
-        public LikertType LikertType { get; set; }
+        public string PreContent { get; set; }
+        public string PostContent { get; set; }
     }
 }

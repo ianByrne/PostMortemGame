@@ -13,6 +13,7 @@
             <div class="modal-body">
                 <form asp-page-handler="SurveyModalPartial">
                     <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input id="SurveyFormCookieId" asp-for="User.CookieId" type="hidden" value="" />
                     <div class="form-group">
                         <label asp-for="Age"></label>
                         <input asp-for="Age" class="form-control" />

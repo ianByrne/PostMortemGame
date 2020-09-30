@@ -28,48 +28,19 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             output.TagMode = TagMode.StartTagAndEndTag;
 
             // Get Likert Type from attributes
-            var likertTypeAttribute = ModelField.Metadata
+            var likertLabelsAttribute = ModelField
+                .Metadata
                 .ContainerType
                 .GetProperty(ModelField.Name)
-                .GetCustomAttribute(typeof(LikertTypeAttribute)) as LikertTypeAttribute;
+                .GetCustomAttribute(typeof(LikertLabelsAttribute)) as LikertLabelsAttribute;
 
-            if (likertTypeAttribute != null)
+            if (likertLabelsAttribute != null)
             {
-                switch(likertTypeAttribute.LikertType)
-                {
-                    case LikertType.Alot:
-                        output.PreContent.SetHtmlContent("Not at all");
-                        output.PostContent.SetHtmlContent("A lot");
-                        break;
-
-                    case LikertType.DefinitelyYes:
-                        output.PreContent.SetHtmlContent("Definitely no");
-                        output.PostContent.SetHtmlContent("Definitely yes");
-                        break;
-
-                    case LikertType.VeryAware:
-                        output.PreContent.SetHtmlContent("Not at all");
-                        output.PostContent.SetHtmlContent("Very aware");
-                        break;
-
-                    case LikertType.VeryDifficult:
-                        output.PreContent.SetHtmlContent("Not at all");
-                        output.PostContent.SetHtmlContent("Very Difficult");
-                        break;
-
-                    case LikertType.VeryMuchSo:
-                        output.PreContent.SetHtmlContent("Not at all");
-                        output.PostContent.SetHtmlContent("Very much so");
-                        break;
-
-                    case LikertType.VeryWell:
-                        output.PreContent.SetHtmlContent("Very poor");
-                        output.PostContent.SetHtmlContent("Very well");
-                        break;
-                }
+                output.PreContent.SetHtmlContent(likertLabelsAttribute.PreContent);
+                output.PostContent.SetHtmlContent(likertLabelsAttribute.PostContent);
             }
 
-            //Add the radio buttons
+            // Add the radio buttons
             for (var x = 1; x <= 7; x++)
             {
                 var input = new TagBuilder("input");

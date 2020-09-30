@@ -1,5 +1,8 @@
 using Godot;
+using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -163,12 +166,29 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (Facts.Contains("DeliveredClarencesLetter"))
+            if (Facts.Contains("AmPostman"))
             {
                 // End game
                 var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
+                var user = (User)sceneSwitcher.GetParameter("User");
 
-                sceneSwitcher.ChangeScene("res://Scenes/EndScreen.tscn");
+                if (OS.HasFeature("JavaScript"))
+                {
+                    string javaScript = @"
+						var user = " + JsonConvert.SerializeObject(user) + @";
+
+						parent.GameOver(user);
+						";
+                    
+                    JavaScript.Eval(javaScript);
+                }
+                else
+                {
+                    var context = (PostMortemContext)sceneSwitcher.GetParameter("Context");
+
+                    user.WinDateTime = DateTime.UtcNow;
+                    user.Save(context);
+                }
             }
 
             // Remove duplicate facts

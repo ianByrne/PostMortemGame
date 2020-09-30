@@ -28,7 +28,7 @@ namespace IanByrne.ResearchProject.Shared.Models
             var dbUser = context.Users.Single(x => x.CookieId == user.CookieId);
             dbUser.GameMode = user.GameMode;
             dbUser.UsedDevCommand = user.UsedDevCommand;
-            dbUser.Survey = user.Survey;
+            dbUser.WinDateTime = user.WinDateTime;
 
             context.SaveChanges();
         }
