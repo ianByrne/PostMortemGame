@@ -46,8 +46,9 @@ namespace IanByrne.ResearchProject.Game
 			if (body is Player player)
 			{
 				_player = player;
+				var user = GetNode<Map>("/root/Map").User;
 
-				_console.SetGameMode(player.GameMode);
+				_console.SetGameMode(user.GameMode);
 				_console.Show();
 				_console.SendWelcome();
 

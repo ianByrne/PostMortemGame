@@ -119,6 +119,23 @@ function SaveUser(user) {
 }
 
 function GameOver(user) {
+    // Show survey
+    if (user.Survey == null && ($("#survey").data('bs.modal') || { _isShown: false })._isShown == false) {
+        $.ajax({
+            type: "GET",
+            url: "/Index?handler=SurveyModalPartial",
+            async: false,
+            success: function (data) {
+                $("#modal-container").html(data);
+                $("#survey").modal('show');
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
     // Set wintime
     $.ajax({
         type: "POST",
@@ -131,7 +148,7 @@ function GameOver(user) {
                 $('input:hidden[name="__RequestVerificationToken"]').val());
         },
         success: function (ajaxResponse) {
-            //
+            user = ajaxResponse;
         },
         error: function (ajaxResponse) {
             console.log("Error");
@@ -139,32 +156,30 @@ function GameOver(user) {
         }
     });
 
-    // Show survey
-    console.log(user);
-    if (user.Survey == null) {
-        $.ajax({
-            type: "GET",
-            url: "/Index?handler=SurveyModalPartial",
-            async: false,
-            success: function (data) {
-                $("#modal-container").html(data);
-                $("#modal-container").find('.modal').modal('show');
-            },
-            error: function (data) {
-                console.log("Error");
-                console.log(data);
-            }
-        });
-    }
+    return user;
+}
 
-    return true;
+function ShowParticipantInformationModal() {
+    $.ajax({
+        type: "GET",
+        url: "/Index?handler=ParticipantInformationModalPartial",
+        async: false,
+        success: function (data) {
+            $("#modal-container").html(data);
+            $("#participantInformation").modal('show');
+        },
+        error: function (data) {
+            console.log("Error");
+            console.log(data);
+        }
+    });
+}
+
+function IsParticipantInformationModalClosed() {
+    return ($("#participantInformation").data('bs.modal') || { _isShown: false })._isShown == false;
 }
 
 $(document).ready(function () {
-    $('button[data-toggle="ajax-modal"]').click(function (event) {
-        
-    });
-
     $("#modal-container").on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
 

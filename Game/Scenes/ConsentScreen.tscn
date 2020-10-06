@@ -1,0 +1,105 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Fonts/ShortBaby-Mg2w.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Resources/Buttons/ContinueGameButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/ConsentScreen.cs" type="Script" id=3]
+[ext_resource path="res://Resources/Buttons/ConsentItem.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+use_filter = true
+font_data = ExtResource( 1 )
+
+[node name="ConsentScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Layout" type="VBoxContainer" parent="."]
+margin_left = 120.0
+margin_top = 60.0
+margin_right = 904.0
+margin_bottom = 520.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Layout"]
+margin_right = 812.0
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 1 )
+text = "Participant Consent"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConsentItems" type="VBoxContainer" parent="Layout"]
+margin_top = 52.0
+margin_right = 812.0
+margin_bottom = 360.0
+
+[node name="ConsentItem" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 0.0
+margin_right = 812.0
+margin_bottom = 35.0
+LabelText = "I confirm that I am over the age of 18."
+
+[node name="ConsentItem2" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 39.0
+margin_right = 812.0
+margin_bottom = 74.0
+LabelText = "I confirm that I have read the participant information section"
+
+[node name="ConsentItem3" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 78.0
+margin_right = 812.0
+margin_bottom = 113.0
+LabelText = "I understand that my participation is voluntary and that I can withdraw at any stage during the projectwithout being penalized or disadvantaged in any way"
+
+[node name="ConsentItem4" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 117.0
+margin_right = 812.0
+margin_bottom = 152.0
+LabelText = "I understand that no personally identifiable information will be recorded about me, and that due to theanonymity of the data, I will not be able to retract any data that has already been submitted (this includeschat transcripts)"
+
+[node name="ConsentItem5" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 156.0
+margin_right = 812.0
+margin_bottom = 191.0
+LabelText = "I understand that any personally identifiable information that is unintentionally recorded (such as throughchat transcripts) will be manually anonymised or redacted by the research team"
+
+[node name="ConsentItem6" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 195.0
+margin_right = 812.0
+margin_bottom = 230.0
+LabelText = "I understand that the anonymous data collected during this study will be made open access and could bereused in future studies which have been given ethics approval"
+
+[node name="ConsentItem7" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 234.0
+margin_right = 812.0
+margin_bottom = 269.0
+LabelText = "I understand that direct quotes from any chat transcripts could be used in the final dissertation or in futurestudies"
+
+[node name="ConsentItem8" parent="Layout/ConsentItems" instance=ExtResource( 4 )]
+margin_top = 273.0
+margin_right = 812.0
+margin_bottom = 308.0
+LabelText = "I agree to take part in this study"
+
+[node name="ContinueButton" parent="Layout" instance=ExtResource( 2 )]
+margin_top = 364.0
+margin_right = 812.0
+margin_bottom = 424.0
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem2" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem3" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem4" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem5" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem6" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem7" to="." method="_OnCheckBoxChecked"]
+[connection signal="CheckboxClicked" from="Layout/ConsentItems/ConsentItem8" to="." method="_OnCheckBoxChecked"]
+[connection signal="pressed" from="Layout/ContinueButton" to="." method="_OnContinueGameButtonPressed"]

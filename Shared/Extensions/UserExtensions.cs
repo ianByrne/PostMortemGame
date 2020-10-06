@@ -28,7 +28,12 @@ namespace IanByrne.ResearchProject.Shared.Models
             var dbUser = context.Users.Single(x => x.CookieId == user.CookieId);
             dbUser.GameMode = user.GameMode;
             dbUser.UsedDevCommand = user.UsedDevCommand;
-            dbUser.WinDateTime = user.WinDateTime;
+
+            // Only save the first win time
+            if (dbUser.WinDateTime == null)
+            {
+                dbUser.WinDateTime = user.WinDateTime;
+            }
 
             context.SaveChanges();
         }

@@ -39,6 +39,14 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             };
         }
 
+        public PartialViewResult OnGetParticipantInformationModalPartial()
+        {
+            return new PartialViewResult
+            {
+                ViewName = "_ParticipantInformationModalPartial"
+            };
+        }
+
         public ActionResult OnPostSendMessageToChatScript(SendMessageRequest request)
         {
             var response = new SendMessageResponse();
@@ -86,7 +94,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                     .Include(u => u.Survey)
                     .SingleOrDefault(u => u.CookieId == idGuid);
 
-                string responseJson = JsonConvert.SerializeObject(user);
+                string responseJson = JsonConvert.SerializeObject(user, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
                 return Content(responseJson);
             }
@@ -114,7 +122,9 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                 user.Save(_context);
             }
 
-            return new NoContentResult();
+            string userJson = JsonConvert.SerializeObject(user);
+
+            return Content(userJson);
         }
 
         public PartialViewResult OnPostSurveyModalPartial(Survey survey)

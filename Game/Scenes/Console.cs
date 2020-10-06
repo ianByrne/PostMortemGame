@@ -13,8 +13,6 @@ namespace IanByrne.ResearchProject.Game
         [Signal]
         public delegate void NewFacts(string[] facts);
 
-        private GameMode _gameMode;
-        private Guid _userCookieId;
         private TextEdit _log;
         private LineEdit _freeTextInput;
         private VBoxContainer _dialogueOptionsContainer;
@@ -26,10 +24,6 @@ namespace IanByrne.ResearchProject.Game
 
         public override void _Ready()
         {
-            var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
-            _userCookieId = ((User)sceneSwitcher.GetParameter("User")).CookieId;
-            _context = (PostMortemContext)sceneSwitcher.GetParameter("Context");
-
             _log = GetNode<TextEdit>("LogContainer/Log");
             _freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
             _dialogueOptionsContainer = GetNode<VBoxContainer>("DialogueOptionsContainer");
@@ -52,12 +46,12 @@ namespace IanByrne.ResearchProject.Game
 
                 ClearDialogueOptions();
             }
-
-            _gameMode = gameMode;
         }
 
         public void SendWelcome()
         {
+            var user = GetNode<Map>("/root/Map").User;
+
             if (!_welcomeSent)
             {
                 var response = SendMessageToChatScript(null);
@@ -67,14 +61,14 @@ namespace IanByrne.ResearchProject.Game
                     UpdateLog(BotName + ": " + message);
                 }
 
-                if (_gameMode == GameMode.DialogueTree)
+                if (user.GameMode == GameMode.DialogueTree)
                 {
                     SetDialogueOptions(response);
                 }
             }
             else
             {
-                if (_gameMode == GameMode.DialogueTree && _lastResponse != null)
+                if (user.GameMode == GameMode.DialogueTree && _lastResponse != null)
                 {
                     SetDialogueOptions(_lastResponse);
                 }
@@ -131,7 +125,7 @@ namespace IanByrne.ResearchProject.Game
 
                 var request = new SendMessageRequest
                 {
-                    UserCookieId = _userCookieId.ToString(),
+                    UserCookieId = map.User.CookieId.ToString(),
                     BotName = BotName,
                     Message = text,
                     InputData = JsonConvert.SerializeObject(map.Facts)
