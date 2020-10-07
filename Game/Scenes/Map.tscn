@@ -63,18 +63,22 @@ position = Vector2( 1470.73, 183.848 )
 
 [node name="Barkeep" parent="Game/YSort/NPCs" instance=ExtResource( 5 )]
 position = Vector2( 1403.91, -173.038 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Olive"
 
 [node name="Cow" parent="Game/YSort/NPCs" instance=ExtResource( 9 )]
 position = Vector2( 1742.9, -80.1624 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Cow"
 
 [node name="Farmer" parent="Game/YSort/NPCs" instance=ExtResource( 10 )]
 position = Vector2( 1822.89, 9.21054 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Clarence"
 
 [node name="DeadBody" parent="Game/YSort/NPCs" instance=ExtResource( 11 )]
 position = Vector2( 1219.39, -170.125 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Reggie"
 
 [node name="Buildings" type="YSort" parent="Game/YSort"]
@@ -530,10 +534,11 @@ margin_right = 1162.69
 margin_bottom = 22.1472
 rect_scale = Vector2( 0.6, 0.6 )
 
-[node name="ConsentScreen" parent="." instance=ExtResource( 19 )]
+[node name="ConsentScreenLayer" type="CanvasLayer" parent="."]
+
+[node name="ConsentScreen" parent="ConsentScreenLayer" instance=ExtResource( 19 )]
 visible = false
-margin_left = 1164.19
-margin_top = 22.4747
-margin_right = 1164.19
-margin_bottom = 22.4747
-rect_scale = Vector2( 0.6, 0.6 )
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -264.0

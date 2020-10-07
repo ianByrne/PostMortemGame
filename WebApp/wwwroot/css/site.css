@@ -1,10 +1,39 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+.modal {
+    color: #000;
+}
+
+.survey-age label {
+    font-weight: bold;
+}
+
+.survey-gender label {
+    font-weight: bold;
+}
+
+.survey-age, .survey-gender, .survey-likert {
+    margin: 30px 0px;
+}
+
+.survey-likert label {
+    font-weight: bold;
+}
+
+.survey-likert-options input {
+    margin: 0px 20px;
+}
+
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */

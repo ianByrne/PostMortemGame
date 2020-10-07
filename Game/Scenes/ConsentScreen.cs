@@ -10,7 +10,7 @@ public class ConsentScreen : Control
 
     public override void _Ready()
     {
-        _continueButton = GetNode<Button>("Layout/ContinueButton");
+        _continueButton = GetNode<Button>("ContinueButton");
         _continueButton.Disabled = true;
 
         base._Ready();
@@ -18,7 +18,7 @@ public class ConsentScreen : Control
 
     private void _OnCheckBoxChecked()
     {
-        var checkboxes = GetNode<VBoxContainer>("Layout/ConsentItems").GetChildren();
+        var checkboxes = GetNode<VBoxContainer>("ConsentItems").GetChildren();
 
         bool disabled = false;
 

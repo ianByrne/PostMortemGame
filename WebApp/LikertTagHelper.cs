@@ -23,6 +23,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var outerTag = new TagBuilder("div");
+            outerTag.AddCssClass("survey-likert-options");
             output.MergeAttributes(outerTag);
             output.TagName = outerTag.TagName;
             output.TagMode = TagMode.StartTagAndEndTag;
@@ -36,8 +37,8 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
             if (likertLabelsAttribute != null)
             {
-                output.PreContent.SetHtmlContent(likertLabelsAttribute.PreContent);
-                output.PostContent.SetHtmlContent(likertLabelsAttribute.PostContent);
+                output.PreContent.SetHtmlContent("<span class=\"survey-likert-pre\">" + likertLabelsAttribute.PreContent + "</span>");
+                output.PostContent.SetHtmlContent("<span class=\"survey-likert-post\">" + likertLabelsAttribute.PostContent + "</span>");
             }
 
             // Add the radio buttons

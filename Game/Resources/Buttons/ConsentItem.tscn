@@ -3,10 +3,9 @@
 [ext_resource path="res://Resources/Buttons/ConsentItem.cs" type="Script" id=1]
 
 [node name="ConsentItem" type="HBoxContainer"]
-margin_top = 52.0
-margin_right = 784.0
-margin_bottom = 168.0
-rect_min_size = Vector2( 150, 35 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 20
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -14,7 +13,7 @@ __meta__ = {
 
 [node name="CheckBox" type="CheckBox" parent="."]
 margin_right = 24.0
-margin_bottom = 116.0
+margin_bottom = 600.0
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -22,11 +21,12 @@ custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 28.0
-margin_top = 51.0
-margin_right = 812.0
-margin_bottom = 65.0
-rect_min_size = Vector2( 784, 0 )
+margin_left = 44.0
+margin_top = 293.0
+margin_right = 1024.0
+margin_bottom = 307.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
 text = "Label"
 autowrap = true
 [connection signal="pressed" from="CheckBox" to="." method="_OnCheckboxPressed"]

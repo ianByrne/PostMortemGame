@@ -62,7 +62,7 @@ namespace IanByrne.ResearchProject.Game
                 if (_map.User == null)
                 {
                     // Show consent screen
-                    var consentScreen = GetNode<ConsentScreen>("/root/Map/ConsentScreen");
+                    var consentScreen = GetNode<ConsentScreen>("/root/Map/ConsentScreenLayer/ConsentScreen");
                     consentScreen.Show();
                 }
                 else
