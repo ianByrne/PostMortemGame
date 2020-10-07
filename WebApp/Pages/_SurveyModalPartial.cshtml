@@ -1,0 +1,202 @@
+﻿@using IanByrne.ResearchProject.Shared.Models
+@model IanByrne.ResearchProject.Shared.Models.Survey
+
+<div class="modal fade" id="survey" tabindex="-1" role="dialog" aria-labelledby="surveyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="surveyLabel">Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Thank you for playing Post Mortem. Please answer the following questions.
+                </p>
+                <form asp-page-handler="SurveyModalPartial">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input id="SurveyFormCookieId" asp-for="User.CookieId" type="hidden" value="" />
+                    <div class="form-group survey-age">
+                        <label asp-for="Age"></label> (Optional)
+                        <div>
+                            <input asp-for="Age" class="form-control" />
+                            <span asp-validation-for="Age" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group survey-gender">
+                        <label asp-for="Gender"></label> (Optional)
+                        <div>
+                            <input asp-for="Gender" type="radio" value="0" id="Gender@(Gender.Male)" /> <label style="font-weight:normal;" for="Gender@(Gender.Male)">Male</label>
+                        </div>
+                        <div>
+                            <input asp-for="Gender" type="radio" value="1" id="Gender@(Gender.Female)" /> <label style="font-weight:normal;" for="Gender@(Gender.Female)">Female</label>
+                        </div>
+                        <div>
+                            <input asp-for="Gender" type="radio" value="2" id="Gender@(Gender.Other_NotGiven)" /> <label style="font-weight:normal;" for="Gender@(Gender.Other_NotGiven)">Other or Not Given</label>
+                        </div>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q1"></label>
+                        <input likert-for="Q1" />
+                        <span asp-validation-for="Q1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q2"></label>
+                        <input likert-for="Q2" />
+                        <span asp-validation-for="Q2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q3"></label>
+                        <input likert-for="Q3" />
+                        <span asp-validation-for="Q3" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q4"></label>
+                        <input likert-for="Q4" />
+                        <span asp-validation-for="Q4" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q5"></label>
+                        <input likert-for="Q5" />
+                        <span asp-validation-for="Q5" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q6"></label>
+                        <input likert-for="Q6" />
+                        <span asp-validation-for="Q6" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q7"></label>
+                        <input likert-for="Q7" />
+                        <span asp-validation-for="Q7" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q8"></label>
+                        <input likert-for="Q8" />
+                        <span asp-validation-for="Q8" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q9"></label>
+                        <input likert-for="Q9" />
+                        <span asp-validation-for="Q9" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q10"></label>
+                        <input likert-for="Q10" />
+                        <span asp-validation-for="Q10" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q11"></label>
+                        <input likert-for="Q11" />
+                        <span asp-validation-for="Q11" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q12"></label>
+                        <input likert-for="Q12" />
+                        <span asp-validation-for="Q12" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q13"></label>
+                        <input likert-for="Q13" />
+                        <span asp-validation-for="Q13" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q14"></label>
+                        <input likert-for="Q14" />
+                        <span asp-validation-for="Q14" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q15"></label>
+                        <input likert-for="Q15" />
+                        <span asp-validation-for="Q15" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q16"></label>
+                        <input likert-for="Q16" />
+                        <span asp-validation-for="Q16" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q17"></label>
+                        <input likert-for="Q17" />
+                        <span asp-validation-for="Q17" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q18"></label>
+                        <input likert-for="Q18" />
+                        <span asp-validation-for="Q18" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q19"></label>
+                        <input likert-for="Q19" />
+                        <span asp-validation-for="Q19" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q20"></label>
+                        <input likert-for="Q20" />
+                        <span asp-validation-for="Q20" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q21"></label>
+                        <input likert-for="Q21" />
+                        <span asp-validation-for="Q21" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q22"></label>
+                        <input likert-for="Q22" />
+                        <span asp-validation-for="Q22" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q23"></label>
+                        <input likert-for="Q23" />
+                        <span asp-validation-for="Q23" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q24"></label>
+                        <input likert-for="Q24" />
+                        <span asp-validation-for="Q24" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q25"></label>
+                        <input likert-for="Q25" />
+                        <span asp-validation-for="Q25" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q26"></label>
+                        <input likert-for="Q26" />
+                        <span asp-validation-for="Q26" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q27"></label>
+                        <input likert-for="Q27" />
+                        <span asp-validation-for="Q27" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q28"></label>
+                        <input likert-for="Q28" />
+                        <span asp-validation-for="Q28" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q29"></label>
+                        <input likert-for="Q29" />
+                        <span asp-validation-for="Q29" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q30"></label>
+                        <input likert-for="Q30" />
+                        <span asp-validation-for="Q30" class="text-danger"></span>
+                    </div>
+                    <div class="form-group survey-likert">
+                        <label asp-for="Q31"></label>
+                        <input likert-for="Q31" />
+                        <span asp-validation-for="Q31" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

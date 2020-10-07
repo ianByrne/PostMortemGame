@@ -30,7 +30,6 @@
     <Compile Include="Scenes\Console.cs" />
     <Compile Include="Scenes\Characters\NPC.cs" />
     <Compile Include="Scenes\Characters\Player.cs" />
-    <Compile Include="Scenes\Map.HandleObjectives.cs" />
     <Compile Include="Scenes\Map.cs" />
     <Compile Include="Scenes\ObjectivesHUD.cs" />
     <Compile Include="Scenes\Props\LetterBox.cs" />

@@ -29,6 +29,12 @@ namespace IanByrne.ResearchProject.Shared.Models
             dbUser.GameMode = user.GameMode;
             dbUser.UsedDevCommand = user.UsedDevCommand;
 
+            // Only save the first win time
+            if (dbUser.WinDateTime == null)
+            {
+                dbUser.WinDateTime = user.WinDateTime;
+            }
+
             context.SaveChanges();
         }
     }

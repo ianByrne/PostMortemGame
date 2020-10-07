@@ -8,16 +8,11 @@ namespace IanByrne.ResearchProject.Game
 {
 	public class Player : Character
 	{
-        private User _user;
-        private PostMortemContext _context;
-
-        public GameMode GameMode { get { return _user.GameMode; } }
+        private Sprite _sprite;
 
         public override void _Ready()
         {
-            var sceneSwitcher = GetNode<SceneSwitcher>("/root/SceneSwitcher");
-            _user = (User)sceneSwitcher.GetParameter("User");
-            _context = (PostMortemContext)sceneSwitcher.GetParameter("Context");
+            _sprite = GetNode<Sprite>("Sprite");
 
             base._Ready();
         }
@@ -26,14 +21,17 @@ namespace IanByrne.ResearchProject.Game
         {
             if (@event.IsActionPressed("SwitchGameMode"))
             {
-                var newGameMode = _user.GameMode == GameMode.ChatBot ? GameMode.DialogueTree : GameMode.ChatBot;
-                _user.GameMode = newGameMode;
-                _user.UsedDevCommand = true;
+                var user = GetNode<Map>("/root/Map").User;
+                var context = GetNode<Map>("/root/Map").Context;
+
+                var newGameMode = user.GameMode == GameMode.ChatBot ? GameMode.DialogueTree : GameMode.ChatBot;
+                user.GameMode = newGameMode;
+                user.UsedDevCommand = true;
 
                 if (OS.HasFeature("JavaScript"))
                 {
                     string javaScript = @"
-						var user = " + JsonConvert.SerializeObject(_user) + @";
+						var user = " + JsonConvert.SerializeObject(user) + @";
 
 						parent.SaveUser(user);";
 
@@ -41,7 +39,7 @@ namespace IanByrne.ResearchProject.Game
                 }
                 else
                 {
-                    _user.Save(_context);
+                    user.Save(context);
                 }
             }
         }
@@ -50,8 +48,21 @@ namespace IanByrne.ResearchProject.Game
 		{
 			if (@event.IsActionPressed("Click"))
 			{
-				MoveToPosition(GetGlobalMousePosition());
+                if(_sprite.Visible)
+				    MoveToPosition(GetGlobalMousePosition());
 			}
 		}
+
+        public void Disable()
+        {
+            GetNode<ObjectivesHUD>("ObjectivesHUD").Hide();
+            _sprite.Hide();
+        }
+
+        public void Enable()
+        {
+            GetNode<ObjectivesHUD>("ObjectivesHUD").Show();
+            _sprite.Show();
+        }
 	}
 }

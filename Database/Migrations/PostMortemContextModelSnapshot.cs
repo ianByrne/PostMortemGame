@@ -53,59 +53,120 @@ namespace Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyAnswer", b =>
+            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Survey", b =>
                 {
                     b.Property<uint>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int unsigned");
 
-                    b.Property<string>("Answer")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<uint?>("QuestionId")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<uint?>("UserId")
-                        .HasColumnType("int unsigned");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SurveyAnswers");
-                });
-
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyQuestion", b =>
-                {
-                    b.Property<uint>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int unsigned");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("Type")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q11")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q12")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q13")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q14")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q15")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q16")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q17")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q18")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q19")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q20")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q21")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q22")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q23")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q24")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q25")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q26")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q27")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q28")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q29")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q30")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q31")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Q9")
+                        .HasColumnType("int");
+
+                    b.Property<uint>("UserId")
+                        .HasColumnType("int unsigned");
+
                     b.HasKey("Id");
 
-                    b.ToTable("SurveyQuestions");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1u,
-                            Question = "Age",
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 2u,
-                            Question = "Gender",
-                            Type = 3
-                        });
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Transcript", b =>
@@ -164,15 +225,13 @@ namespace Database.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.SurveyAnswer", b =>
+            modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Survey", b =>
                 {
-                    b.HasOne("IanByrne.ResearchProject.Shared.Models.SurveyQuestion", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
-
                     b.HasOne("IanByrne.ResearchProject.Shared.Models.User", "User")
-                        .WithMany("Answers")
-                        .HasForeignKey("UserId");
+                        .WithOne("Survey")
+                        .HasForeignKey("IanByrne.ResearchProject.Shared.Models.Survey", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IanByrne.ResearchProject.Shared.Models.Transcript", b =>

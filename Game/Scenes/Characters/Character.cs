@@ -19,7 +19,7 @@ namespace IanByrne.ResearchProject.Game
 		{
 			AnimationTree = GetNode<AnimationTree>("AnimationTree");
 			AnimationMode = (AnimationNodeStateMachinePlayback)AnimationTree.Get("parameters/playback");
-			_navigation2D = GetNode<Navigation2D>("/root/Map/Navigation2D");
+			_navigation2D = GetNode<Navigation2D>("/root/Map/Game/Navigation2D");
 		}
 
 		public override void _PhysicsProcess(float delta)
@@ -27,7 +27,7 @@ namespace IanByrne.ResearchProject.Game
 			MoveAlongPath(delta);
 		}
 
-		protected void MoveToPosition(Vector2 destination)
+		public void MoveToPosition(Vector2 destination)
 		{
 			_path = _navigation2D.GetSimplePath(GlobalPosition, destination).ToList();
 		}

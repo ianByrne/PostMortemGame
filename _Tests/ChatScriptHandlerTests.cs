@@ -25,7 +25,7 @@ namespace IanByrne.ResearchProject.Shared.Tests
 
             _responseMessage = new SendMessageResponse
             {
-                Message = "test message received"
+                Messages = new string[] { "test message received" }
             };
         }
 
@@ -39,18 +39,18 @@ namespace IanByrne.ResearchProject.Shared.Tests
             client.Verify(client => client.Connected);
             client.Verify(client => client.GetStream());
 
-            var response = handler.SendMessage(_sendMessageRequest);
+            var response = handler.SendMessage(_sendMessageRequest, null);
 
             string prefix = _sendMessageRequest.UserCookieId + char.MinValue + _sendMessageRequest.BotName + char.MinValue;
             string message = prefix + _sendMessageRequest.Message + char.MinValue;
             byte[] sendMessageRequestBytes = Encoding.ASCII.GetBytes(message);
 
-            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Message);
+            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Messages[0]);
 
             client.Verify(client => client.GetStream().Write(sendMessageRequestBytes, 0, sendMessageRequestBytes.Length));
             client.Verify(client => client.GetStream().Read(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<int>()));
 
-            Assert.AreEqual(_responseMessage.Message, response.Message);
+            Assert.AreEqual(_responseMessage.Messages[0], response.Messages[0]);
         }
 
         [Test]
@@ -70,18 +70,18 @@ namespace IanByrne.ResearchProject.Shared.Tests
             client.Verify(client => client.Connected);
             client.Verify(client => client.GetStream());
 
-            var response = handler.SendMessage(sendMessageRequest);
+            var response = handler.SendMessage(sendMessageRequest, null);
 
             string prefix = _sendMessageRequest.UserCookieId + char.MinValue + sendMessageRequest.BotName + char.MinValue;
             string message = prefix + sendMessageRequest.Message + char.MinValue;
             byte[] sendMessageRequestBytes = Encoding.ASCII.GetBytes(message);
 
-            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Message);
+            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Messages[0]);
 
             client.Verify(client => client.GetStream().Write(sendMessageRequestBytes, 0, sendMessageRequestBytes.Length));
             client.Verify(client => client.GetStream().Read(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<int>()));
 
-            Assert.AreEqual(_responseMessage.Message, response.Message);
+            Assert.AreEqual(_responseMessage.Messages[0], response.Messages[0]);
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace IanByrne.ResearchProject.Shared.Tests
                 Message = "test message"
             };
 
-            var ex = Assert.Throws<ArgumentNullException>(() => handler.SendMessage(request));
+            var ex = Assert.Throws<ArgumentNullException>(() => handler.SendMessage(request, null));
             Assert.AreEqual("UserCookieId", ex.ParamName);
         }
 
@@ -123,7 +123,7 @@ namespace IanByrne.ResearchProject.Shared.Tests
 
             var handler = new ChatScriptHandler(client.Object);
 
-            var ex = Assert.Throws<ArgumentNullException>(() => handler.SendMessage(null));
+            var ex = Assert.Throws<ArgumentNullException>(() => handler.SendMessage(null, null));
             Assert.AreEqual("request", ex.ParamName);
         }
 
@@ -141,7 +141,7 @@ namespace IanByrne.ResearchProject.Shared.Tests
                 Message = "test " + char.MinValue + " message"
             };
 
-            var ex = Assert.Throws<InvalidOperationException>(() => handler.SendMessage(request));
+            var ex = Assert.Throws<InvalidOperationException>(() => handler.SendMessage(request, null));
             Assert.AreEqual("Message contains null terminator", ex.Message);
         }
 
@@ -150,7 +150,7 @@ namespace IanByrne.ResearchProject.Shared.Tests
             var mockClient = new Mock<ITcpClient>();
             var mockStream = new Mock<Stream>();
 
-            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Message);
+            byte[] responseMessageBytes = Encoding.ASCII.GetBytes(_responseMessage.Messages[0]);
 
             mockStream.Setup(stream => stream.CanRead).Returns(true);
             mockStream.Setup(stream => stream.Length).Returns(responseMessageBytes.Length);

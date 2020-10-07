@@ -7,6 +7,8 @@ using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -28,7 +30,24 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         }
 
-        public async Task<ActionResult> OnPostSendMessageToChatScript(SendMessageRequest request)
+        public PartialViewResult OnGetSurveyModalPartial()
+        {
+            return new PartialViewResult
+            {
+                ViewName = "_SurveyModalPartial",
+                ViewData = new ViewDataDictionary<Survey>(ViewData, new Survey { })
+            };
+        }
+
+        public PartialViewResult OnGetParticipantInformationModalPartial()
+        {
+            return new PartialViewResult
+            {
+                ViewName = "_ParticipantInformationModalPartial"
+            };
+        }
+
+        public ActionResult OnPostSendMessageToChatScript(SendMessageRequest request)
         {
             var response = new SendMessageResponse();
 
@@ -52,14 +71,14 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             return Content(responseJson);
         }
 
-        public async Task<ActionResult> OnPostEnsureUserCreated(User user)
+        public ActionResult OnPostEnsureUserCreated(User user)
         {
             user.EnsureCreated(_context);
 
             return new NoContentResult();
         }
 
-        public async Task<ActionResult> OnPostGetUserFromCookieId(string id)
+        public ActionResult OnPostGetUserFromCookieId(string id)
         {
             try
             {
@@ -70,9 +89,12 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                     return new NotFoundResult();
                 }
 
-                var user = _context.Users.SingleOrDefault(u => u.CookieId == idGuid);
+                var user = _context
+                    .Users
+                    .Include(u => u.Survey)
+                    .SingleOrDefault(u => u.CookieId == idGuid);
 
-                string responseJson = JsonConvert.SerializeObject(user);
+                string responseJson = JsonConvert.SerializeObject(user, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
                 return Content(responseJson);
             }
@@ -82,11 +104,50 @@ namespace IanByrne.ResearchProject.WebApp.Pages
             }
         }
 
-        public async Task<ActionResult> OnPostSaveUser(User user)
+        public ActionResult OnPostSaveUser(User user)
         {
-            user.Save(_context);
+            if (user != null && user.WinDateTime != null)
+            {
+                user.Save(_context);
+            }
 
             return new NoContentResult();
+        }
+
+        public ActionResult OnPostSetWinTime(User user)
+        {
+            if (user != null && user.WinDateTime == null)
+            {
+                user.WinDateTime = DateTime.UtcNow;
+                user.Save(_context);
+            }
+
+            string userJson = JsonConvert.SerializeObject(user);
+
+            return Content(userJson);
+        }
+
+        public PartialViewResult OnPostSurveyModalPartial(Survey survey)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = _context
+                    .Users
+                    .Include(u => u.Survey)
+                    .SingleOrDefault(u => u.CookieId == survey.User.CookieId);
+
+                if (user != null && user.Survey == null)
+                {
+                    user.Survey = survey;
+                    _context.SaveChanges();
+                }
+            }
+
+            return new PartialViewResult()
+            {
+                ViewName = "_SurveyModalPartial",
+                ViewData = new ViewDataDictionary<Survey>(ViewData, survey)
+            };
         }
     }
 }
