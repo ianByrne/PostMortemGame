@@ -49,7 +49,7 @@ namespace IanByrne.ResearchProject.Game
             if (@event is InputEventScreenTouch touchEvent)
             {
                 if (_sprite.Visible)
-                    MoveToPosition(GetCanvasTransform().XformInv(touchEvent.Position));
+                    MoveToPosition(GetCanvasTransform().AffineInverse().Xform(touchEvent.Position));
             }
             else if (@event.IsActionPressed("Click"))
 			{
