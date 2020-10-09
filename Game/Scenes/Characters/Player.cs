@@ -46,7 +46,12 @@ namespace IanByrne.ResearchProject.Game
 
         public override void _UnhandledInput(InputEvent @event)
 		{
-			if (@event.IsActionPressed("Click"))
+            if (@event is InputEventScreenTouch touchEvent)
+            {
+                if (_sprite.Visible)
+                    MoveToPosition(GetCanvasTransform().XformInv(touchEvent.Position));
+            }
+            else if (@event.IsActionPressed("Click"))
 			{
                 if(_sprite.Visible)
 				    MoveToPosition(GetGlobalMousePosition());
