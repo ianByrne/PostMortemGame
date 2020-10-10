@@ -160,6 +160,7 @@ namespace IanByrne.ResearchProject.Game
                     EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
                 }
 
+                GD.Print(JsonConvert.SerializeObject(response));
                 _lastResponse = response;
 
                 return response;
@@ -189,7 +190,7 @@ namespace IanByrne.ResearchProject.Game
                 AddDialogueOption("I see");
             }
 
-            AddDialogueOption(":reset");
+            //AddDialogueOption(":reset");
         }
 
         private void AddDialogueOption(string text)

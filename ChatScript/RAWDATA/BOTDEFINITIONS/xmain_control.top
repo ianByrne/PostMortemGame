@@ -1,25 +1,38 @@
 # System topics
 topic: ~xmain_control system ()
 
-u: (%bot=Olive %input<%userfirstline)
+u: (\[ _*1 \] )
+	## Parse OOB input
+	$$inputOob = _0
+
+	if(%more)
+	{
+		# Continue with the rest of the input
+		^next(input)
+	}
+	else
+	{
+		%length = 0
+
+		if(%input == 1)
+		{
+			%input = 0
+		}
+	}
+
+u: (%bot==Olive %input<%userfirstline)
 	^gambit(~olive_introductions)
 
-u: (%bot=Clarence %input<%userfirstline)
+u: (%bot==Clarence %input<%userfirstline ^CheckFact(^"CollectedFirstDelivery")==false)
 	^gambit(~clarence_introductions)
 
-u: (%bot=Cow %input<%userfirstline)
+u: (%bot==Cow %input<%userfirstline)
 	^gambit(~cow_introductions)
 
-u: (%bot=Reggie %input<%userfirstline)
+u: (%bot==Reggie %input<%userfirstline)
 	^gambit(~reggie_introductions)
 
-u: (< \[ _* )
-	## Parse JSON input
-	$$inputOob = ^jsonparse(safe _0)
-	
-	# Continue with the rest of the input
-	^next(input)
-
+u: ()
     $_responseCount = %response
     $$currenttopic = %topic
 

@@ -11,7 +11,7 @@ public class ConsentScreen : Control
     public override void _Ready()
     {
         _continueButton = GetNode<Button>("ContinueButton");
-        _continueButton.Disabled = true;
+        //_continueButton.Disabled = true;
 
         base._Ready();
     }

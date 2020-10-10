@@ -1,5 +1,4 @@
 using Godot;
-using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
@@ -21,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
 
             foreach (var objective in unfinishedObjectives)
             {
+                // If player is at objective's target and has all the required facts...
                 if (_playerLocation == objective.Target
                     && (objective.RequiredFacts == null || objective.RequiredFacts.All(Facts.Contains)))
                 {
@@ -29,20 +29,22 @@ namespace IanByrne.ResearchProject.Game
                     /// Objectives
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery"))
+                        && Facts.Contains("CollectedFirstDelivery")
+                        && Facts.Contains("CollectedSecondDelivery")
+                        && !Facts.Contains("CollectedThirdDelivery"))
                     {
-                        Facts.Add("CollectedFirstDelivery");
+                        Facts.Add("CollectedThirdDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
                             Target = MapLocation.Clarence,
-                            Text = "Deliver welcome pamphlet to Clarence"
+                            Text = "Deliver letter to Clarence"
                         });
                     }
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery")
+                        && Facts.Contains("CollectedFirstDelivery")
                         && !Facts.Contains("CollectedSecondDelivery"))
                     {
                         Facts.Add("CollectedSecondDelivery");
@@ -62,16 +64,14 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery")
-                        && !Facts.Contains("CollectedSecondDelivery")
-                        && !Facts.Contains("CollectedThirdDelivery"))
+                        && !Facts.Contains("CollectedFirstDelivery"))
                     {
-                        Facts.Add("CollectedThirdDelivery");
+                        Facts.Add("CollectedFirstDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
                             Target = MapLocation.Clarence,
-                            Text = "Deliver letter to Clarence"
+                            Text = "Deliver welcome pamphlet to Clarence"
                         });
                     }
                 }
@@ -89,7 +89,6 @@ namespace IanByrne.ResearchProject.Game
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective);
-                    _letterBox.ShowNotification();
                 }
             }
 
@@ -105,7 +104,6 @@ namespace IanByrne.ResearchProject.Game
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective, 10);
-                    _letterBox.ShowNotification();
                 }
             }
 
@@ -122,37 +120,36 @@ namespace IanByrne.ResearchProject.Game
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective, 10);
-                    _letterBox.ShowNotification();
                 }
             }
 
-            if (Facts.Contains("SpokeToCow"))
-            {
-                // End game
-                if (OS.HasFeature("JavaScript"))
-                {
-                    string javaScript = "parent.GetUserFromCookieId();";
+            //      if (Facts.Contains("SpokeToCow"))
+            //      {
+            //          // End game
+            //          if (OS.HasFeature("JavaScript"))
+            //          {
+            //              string javaScript = "parent.GetUserFromCookieId();";
 
-                    string jsResponse = JavaScript.Eval(javaScript)?.ToString();
+            //              string jsResponse = JavaScript.Eval(javaScript)?.ToString();
 
-                    User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
+            //              User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
 
-                    javaScript = @"
-						var user = " + JsonConvert.SerializeObject(User) + @";
+            //              javaScript = @"
+            //var user = " + JsonConvert.SerializeObject(User) + @";
 
-						parent.GameOver(user);
-						";
+            //parent.GameOver(user);
+            //";
 
-                    jsResponse = JavaScript.Eval(javaScript)?.ToString();
+            //              jsResponse = JavaScript.Eval(javaScript)?.ToString();
 
-                    User = string.IsNullOrWhiteSpace(jsResponse) ? null : JsonConvert.DeserializeObject<User>(jsResponse);
-                }
-                else
-                {
-                    User.WinDateTime = DateTime.UtcNow;
-                    User.Save(Context);
-                }
-            }
+            //              User = string.IsNullOrWhiteSpace(jsResponse) ? null : JsonConvert.DeserializeObject<User>(jsResponse);
+            //          }
+            //          else
+            //          {
+            //              User.WinDateTime = DateTime.UtcNow;
+            //              User.Save(Context);
+            //          }
+            //      }
 
             // Remove duplicate facts
             Facts = Facts.Distinct().ToList();
