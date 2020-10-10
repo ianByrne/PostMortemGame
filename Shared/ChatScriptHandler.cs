@@ -51,7 +51,6 @@ namespace IanByrne.ResearchProject.Shared
             string message = "[ " + request.InputData + " ] " + request.Message;
             string sendDataStr = prefix + message + char.MinValue;
 
-            Console.WriteLine(sendDataStr);
             var sendData = System.Text.Encoding.ASCII.GetBytes(sendDataStr);
 
             if (_tcpClient.Connected)

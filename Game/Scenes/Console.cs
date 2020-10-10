@@ -160,7 +160,6 @@ namespace IanByrne.ResearchProject.Game
                     EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
                 }
 
-                GD.Print(JsonConvert.SerializeObject(response));
                 _lastResponse = response;
 
                 return response;
