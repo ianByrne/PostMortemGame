@@ -16,8 +16,13 @@ parameters/playback = SubResource( 1 )
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="ObjectivesHUD" parent="." index="5" instance=ExtResource( 3 )]
-margin_left = -500.635
-margin_top = -289.512
-margin_right = -315.635
-margin_bottom = -240.512
+[node name="Sprite" parent="." index="3"]
+frame = 145
+
+[node name="ObjectivesLayer" type="CanvasLayer" parent="." index="5"]
+
+[node name="ObjectivesHUD" parent="ObjectivesLayer" index="0" instance=ExtResource( 3 )]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = -885.0
+margin_bottom = -541.0

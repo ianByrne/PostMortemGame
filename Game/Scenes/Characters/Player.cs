@@ -45,7 +45,7 @@ namespace IanByrne.ResearchProject.Game
         }
 
         public override void _UnhandledInput(InputEvent @event)
-		{
+        {
             if (@event is InputEventScreenTouch touchEvent)
             {
                 if (_sprite.Visible)
@@ -60,13 +60,13 @@ namespace IanByrne.ResearchProject.Game
 
         public void Disable()
         {
-            GetNode<ObjectivesHUD>("ObjectivesHUD").Hide();
+            GetNode<ObjectivesHUD>("ObjectivesLayer/ObjectivesHUD").Hide();
             _sprite.Hide();
         }
 
         public void Enable()
         {
-            GetNode<ObjectivesHUD>("ObjectivesHUD").Show();
+            GetNode<ObjectivesHUD>("ObjectivesLayer/ObjectivesHUD").Show();
             _sprite.Show();
         }
 	}
