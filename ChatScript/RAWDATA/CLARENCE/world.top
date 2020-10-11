@@ -1,8 +1,8 @@
 topic: ~clarence_world (where what who place world village town post postman)
 
 #! Where are we?
-?: WHERE_BE_WE ([where] [be])
-	No idea!
+u: WHERE_BE_WE ([where] [be])
+	Apparently some kind of afterlife?
 
-?: WHO_BE_I (who be I)
-	How should I know!
+u: WHO_BE_I (who be I)
+	Apparently some kind of postman?

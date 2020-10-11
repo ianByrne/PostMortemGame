@@ -1,7 +1,7 @@
 topic: ~olive_olive (name olive you book kitties)
 
 #! Who are you?
-?: WHO_BE_YOU ([who what] be you >)
+u: WHO_BE_YOU ([who what] be you >)
 	^keep()
 	^repeat()
 	[I'm Olive, man!][I'm Olive. You know this][It's... It's Olive]
@@ -9,7 +9,7 @@ topic: ~olive_olive (name olive you book kitties)
 	^SetDialogueOptions()
 
 #! What is your name?
-?: (what be your name)
+u: (what be your name)
 	^keep()
 	^repeat()
 	^reuse(WHO_BE_YOU)
@@ -21,7 +21,7 @@ t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDeli
 	"A Tale of Two Kitties"?? This truly is the worst of times
 
 #! How is the book?
-?: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book kitties])
+u: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book kitties])
 	I don't know, I'm still fuming at the mixup
 	
 t: (^CheckFact(^"CollectedThirdDelivery")==true)

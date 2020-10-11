@@ -8,18 +8,41 @@ t: BEFORE_FIRST_DELIVERY_RETURNED_WELCOME (^CheckFact(^"CollectedFirstDelivery")
 	^repeat()
 	[Aaah!][*whimper*][Stay away!][Leave me alone!][Go away!][Where am I?! Go away!]
 
-#!x Start of a new conversation
-t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedSecondDelivery")==false)
+#!x Have brochure for Clarence
+t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedFirstDelivery")==true)
 	What's this? A brochure? Are you the postman here or something?
 	\n "Welcome to the afterlife! We hope you enjoy your stay!"
 	\n Oh. I guess I'm dead then, huh? Well, that would explain a few things
-	^DialogueOption(^"Where are we?")
-	^DialogueOption(^"What do you mean?")
-	^DialogueOption(^"Who are you?")
+
+	^SetDialogueOptions()
+
+	#! What do you mean?
+	a: ([what how] do you mean)
+		^reuse(clarence_clarence.HOW_YOU_DIE)
+
+#!x Have bill for Clarence
+t: SECOND_DELIVERY_WELCOME (^CheckFact(^"CollectedSecondDelivery")==true)
+	New mail for me already? Wow I never got this much when I was alive. Well, except junk mail
+	\n Oh. You've brought me junk mail
+	\n "Sign up for life insurance before it's too late!"
+	\n Hmm...
+
+#!x Have bill for Clarence
+t: THIRD_DELIVERY_WELCOME (^CheckFact(^"CollectedThirdDelivery")==true)
+	Hello postman. Any bills for me today?
+	\n Oh. Apparently yes.
+	\n From Hamdale Corp? For damages received to their vending machine? FROM WHEN IT CRUSHED ME TO DEATH?!
+
+	^DialogueOption(^"Oh")
+
+	#! What do you mean?
+	a: ([what how] do)
+		^reuse(clarence_clarence.HOW_YOU_DIE)
 
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)
 	^keep()
 	^repeat()
 	[Welcome back!][Hello again!]
-	^DialogueOption(^"Who are you?")
+
+	^SetDialogueOptions()

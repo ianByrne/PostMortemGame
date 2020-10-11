@@ -1,15 +1,72 @@
-topic: ~clarence_clarence (name clarence you)
+topic: ~clarence_clarence (name clarence you die death dead life live living vending machine crushed squashed killed kill)
 
 #! Who are you?
-?: WHO_ARE_YOU ([who what] be you >)
+u: WHO_ARE_YOU ([who what] be you >)
 	^keep()
 	^repeat()
 	I'm Clarence
 	^DialogueOption(^"Oh yeah")
-	^NewFact(^"DeliveredClarencesLetter")
 
 #! What is your name?
-?: (what be your name)
+u: (what be your name)
 	^keep()
 	^repeat()
 	^reuse(WHO_ARE_YOU)
+
+#! How did you die?
+u: HOW_YOU_DIE (how * you die)
+	The last thing I remember is staring into the large, brown, vengeful eyes of Daisy
+
+	^NewFact(^"KnowsDaisy")
+	^DialogueOption(^"Who is Daisy?")
+
+#! What killed you?
+u: (what kill you)
+	^reuse(HOW_YOU_DIE)
+	
+u: WHO_BE_DAISY (who be daisy)
+	That's the name of the Hamdale Cow. Her picture is on every damn carton of Hamdale milk.
+	\n And their vending machines, as I apparently became terminally aware
+
+	^NewFact(^"KnowsHamdale")
+	^DialogueOption(^"You were crushed by a vending machine?")
+
+#! You were killed by a vending machine?
+u: VENDING_MACHINE ([vending machine kill crush])
+	I suppose so. They say it happens fairly often, so I guess I shouldn't be surprised
+	\n Inevitable, really
+
+
+t: (^CheckFact(^"CollectedThirdDelivery")==true)
+	Outrageous. My lawyer will hear about this!
+	\n Err... How do I send outgoing mail back to the living?
+	\n I just give the letter to you, right?
+	
+	^NewFact(^"HasLetterFromClarence")
+
+	if(^CheckFact(^"CanSendOutgoingMail") == true)
+	{
+		^DialogueOption(^"Yes, I can deliver it for you")
+	}
+	else
+	{
+		^DialogueOption(^"No")
+		^DialogueOption(^"Beats me")
+	}
+
+	#! Yes
+	a: (~yes)
+		Fantastic! Please note that I have marked it as priority!
+
+	#! I don't know
+	a: (~emoignorance)
+		Can you please find out?
+		\n I mean... It seems kind of like your job... Right?
+
+	#! No
+	a: (~no)
+		I mean... It does seem kind of like your job...
+
+	#! Cheese
+	a: ()
+		You're kinda odd, huh

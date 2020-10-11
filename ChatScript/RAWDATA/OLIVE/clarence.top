@@ -7,7 +7,7 @@ topic: ~olive_clarence (clarence new guy)
 	^SetDialogueOptions()
 
 t: HELP_CLARENCE (^CheckFact(^"CollectedFirstDelivery")==false)
-	if(^CheckFact(^"AmPostman")==false)
+	if(^CheckFact(^"AmPostman") == false)
 	{
 		Well, you're the postman.
 		^NewFact(^"AmPostman")

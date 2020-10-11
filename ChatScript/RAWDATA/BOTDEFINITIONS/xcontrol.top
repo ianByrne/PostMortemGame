@@ -21,7 +21,25 @@ $_factFound
 outputmacro: ^SetDialogueOptions()
 if(%bot == Clarence)
 {
-    #
+    if(^getrule(usable clarence_clarence.HOW_YOU_DIE) == 1)
+	{
+		^DialogueOption(^"How did you die?")
+	}
+
+    if(^CheckFact(^"KnowsDaisy") == true AND ^getrule(usable clarence_clarence.WHO_BE_DAISY) == 1)
+	{
+		^DialogueOption(^"Who is Daisy?")
+	}
+
+    if(^CheckFact(^"KnowsHamdale") == true AND ^getrule(usable clarence_clarence.VENDING_MACHINE) == 1)
+	{
+		^DialogueOption(^"You were crushed by a vending machine?")
+	}
+
+    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^getrule(usable clarence_.HOW_BE_BOOK) == 1)^sdfdsf
+	{
+		^DialogueOption(^"How is the book?")
+	}
 }
 else if(%bot == Olive)
 {
@@ -42,7 +60,7 @@ else if(%bot == Olive)
 		^DialogueOption(^"How is the book?")
 	}
 
-    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^CheckFact(^"ClarenceAskedAboutOutgoingMail") == true AND ^getrule(usable olive_world.HOW_SEND_MAIL) == 1)
+    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^CheckFact(^"HasLetterFromClarence") == true AND ^getrule(usable olive_world.HOW_SEND_MAIL) == 1)
 	{
 		^DialogueOption(^"How do we send mail back to the living?")
 	}

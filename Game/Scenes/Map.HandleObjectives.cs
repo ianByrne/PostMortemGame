@@ -123,8 +123,26 @@ namespace IanByrne.ResearchProject.Game
                 }
             }
 
-            if (Facts.Contains("CanSendOutgoingMail") && Facts.Contains("HasLetterFromClarence"))
+            if (Facts.Contains("HasLetterFromClarence"))
             {
+                var objective = new Objective()
+                {
+                    Text = "Find out how to deliver Clarence's letter"
+                };
+
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done))
+                {
+                    _objectivesHUD.AddObjective(objective);
+                }
+            }
+
+            if (Facts.Contains("CanSendOutgoingMail") && Facts.Contains("HasLetterFromClarence") && _playerLocation == MapLocation.LetterBox)
+            {
+                _objectivesHUD.Objectives
+                    .Where(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done)
+                    .ToList()
+                    .ForEach(o => _objectivesHUD.MarkObjectiveAsDone(o));
+
                 // End game
                 if (OS.HasFeature("JavaScript"))
                 {
