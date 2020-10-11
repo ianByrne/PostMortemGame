@@ -1,4 +1,4 @@
-topic: ~olive_world (where what who place world village town post postman)
+topic: ~olive_world (where what who place world village town post postman mail send)
 
 #! Where are we?
 #! What do you mean?
@@ -13,5 +13,13 @@ topic: ~olive_world (where what who place world village town post postman)
 ?: WHO_BE_I (who be I)
 	Wow you really have lost your marbles. You're the postman, and you've probably got deliveries to do.
 	^NewFact(^"AmPostman")
+
+	^SetDialogueOptions()
+
+#! How do we send mail back to the living?
+?: HOW_SEND_MAIL (how * send * [mail post letter])
+	I mean... You're the postman...
+	\n Just take it back to the letterbox, right?
+	^NewFact(^"CanSendOutgoingMail")
 
 	^SetDialogueOptions()

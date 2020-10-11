@@ -1,4 +1,4 @@
-topic: ~olive_olive (name olive you book titties)
+topic: ~olive_olive (name olive you book kitties)
 
 #! Who are you?
 ?: WHO_BE_YOU ([who what] be you >)
@@ -15,8 +15,16 @@ topic: ~olive_olive (name olive you book titties)
 	^reuse(WHO_BE_YOU)
 
 t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false)
-	Bah, I can't believe they sent me this smut instead of a true classic
+	Bah, I can't believe they sent me this crap instead of a true classic
+
+t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false)
+	"A Tale of Two Kitties"?? This truly is the worst of times
 
 #! How is the book?
-?: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book titties])
+?: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book kitties])
 	I don't know, I'm still fuming at the mixup
+	
+t: (^CheckFact(^"CollectedThirdDelivery")==true)
+	Gaspard is eyeing up to pounce on the Marquis!
+
+	^SetDialogueOptions()

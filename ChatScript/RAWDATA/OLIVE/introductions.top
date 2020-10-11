@@ -14,10 +14,15 @@ t: FIRST_WELCOME (%input<%userfirstline)
 t: SECOND_DELIVERY (^CheckFact(^"CollectedSecondDelivery")==true %input<%userfirstline %input>0)
 	Aww yiss! My Nile package has finally arrived!
 	\n Wait... What the hell is this?
-	\n "A Sale of Two Titties"?! What the hell! I ordered "A Tale of Two Cities"!
-	\n This truly is the worst of times
+	\n "A Tale of Two Kitties"?! What the hell! I ordered "A Tale of Two Cities"!
 
 	^DialogueOption(^"Oh no")
+
+#!x Enquire about the book
+t: THIRD_DELIVERY (^CheckFact(^"CollectedThirdDelivery")==true %input<%userfirstline %input>0)
+	Bugger off, I'm knee deep in chapter 3!
+
+	^DialogueOption(^"Oh?")
 
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)

@@ -37,9 +37,14 @@ else if(%bot == Olive)
         }
     }
 
-    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^getrule(usable olive_olive.HOW_BE_BOOK) == 1)
+    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^CheckFact(^"CollectedThirdDelivery") == false AND ^getrule(usable olive_olive.HOW_BE_BOOK) == 1)
 	{
 		^DialogueOption(^"How is the book?")
+	}
+
+    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^CheckFact(^"ClarenceAskedAboutOutgoingMail") == true AND ^getrule(usable olive_world.HOW_SEND_MAIL) == 1)
+	{
+		^DialogueOption(^"How do we send mail back to the living?")
 	}
 }
 

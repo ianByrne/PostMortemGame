@@ -103,7 +103,7 @@ namespace IanByrne.ResearchProject.Game
 
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 10);
+                    _objectivesHUD.AddObjective(objective, 3);
                 }
             }
 
@@ -119,37 +119,37 @@ namespace IanByrne.ResearchProject.Game
 
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 10);
+                    _objectivesHUD.AddObjective(objective, 3);
                 }
             }
 
-            //      if (Facts.Contains("SpokeToCow"))
-            //      {
-            //          // End game
-            //          if (OS.HasFeature("JavaScript"))
-            //          {
-            //              string javaScript = "parent.GetUserFromCookieId();";
+            if (Facts.Contains("CanSendOutgoingMail") && Facts.Contains("HasLetterFromClarence"))
+            {
+                // End game
+                if (OS.HasFeature("JavaScript"))
+                {
+                    string javaScript = "parent.GetUserFromCookieId();";
 
-            //              string jsResponse = JavaScript.Eval(javaScript)?.ToString();
+                    string jsResponse = JavaScript.Eval(javaScript)?.ToString();
 
-            //              User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
+                    User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
 
-            //              javaScript = @"
-            //var user = " + JsonConvert.SerializeObject(User) + @";
+                    javaScript = @"
+                        var user = " + JsonConvert.SerializeObject(User) + @";
 
-            //parent.GameOver(user);
-            //";
+                        parent.GameOver(user);
+                        ";
 
-            //              jsResponse = JavaScript.Eval(javaScript)?.ToString();
+                    jsResponse = JavaScript.Eval(javaScript)?.ToString();
 
-            //              User = string.IsNullOrWhiteSpace(jsResponse) ? null : JsonConvert.DeserializeObject<User>(jsResponse);
-            //          }
-            //          else
-            //          {
-            //              User.WinDateTime = DateTime.UtcNow;
-            //              User.Save(Context);
-            //          }
-            //      }
+                    User = string.IsNullOrWhiteSpace(jsResponse) ? null : JsonConvert.DeserializeObject<User>(jsResponse);
+                }
+                else
+                {
+                    User.WinDateTime = DateTime.UtcNow;
+                    User.Save(Context);
+                }
+            }
 
             // Remove duplicate facts
             Facts = Facts.Distinct().ToList();
