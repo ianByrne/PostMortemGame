@@ -6,7 +6,7 @@ topic: ~olive_clarence (clarence new guy)
 
 	^SetDialogueOptions()
 
-t: HELP_CLARENCE ()
+t: HELP_CLARENCE (^CheckFact(^"CollectedFirstDelivery")==false)
 	Well, you're the postman. You should probably go and check if there's any mail for the new guy, there usually is
 	\n Might help you jog your memory along too...
 	^NewFact(^"AmPostman")

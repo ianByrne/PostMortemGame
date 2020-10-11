@@ -1,4 +1,4 @@
-topic: ~olive_olive (name olive you parcel package delivery get)
+topic: ~olive_olive (name olive you book titties)
 
 #! Who are you?
 ?: WHO_BE_YOU ([who what] be you >)
@@ -14,10 +14,9 @@ topic: ~olive_olive (name olive you parcel package delivery get)
 	^repeat()
 	^reuse(WHO_BE_YOU)
 
-#! What is the parcel?
-?: WHAT_BE_PARCEL (^CheckFact(^"CollectedSecondDelivery")==true what be * [parcel package delivery])
-	It's a book
+t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false)
+	Bah, I can't believe they sent me this smut instead of a true classic
 
-#! What did you get?
-?: (^CheckFact(^"CollectedSecondDelivery")==true what do you get)
-	^reuse(WHAT_BE_PARCEL)
+#! How is the book?
+?: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book titties])
+	I don't know, I'm still fuming at the mixup

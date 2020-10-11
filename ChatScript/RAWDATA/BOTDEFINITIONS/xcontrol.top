@@ -37,9 +37,9 @@ else if(%bot == Olive)
         }
     }
 
-    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^getrule(usable olive_olive.WHAT_BE_PARCEL) == 1)
+    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^getrule(usable olive_olive.HOW_BE_BOOK) == 1)
 	{
-		^DialogueOption(^"What did you get?")
+		^DialogueOption(^"How is the book?")
 	}
 }
 

@@ -5,15 +5,19 @@ t: FIRST_WELCOME (%input<%userfirstline)
 	No mail for me today then, huh? I ordered stuff online like three weeks ago!
 	\n I don't know why I pay for a Nile Prime subscription, next day delivery my arse...
 	\n Although I must admit I can't even begin to understand the logistics involved with transporting goods here
+
 	^DialogueOption(^"Where are we?")
 	^DialogueOption(^"What do you mean?")
 	^DialogueOption(^"Who are you?")
 
 #!x Have package for Olive
 t: SECOND_DELIVERY (^CheckFact(^"CollectedSecondDelivery")==true %input<%userfirstline %input>0)
-	Yo! What's this?!
+	Aww yiss! My Nile package has finally arrived!
+	\n Wait... What the hell is this?
+	\n "A Sale of Two Titties"?! What the hell! I ordered "A Tale of Two Cities"!
+	\n This truly is the worst of times
 
-	^SetDialogueOptions()
+	^DialogueOption(^"Oh no")
 
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)
