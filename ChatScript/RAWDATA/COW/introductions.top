@@ -1,8 +1,18 @@
 topic: ~cow_introductions ()
 
-t: ALL_THE_MOOS ()
+t: ()
+	Moo
+	^DialogueOption(^"Hello")
+
+u: (hello)
+	Moo
+	^DialogueOption(^"So, you're a cow then, huh?")
+
+u: (cow)
+	Moo
+	^DialogueOption(^"I see")
+
+u: ALL_THE_MOOS ()
 	^keep()
 	^repeat()
 	Moo
-	^DialogueOption(^"I see")
-	^NewFact(^"SpokeToCow")
