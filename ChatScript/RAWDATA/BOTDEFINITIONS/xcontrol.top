@@ -80,8 +80,12 @@ $cs_token -= #DO_INTERJECTIONS
 
 $defaultCsToken = $cs_token
 
+$askedWhoAreYou = false
+$askedWhereAreWe = false
+$askedWhatHappenedToYou = false
+
 # Default bot
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Clarence
+Reggie

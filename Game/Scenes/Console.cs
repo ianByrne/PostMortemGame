@@ -162,6 +162,8 @@ namespace IanByrne.ResearchProject.Game
 
                 _lastResponse = response;
 
+                GD.Print(JsonConvert.SerializeObject(response));
+
                 return response;
             }
             catch (Exception ex)
@@ -183,10 +185,6 @@ namespace IanByrne.ResearchProject.Game
                 {
                     AddDialogueOption(option);
                 }
-            }
-            else
-            {
-                AddDialogueOption("I see");
             }
 
             //AddDialogueOption(":reset");

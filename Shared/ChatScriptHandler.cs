@@ -50,6 +50,7 @@ namespace IanByrne.ResearchProject.Shared
             string prefix = request.UserCookieId + char.MinValue + request.BotName + char.MinValue;
             string message = "[ " + request.InputData + " ] " + request.Message;
             string sendDataStr = prefix + message + char.MinValue;
+            Console.WriteLine(sendDataStr);
 
             var sendData = System.Text.Encoding.ASCII.GetBytes(sendDataStr);
 

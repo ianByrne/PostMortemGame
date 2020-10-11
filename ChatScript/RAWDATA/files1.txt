@@ -7,5 +7,3 @@ bot: Olive
 RAWDATA/OLIVE/
 bot: Clarence
 RAWDATA/CLARENCE/
-bot: 0
-RAWDATA/QUIBBLE/

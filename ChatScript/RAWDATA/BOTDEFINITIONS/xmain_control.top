@@ -80,21 +80,13 @@ u: ()
 		{
 			^nofail(TOPIC ^respond(~clarence_keywordless))
 		}
-		else if(%bot == Cow)
-		{
-			^nofail(TOPIC ^respond(~cow_keywordless))
-		}
-		else if(%bot == Reggie)
-		{
-			^nofail(TOPIC ^respond(~reggie_keywordless))
-		}
 	}
 	
 	# Process internal commands (eg 'stats')
-	if (%response == $_responseCount) 
-	{
-		^nofail(TOPIC ^respond(~internal_commands))
-	}
+	# if (%response == $_responseCount) 
+	# {
+	# 	^nofail(TOPIC ^respond(~internal_commands))
+	# }
 
 	# if we have rejoinders for what we said OR we asked a question, stop here
 	if (%outputrejoinder OR %lastquestion) 
