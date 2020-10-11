@@ -162,8 +162,6 @@ namespace IanByrne.ResearchProject.Game
 
                 _lastResponse = response;
 
-                GD.Print(JsonConvert.SerializeObject(response));
-
                 return response;
             }
             catch (Exception ex)

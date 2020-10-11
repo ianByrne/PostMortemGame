@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 
 namespace IanByrne.ResearchProject.Shared.Models
 {
@@ -20,11 +18,12 @@ namespace IanByrne.ResearchProject.Shared.Models
             {
                 int index = rawResponse.IndexOf('}');
 
-                string oobStr = rawResponse.Substring(0, index + 1);
-                string message = rawResponse.Substring(index + 1);
+                // The OOB data ends with "} }" so need to add 3 to get thems last chars
+                string oobStr = rawResponse.Substring(0, index + 3);
+                string message = rawResponse.Substring(index + 3);
 
                 var oob = JsonConvert.DeserializeObject<ChatScriptResponse>(oobStr);
-                
+
                 Messages = message.Trim().Split(new[] { "\\n" }, StringSplitOptions.None);
                 DialogueOptions = oob.DialogueOptions;
                 NewFacts = oob.NewFacts;

@@ -2,9 +2,10 @@
 topic: ~xmain_control system ()
 
 u: (\[ _*1 \] )
-	## Parse OOB input
+	# Parse OOB input
 	$$inputOob = _0
 
+	# Because OOB is passed every volley, it doesn't recognise a new conversation on its own, so need to hack it
 	if(%more)
 	{
 		# Continue with the rest of the input
@@ -12,12 +13,11 @@ u: (\[ _*1 \] )
 	}
 	else
 	{
+		# New conversation
 		%length = 0
-
-		if(%input == 1)
-		{
-			%input = 0
-		}
+		%userfirstline = %input
+		$_newInput = %input - 1
+		%input = $_newInput
 	}
 
 u: (%bot==Olive %input<%userfirstline)

@@ -88,4 +88,4 @@ $askedWhatHappenedToYou = false
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Reggie
+Olive

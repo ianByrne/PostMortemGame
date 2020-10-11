@@ -85,6 +85,8 @@ namespace IanByrne.ResearchProject.Shared
                             response += (char)reader.Read();
                         }
 
+                        Console.WriteLine(response);
+
                         return new SendMessageResponse(response);
                     }
                 }
