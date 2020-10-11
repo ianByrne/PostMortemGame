@@ -1,5 +1,4 @@
 using Godot;
-using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
@@ -21,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
 
             foreach (var objective in unfinishedObjectives)
             {
+                // If player is at objective's target and has all the required facts...
                 if (_playerLocation == objective.Target
                     && (objective.RequiredFacts == null || objective.RequiredFacts.All(Facts.Contains)))
                 {
@@ -29,20 +29,22 @@ namespace IanByrne.ResearchProject.Game
                     /// Objectives
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery"))
+                        && Facts.Contains("CollectedFirstDelivery")
+                        && Facts.Contains("CollectedSecondDelivery")
+                        && !Facts.Contains("CollectedThirdDelivery"))
                     {
-                        Facts.Add("CollectedFirstDelivery");
+                        Facts.Add("CollectedThirdDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
                             Target = MapLocation.Clarence,
-                            Text = "Deliver welcome pamphlet to Clarence"
+                            Text = "Deliver letter to Clarence"
                         });
                     }
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery")
+                        && Facts.Contains("CollectedFirstDelivery")
                         && !Facts.Contains("CollectedSecondDelivery"))
                     {
                         Facts.Add("CollectedSecondDelivery");
@@ -62,16 +64,14 @@ namespace IanByrne.ResearchProject.Game
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery")
-                        && !Facts.Contains("CollectedSecondDelivery")
-                        && !Facts.Contains("CollectedThirdDelivery"))
+                        && !Facts.Contains("CollectedFirstDelivery"))
                     {
-                        Facts.Add("CollectedThirdDelivery");
+                        Facts.Add("CollectedFirstDelivery");
 
                         _objectivesHUD.AddObjective(new Objective()
                         {
                             Target = MapLocation.Clarence,
-                            Text = "Deliver letter to Clarence"
+                            Text = "Deliver welcome pamphlet to Clarence"
                         });
                     }
                 }
@@ -89,7 +89,6 @@ namespace IanByrne.ResearchProject.Game
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
                     _objectivesHUD.AddObjective(objective);
-                    _letterBox.ShowNotification();
                 }
             }
 
@@ -104,8 +103,7 @@ namespace IanByrne.ResearchProject.Game
 
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 10);
-                    _letterBox.ShowNotification();
+                    _objectivesHUD.AddObjective(objective, 3);
                 }
             }
 
@@ -121,13 +119,30 @@ namespace IanByrne.ResearchProject.Game
 
                 if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 10);
-                    _letterBox.ShowNotification();
+                    _objectivesHUD.AddObjective(objective, 3);
                 }
             }
 
-            if (Facts.Contains("SpokeToCow"))
+            if (Facts.Contains("HasLetterFromClarence"))
             {
+                var objective = new Objective()
+                {
+                    Text = "Find out how to deliver Clarence's letter"
+                };
+
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done))
+                {
+                    _objectivesHUD.AddObjective(objective);
+                }
+            }
+
+            if (Facts.Contains("CanSendOutgoingMail") && Facts.Contains("HasLetterFromClarence") && _playerLocation == MapLocation.LetterBox)
+            {
+                _objectivesHUD.Objectives
+                    .Where(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done)
+                    .ToList()
+                    .ForEach(o => _objectivesHUD.MarkObjectiveAsDone(o));
+
                 // End game
                 if (OS.HasFeature("JavaScript"))
                 {
@@ -138,10 +153,10 @@ namespace IanByrne.ResearchProject.Game
                     User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
 
                     javaScript = @"
-						var user = " + JsonConvert.SerializeObject(User) + @";
+                        var user = " + JsonConvert.SerializeObject(User) + @";
 
-						parent.GameOver(user);
-						";
+                        parent.GameOver(user);
+                        ";
 
                     jsResponse = JavaScript.Eval(javaScript)?.ToString();
 

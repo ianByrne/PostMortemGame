@@ -1,16 +1,41 @@
 topic: ~reggie_introductions ()
 
+u: (who be)
+	$askedWhoAreYou = true
+
+u: (where be)
+	$askedWhereAreWe = true
+
+u: (what happen)
+	$askedWhatHappenedToYou = true
+
+u: ()
+	^keep()
+	^repeat()
+	if($askedWhoAreYou == false)
+	{
+		^DialogueOption(^"Who are you?")
+	}
+
+	if($askedWhereAreWe == false)
+	{
+		^DialogueOption(^"Where are we?")
+	}
+
+	if($askedWhatHappenedToYou == false)
+	{
+		^DialogueOption(^"What happened to you?")
+	}
+
 t: FIRST_GROAN ()
 	Groan
 	^DialogueOption(^"Did you just say the word groan?")
 
 #! Did you just say the word groan?
-?: DID_YOU_JUST (groan)
+u: DID_YOU_JUST (groan)
 	... Hnnnngggggg
-	^DialogueOption(^"Ok")
 
-t: ALL_THE_GROANS ()
+u: ALL_THE_GROANS ()
 	^keep()
 	^repeat()
 	Groan
-	^DialogueOption(^"I see")

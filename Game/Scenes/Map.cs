@@ -26,7 +26,7 @@ namespace IanByrne.ResearchProject.Game
         {
             Facts = new List<string>();
             Context = new PostMortemContext();
-            _objectivesHUD = GetNode<ObjectivesHUD>("Game/YSort/Player/Player/ObjectivesHUD");
+            _objectivesHUD = GetNode<ObjectivesHUD>("Game/YSort/Player/Player/ObjectivesLayer/ObjectivesHUD");
             _letterBox = GetNode<LetterBox>("Game/YSort/Buildings/LetterBox");
             _reggie = GetNode<DeadBody>("Game/YSort/NPCs/DeadBody");
             _cow = GetNode<Cow>("Game/YSort/NPCs/Cow");

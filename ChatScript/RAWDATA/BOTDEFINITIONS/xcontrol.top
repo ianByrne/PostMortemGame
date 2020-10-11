@@ -1,6 +1,8 @@
 ## OOB functions
 outputmacro: ^DialogueOption(^value) ^jsonarrayinsert(unique $$dialogueOptions ^value)
+
 outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
+
 outputmacro: ^CheckFact(^value)
 # Loops through the JSON input for the existence of a passed fact
 # This is friggin dumb
@@ -16,6 +18,54 @@ $_factFound = false
 }
 $_factFound
 
+outputmacro: ^SetDialogueOptions()
+if(%bot == Clarence)
+{
+    if(^getrule(usable clarence_clarence.HOW_YOU_DIE) == 1)
+	{
+		^DialogueOption(^"How did you die?")
+	}
+
+    if(^CheckFact(^"KnowsDaisy") == true AND ^getrule(usable clarence_clarence.WHO_BE_DAISY) == 1)
+	{
+		^DialogueOption(^"Who is Daisy?")
+	}
+
+    if(^CheckFact(^"KnowsHamdale") == true AND ^getrule(usable clarence_clarence.VENDING_MACHINE) == 1)
+	{
+		^DialogueOption(^"You were crushed by a vending machine?")
+	}
+
+    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^getrule(usable clarence_.HOW_BE_BOOK) == 1)^sdfdsf
+	{
+		^DialogueOption(^"How is the book?")
+	}
+}
+else if(%bot == Olive)
+{
+    if(^getrule(usable olive_world.WHERE_BE_WE) == 1)
+	{
+		^DialogueOption(^"Where are we?")
+	}
+    else
+    {
+        if(^getrule(usable olive_world.WHO_BE_I) == 1)
+        {
+            ^DialogueOption(^"Who am I?")
+        }
+    }
+
+    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^CheckFact(^"CollectedThirdDelivery") == false AND ^getrule(usable olive_olive.HOW_BE_BOOK) == 1)
+	{
+		^DialogueOption(^"How is the book?")
+	}
+
+    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^CheckFact(^"HasLetterFromClarence") == true AND ^getrule(usable olive_world.HOW_SEND_MAIL) == 1)
+	{
+		^DialogueOption(^"How do we send mail back to the living?")
+	}
+}
+
 ## Olive
 outputmacro: Olive()
 
@@ -26,7 +76,7 @@ $cs_control_post = ~xpost_control
 $userprompt = ^"%user: >"
 $botprompt = ^"Olive: "
 
-$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token = #DO_INTERJECTION_SPLITTING | #DO_SUBSTITUTE_SYSTEM  | #DO_NUMBER_MERGE | #DO_DATE_MERGE | #DO_PROPERNAME_MERGE | #DO_SPELLCHECK | #DO_PARSE | #JSON_DIRECT_FROM_OOB
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
 $cs_token -= #DO_INTERJECTIONS
 
@@ -42,7 +92,7 @@ $cs_control_post = ~xpost_control
 $userprompt = ^"%user: >"
 $botprompt = ^"Clarence: "
 
-$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token = #DO_INTERJECTION_SPLITTING | #DO_SUBSTITUTE_SYSTEM  | #DO_NUMBER_MERGE | #DO_DATE_MERGE | #DO_PROPERNAME_MERGE | #DO_SPELLCHECK | #DO_PARSE | #JSON_DIRECT_FROM_OOB
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
 $cs_token -= #DO_INTERJECTIONS
 
@@ -58,7 +108,7 @@ $cs_control_post = ~xpost_control
 $userprompt = ^"%user: >"
 $botprompt = ^"Cow: "
 
-$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token = #DO_INTERJECTION_SPLITTING | #DO_SUBSTITUTE_SYSTEM  | #DO_NUMBER_MERGE | #DO_DATE_MERGE | #DO_PROPERNAME_MERGE | #DO_SPELLCHECK | #DO_PARSE | #JSON_DIRECT_FROM_OOB
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
 $cs_token -= #DO_INTERJECTIONS
 
@@ -74,14 +124,18 @@ $cs_control_post = ~xpost_control
 $userprompt = ^"%user: >"
 $botprompt = ^"Reggie: "
 
-$cs_token = #DO_INTERJECTION_SPLITTING  | #DO_SUBSTITUTE_SYSTEM   | #DO_NUMBER_MERGE | #DO_DATE_MERGE  | #DO_PROPERNAME_MERGE  | #DO_SPELLCHECK  | #DO_PARSE 
+$cs_token = #DO_INTERJECTION_SPLITTING | #DO_SUBSTITUTE_SYSTEM  | #DO_NUMBER_MERGE | #DO_DATE_MERGE | #DO_PROPERNAME_MERGE | #DO_SPELLCHECK | #DO_PARSE | #JSON_DIRECT_FROM_OOB
 $cs_token += #SPLIT_QUOTE | #NO_WITHIN | #STRICT_CASING
 $cs_token -= #DO_INTERJECTIONS
 
 $defaultCsToken = $cs_token
 
+$askedWhoAreYou = false
+$askedWhereAreWe = false
+$askedWhatHappenedToYou = false
+
 # Default bot
 table: defaultbot (^name)
 ^createfact(^name defaultbot defaultbot)
 DATA:
-Clarence
+Olive

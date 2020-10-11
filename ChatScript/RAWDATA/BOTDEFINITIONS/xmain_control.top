@@ -1,25 +1,38 @@
 # System topics
 topic: ~xmain_control system ()
 
-u: (%bot=Olive %input<%userfirstline)
+u: (\[ _*1 \] )
+	# Parse OOB input
+	$$inputOob = _0
+
+	# Because OOB is passed every volley, it doesn't recognise a new conversation on its own, so need to hack it
+	if(%more)
+	{
+		# Continue with the rest of the input
+		^next(input)
+	}
+	else
+	{
+		# New conversation
+		%length = 0
+		%userfirstline = %input
+		$_newInput = %input - 1
+		%input = $_newInput
+	}
+
+u: (%bot==Olive %input<%userfirstline)
 	^gambit(~olive_introductions)
 
-u: (%bot=Clarence %input<%userfirstline)
+u: (%bot==Clarence %input<%userfirstline ^CheckFact(^"CollectedFirstDelivery")==false)
 	^gambit(~clarence_introductions)
 
-u: (%bot=Cow %input<%userfirstline)
+u: (%bot==Cow %input<%userfirstline)
 	^gambit(~cow_introductions)
 
-u: (%bot=Reggie %input<%userfirstline)
+u: (%bot==Reggie %input<%userfirstline)
 	^gambit(~reggie_introductions)
 
-u: (< \[ _* )
-	## Parse JSON input
-	$$inputOob = ^jsonparse(safe _0)
-	
-	# Continue with the rest of the input
-	^next(input)
-
+u: ()
     $_responseCount = %response
     $$currenttopic = %topic
 
@@ -67,21 +80,13 @@ u: (< \[ _* )
 		{
 			^nofail(TOPIC ^respond(~clarence_keywordless))
 		}
-		else if(%bot == Cow)
-		{
-			^nofail(TOPIC ^respond(~cow_keywordless))
-		}
-		else if(%bot == Reggie)
-		{
-			^nofail(TOPIC ^respond(~reggie_keywordless))
-		}
 	}
 	
 	# Process internal commands (eg 'stats')
-	if (%response == $_responseCount) 
-	{
-		^nofail(TOPIC ^respond(~internal_commands))
-	}
+	# if (%response == $_responseCount) 
+	# {
+	# 	^nofail(TOPIC ^respond(~internal_commands))
+	# }
 
 	# if we have rejoinders for what we said OR we asked a question, stop here
 	if (%outputrejoinder OR %lastquestion) 

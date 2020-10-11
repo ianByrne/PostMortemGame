@@ -4,6 +4,7 @@ using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace IanByrne.ResearchProject.Game
@@ -19,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
         private bool _welcomeSent;
         private PostMortemContext _context;
         private SendMessageResponse _lastResponse;
+        private List<string> _oldFacts;
 
         public string BotName { get; set; }
 
@@ -28,6 +30,7 @@ namespace IanByrne.ResearchProject.Game
             _freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
             _dialogueOptionsContainer = GetNode<VBoxContainer>("DialogueOptionsContainer");
             _welcomeSent = false;
+            _oldFacts = GetNode<Map>("/root/Map").Facts;
 
             Hide();
         }
@@ -51,6 +54,12 @@ namespace IanByrne.ResearchProject.Game
         public void SendWelcome()
         {
             var user = GetNode<Map>("/root/Map").User;
+            var currentFacts = GetNode<Map>("/root/Map").Facts;
+
+            if(_oldFacts != null && currentFacts != null && _oldFacts.Count != currentFacts.Count)
+            {
+                _welcomeSent = false;
+            }
 
             if (!_welcomeSent)
             {
@@ -75,6 +84,7 @@ namespace IanByrne.ResearchProject.Game
             }
 
             _welcomeSent = true;
+            _oldFacts = GetNode<Map>("/root/Map").Facts;
         }
 
         private void UpdateLog(string text)
@@ -158,6 +168,7 @@ namespace IanByrne.ResearchProject.Game
                 if (response.NewFacts != null && response.NewFacts.Length > 0)
                 {
                     EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
+                    _oldFacts = GetNode<Map>("/root/Map").Facts;
                 }
 
                 _lastResponse = response;
@@ -184,12 +195,6 @@ namespace IanByrne.ResearchProject.Game
                     AddDialogueOption(option);
                 }
             }
-            else
-            {
-                AddDialogueOption("I see");
-            }
-
-            AddDialogueOption(":reset");
         }
 
         private void AddDialogueOption(string text)

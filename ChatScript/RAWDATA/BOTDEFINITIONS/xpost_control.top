@@ -5,5 +5,8 @@ t: ( $$dialogueOptions )
     $_response = ^jsoncreate(object)
     $_response.dialogueOptions = $$dialogueOptions
     $_response.newFacts = $$newFacts
+    $_response.stats.length = %length
+    $_response.stats.input = %input
+    $_response.stats.userFirstLine = %userfirstline
 
     ^postprintbefore( ^jsonwrite($_response) )
