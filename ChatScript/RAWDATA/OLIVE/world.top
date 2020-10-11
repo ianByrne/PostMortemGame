@@ -13,3 +13,5 @@ topic: ~olive_world (where what who place world village town post postman)
 ?: WHO_BE_I (who be I)
 	Wow you really have lost your marbles. You're the postman, and you've probably got deliveries to do.
 	^NewFact(^"AmPostman")
+
+	^SetDialogueOptions()

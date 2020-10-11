@@ -9,9 +9,25 @@ t: FIRST_WELCOME (%input<%userfirstline)
 	^DialogueOption(^"What do you mean?")
 	^DialogueOption(^"Who are you?")
 
+#!x Have package for Olive
+t: SECOND_DELIVERY (^CheckFact(^"CollectedSecondDelivery")==true %input<%userfirstline %input>0)
+	Yo! What's this?!
+
+	^SetDialogueOptions()
+
 #!x Start of a returned conversation 
 t: RETURNED_WELCOME (%input<%userfirstline %input>0)
 	^keep()
 	^repeat()
-	[Welcome back!][Hello again!]
-	^DialogueOption(^"Who are you?")
+
+	^SetDialogueOptions()
+
+    if(^length($$dialogueOptions) == 0)
+    {
+		gambit($$currenttopic)
+    }
+	else
+	{
+		[Welcome back!][Hello again!]
+        ^DialogueOption(^"Hello")
+	}

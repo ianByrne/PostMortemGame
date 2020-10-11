@@ -2,4 +2,6 @@ topic: ~olive_reggie (reggie)
 
 #! Who is Reggie?
 ?: WHO_BE_REGGIE ([who what] be reggie)
-	He's the rather scruffy looking fellow leaning against the wall there. You can smell him a mile away, unless you're losing that sense too
+	He's the rather scruffy looking fellow leaning against the wall there. You can smell him a mile away
+
+	^SetDialogueOptions()

@@ -1,6 +1,8 @@
 ## OOB functions
 outputmacro: ^DialogueOption(^value) ^jsonarrayinsert(unique $$dialogueOptions ^value)
+
 outputmacro: ^NewFact(^value) ^jsonarrayinsert(unique $$newFacts ^value)
+
 outputmacro: ^CheckFact(^value)
 # Loops through the JSON input for the existence of a passed fact
 # This is friggin dumb
@@ -15,6 +17,31 @@ $_factFound = false
     }
 }
 $_factFound
+
+outputmacro: ^SetDialogueOptions()
+if(%bot == Clarence)
+{
+    #
+}
+else if(%bot == Olive)
+{
+    if(^getrule(usable olive_world.WHERE_BE_WE) == 1)
+	{
+		^DialogueOption(^"Where are we?")
+	}
+    else
+    {
+        if(^getrule(usable olive_world.WHO_BE_I) == 1)
+        {
+            ^DialogueOption(^"Who am I?")
+        }
+    }
+
+    if(^CheckFact(^"CollectedSecondDelivery") == true AND ^getrule(usable olive_olive.WHAT_BE_PARCEL) == 1)
+	{
+		^DialogueOption(^"What did you get?")
+	}
+}
 
 ## Olive
 outputmacro: Olive()
