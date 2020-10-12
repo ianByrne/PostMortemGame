@@ -167,6 +167,16 @@ namespace IanByrne.ResearchProject.Game
                     User.WinDateTime = DateTime.UtcNow;
                     User.Save(Context);
                 }
+
+                var objective = new Objective()
+                {
+                    Text = "Thanks for playing Post Mortem!"
+                };
+
+                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Thanks for playing Post Mortem!" && !o.Done))
+                {
+                    _objectivesHUD.AddObjective(objective);
+                }
             }
 
             // Remove duplicate facts
