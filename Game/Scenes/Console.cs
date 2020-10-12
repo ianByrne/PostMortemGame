@@ -14,6 +14,9 @@ namespace IanByrne.ResearchProject.Game
         [Signal]
         public delegate void NewFacts(string[] facts);
 
+        [Signal]
+        public delegate void CloseButtonPushed();
+
         private TextEdit _log;
         private LineEdit _freeTextInput;
         private VBoxContainer _dialogueOptionsContainer;
@@ -26,9 +29,9 @@ namespace IanByrne.ResearchProject.Game
 
         public override void _Ready()
         {
-            _log = GetNode<TextEdit>("LogContainer/Log");
-            _freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
-            _dialogueOptionsContainer = GetNode<VBoxContainer>("DialogueOptionsContainer");
+            _log = GetNode<TextEdit>("HBoxContainer/VBoxContainer/LogContainer/Log");
+            _freeTextInput = GetNode<LineEdit>("HBoxContainer/VBoxContainer/FreeTextContainer/FreeTextInput");
+            _dialogueOptionsContainer = GetNode<VBoxContainer>("HBoxContainer/VBoxContainer/DialogueOptionsContainer");
             _welcomeSent = false;
             _oldFacts = GetNode<Map>("/root/Map").Facts;
 
@@ -216,6 +219,11 @@ namespace IanByrne.ResearchProject.Game
             {
                 option.QueueFree();
             }
+        }
+
+        private void _OnCloseButtonPressed()
+        {
+            EmitSignal(nameof(CloseButtonPushed));
         }
     }
 }

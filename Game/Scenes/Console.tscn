@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Resources/Buttons/DialogueOptionButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Fonts/Montserrat-ExtraBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Scenes/Console.cs" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+use_filter = true
+font_data = ExtResource( 2 )
 
 [node name="Console" type="VBoxContainer"]
 anchor_right = 1.0
@@ -13,15 +18,27 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LogContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 130.0
+margin_bottom = 190.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 996.0
+margin_bottom = 190.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LogContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_right = 996.0
+margin_bottom = 122.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 
-[node name="Log" type="TextEdit" parent="LogContainer"]
-margin_right = 1024.0
-margin_bottom = 130.0
+[node name="Log" type="TextEdit" parent="HBoxContainer/VBoxContainer/LogContainer"]
+margin_right = 996.0
+margin_bottom = 122.0
 size_flags_vertical = 3
 readonly = true
 wrap_enabled = true
@@ -29,14 +46,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FreeTextContainer" type="VBoxContainer" parent="."]
-margin_top = 130.0
-margin_right = 1024.0
-margin_bottom = 160.0
+[node name="FreeTextContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 126.0
+margin_right = 996.0
+margin_bottom = 156.0
 custom_constants/separation = 0
 
-[node name="FreeTextInput" type="LineEdit" parent="FreeTextContainer"]
-margin_right = 1024.0
+[node name="FreeTextInput" type="LineEdit" parent="HBoxContainer/VBoxContainer/FreeTextContainer"]
+margin_right = 996.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 placeholder_text = "Type message"
@@ -47,11 +64,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DialogueOptionsContainer" type="VBoxContainer" parent="."]
+[node name="DialogueOptionsContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 160.0
-margin_right = 1024.0
+margin_right = 996.0
 margin_bottom = 190.0
 custom_constants/separation = 0
 
-[node name="Button" parent="DialogueOptionsContainer" instance=ExtResource( 1 )]
-[connection signal="text_entered" from="FreeTextContainer/FreeTextInput" to="." method="OnInputTextEntered"]
+[node name="Button" parent="HBoxContainer/VBoxContainer/DialogueOptionsContainer" instance=ExtResource( 1 )]
+margin_right = 996.0
+
+[node name="CloseButton" type="Button" parent="HBoxContainer"]
+margin_left = 1000.0
+margin_right = 1024.0
+margin_bottom = 190.0
+custom_fonts/font = SubResource( 1 )
+text = "X"
+[connection signal="text_entered" from="HBoxContainer/VBoxContainer/FreeTextContainer/FreeTextInput" to="." method="OnInputTextEntered"]
+[connection signal="pressed" from="HBoxContainer/CloseButton" to="." method="_OnCloseButtonPressed"]
