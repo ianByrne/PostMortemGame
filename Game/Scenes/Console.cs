@@ -113,6 +113,7 @@ namespace IanByrne.ResearchProject.Game
 
         private void OnInputTextEntered(string text)
         {
+            _freeTextInput.Editable = false;
             _freeTextInput.Text = "";
 
             UpdateLog("You: " + text);
@@ -125,10 +126,13 @@ namespace IanByrne.ResearchProject.Game
             }
 
             _welcomeSent = false;
+            _freeTextInput.Editable = true;
         }
 
         private void OnDialogueOptionButtonPressed(string text)
         {
+            DisableDialogueOptions();
+
             UpdateLog("You: " + text);
 
             var response = SendMessageToChatScript(text);
@@ -141,6 +145,7 @@ namespace IanByrne.ResearchProject.Game
             SetDialogueOptions(response);
 
             _welcomeSent = false;
+            EnableDialogueOptions();
         }
 
         private SendMessageResponse SendMessageToChatScript(string text)
@@ -231,6 +236,26 @@ namespace IanByrne.ResearchProject.Game
             foreach (Button option in options)
             {
                 option.QueueFree();
+            }
+        }
+
+        private void DisableDialogueOptions()
+        {
+            var options = _dialogueOptionsContainer.GetChildren();
+
+            foreach (Button option in options)
+            {
+                option.Disabled = true;
+            }
+        }
+
+        private void EnableDialogueOptions()
+        {
+            var options = _dialogueOptionsContainer.GetChildren();
+
+            foreach (Button option in options)
+            {
+                option.Disabled = false;
             }
         }
 
