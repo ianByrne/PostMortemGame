@@ -99,6 +99,7 @@ namespace IanByrne.ResearchProject.Game
                 if (user.GameMode == GameMode.DialogueTree && _lastResponse != null)
                 {
                     SetDialogueOptions(_lastResponse);
+                    EnableDialogueOptions();
                 }
             }
 
