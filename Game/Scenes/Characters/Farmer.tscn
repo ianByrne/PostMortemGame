@@ -15,7 +15,7 @@ parameters/playback = SubResource( 1 )
 
 [node name="Sprite" parent="." index="2"]
 texture = ExtResource( 2 )
-frame = 144
+frame = 145
 
 [node name="Avatar" parent="HUD" index="0"]
 texture = ExtResource( 4 )

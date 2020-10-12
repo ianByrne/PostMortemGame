@@ -83,5 +83,17 @@ namespace IanByrne.ResearchProject.Game
 			_console.Hide();
 			_avatar.Hide();
 		}
+
+		private void _OnNPCSelectPressed(Node sender, InputEvent @event, int shapeIdx)
+        {
+			if (@event.IsActionPressed("Click"))
+			{
+				if (_player != null)
+				{
+					_console.Show();
+					_avatar.Show();
+				}
+			}
+		}
 	}
 }
