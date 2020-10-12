@@ -5,6 +5,7 @@ using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 
 namespace IanByrne.ResearchProject.Game
@@ -24,6 +25,8 @@ namespace IanByrne.ResearchProject.Game
         private PostMortemContext _context;
         private SendMessageResponse _lastResponse;
         private List<string> _oldFacts;
+        private List<string> _messageQueue;
+        private Timer _messageQueueTimer;
 
         public string BotName { get; set; }
 
@@ -35,13 +38,18 @@ namespace IanByrne.ResearchProject.Game
             _welcomeSent = false;
             _oldFacts = GetNode<Map>("/root/Map").Facts;
 
+            _messageQueue = new List<string>();
+            _messageQueueTimer = new Timer();
+            _messageQueueTimer.Connect("timeout", this, nameof(UpdateLogFromQueue));
+            _messageQueueTimer.OneShot = false;
+            AddChild(_messageQueueTimer);
+            _messageQueueTimer.Start(0.6f);
+
             Hide();
         }
 
         public override void _Process(float delta)
         {
-            _log.ScrollVertical += 20;
-
             base._Process(delta);
         }
 
@@ -73,6 +81,7 @@ namespace IanByrne.ResearchProject.Game
 
             if (!_welcomeSent)
             {
+                _freeTextInput.Editable = false;
                 var response = SendMessageToChatScript(null);
 
                 foreach (string message in response.Messages)
@@ -105,10 +114,28 @@ namespace IanByrne.ResearchProject.Game
 
         private void UpdateLog(string text)
         {
-            _log.Text += "\n" + text;
+            _messageQueue.Add(text);
+        }
 
-            int lineCount = _log.GetLineCount();
-            _log.CursorSetLine(lineCount);
+        private void UpdateLogFromQueue()
+        {
+            string text = _messageQueue.FirstOrDefault();
+
+            if (text != null)
+            {
+                _log.Text += "\n" + text;
+
+                int lineCount = _log.GetLineCount();
+                _log.CursorSetLine(lineCount);
+
+                _messageQueue.RemoveAt(0);
+
+                if (_messageQueue.Count < 1)
+                {
+                    _freeTextInput.Editable = true;
+                    EnableDialogueOptions();
+                }
+            }
         }
 
         private void OnInputTextEntered(string text)
@@ -126,7 +153,6 @@ namespace IanByrne.ResearchProject.Game
             }
 
             _welcomeSent = false;
-            _freeTextInput.Editable = true;
         }
 
         private void OnDialogueOptionButtonPressed(string text)
@@ -145,7 +171,6 @@ namespace IanByrne.ResearchProject.Game
             SetDialogueOptions(response);
 
             _welcomeSent = false;
-            EnableDialogueOptions();
         }
 
         private SendMessageResponse SendMessageToChatScript(string text)
@@ -224,6 +249,7 @@ namespace IanByrne.ResearchProject.Game
 
             var button = (Button)buttonScene.Instance();
             button.Text = text;
+            button.Visible = false;
             button.Connect("pressed", this, "OnDialogueOptionButtonPressed", new Godot.Collections.Array(new[] { button.Text }));
 
             _dialogueOptionsContainer.AddChild(button);
@@ -245,7 +271,7 @@ namespace IanByrne.ResearchProject.Game
 
             foreach (Button option in options)
             {
-                option.Disabled = true;
+                option.Visible = false;
             }
         }
 
@@ -255,13 +281,21 @@ namespace IanByrne.ResearchProject.Game
 
             foreach (Button option in options)
             {
-                option.Disabled = false;
+                option.Visible = true;
             }
         }
 
         private void _OnCloseButtonPressed()
         {
             EmitSignal(nameof(CloseButtonPushed));
+        }
+
+        private void _OnLogChanged()
+        {
+            GD.Print("asd");
+            int lineCount = _log.GetLineCount();
+            _log.CursorSetLine(lineCount + 200);
+            _log.ScrollVertical += 200;
         }
     }
 }

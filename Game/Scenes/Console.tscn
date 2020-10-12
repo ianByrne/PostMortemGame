@@ -69,22 +69,24 @@ margin_right = 1024.0
 margin_bottom = 190.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 996.0
+margin_right = 1000.0
 margin_bottom = 190.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 
 [node name="LogContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_right = 996.0
-margin_bottom = 122.0
+margin_right = 1000.0
+margin_bottom = 130.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="Log" type="TextEdit" parent="HBoxContainer/VBoxContainer/LogContainer"]
-margin_right = 996.0
-margin_bottom = 122.0
+margin_right = 1000.0
+margin_bottom = 130.0
 size_flags_vertical = 3
 theme = SubResource( 3 )
 readonly = true
@@ -94,13 +96,13 @@ __meta__ = {
 }
 
 [node name="FreeTextContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 126.0
-margin_right = 996.0
-margin_bottom = 156.0
+margin_top = 130.0
+margin_right = 1000.0
+margin_bottom = 160.0
 custom_constants/separation = 0
 
 [node name="FreeTextInput" type="LineEdit" parent="HBoxContainer/VBoxContainer/FreeTextContainer"]
-margin_right = 996.0
+margin_right = 1000.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 placeholder_text = "Type message"
@@ -113,12 +115,12 @@ __meta__ = {
 
 [node name="DialogueOptionsContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
 margin_top = 160.0
-margin_right = 996.0
+margin_right = 1000.0
 margin_bottom = 190.0
 custom_constants/separation = 0
 
 [node name="Button" parent="HBoxContainer/VBoxContainer/DialogueOptionsContainer" instance=ExtResource( 1 )]
-margin_right = 996.0
+margin_right = 1000.0
 
 [node name="CloseButton" type="Button" parent="HBoxContainer"]
 margin_left = 1000.0
@@ -126,5 +128,9 @@ margin_right = 1024.0
 margin_bottom = 190.0
 custom_fonts/font = SubResource( 1 )
 text = "X"
+[connection signal="cursor_changed" from="HBoxContainer/VBoxContainer/LogContainer/Log" to="." method="_OnLogChanged"]
+[connection signal="item_rect_changed" from="HBoxContainer/VBoxContainer/LogContainer/Log" to="." method="_OnLogChanged"]
+[connection signal="resized" from="HBoxContainer/VBoxContainer/LogContainer/Log" to="." method="_OnLogChanged"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/LogContainer/Log" to="." method="_OnLogChanged"]
 [connection signal="text_entered" from="HBoxContainer/VBoxContainer/FreeTextContainer/FreeTextInput" to="." method="OnInputTextEntered"]
 [connection signal="pressed" from="HBoxContainer/CloseButton" to="." method="_OnCloseButtonPressed"]
