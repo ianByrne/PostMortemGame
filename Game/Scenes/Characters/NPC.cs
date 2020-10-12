@@ -19,12 +19,15 @@ namespace IanByrne.ResearchProject.Game
 		public delegate void NewFacts(string[] facts);
 
 		private Console _console;
+		private Sprite _avatar;
 		private Player _player;
 
 		public override void _Ready()
 		{
 			base._Ready();
 
+			_avatar = GetNode<Sprite>("HUD/Avatar");
+			_avatar.Hide();
 			_console = GetNode<Console>("HUD/Console");
 			_console.BotName = BotName;
 			_console.Connect("NewFacts", this, "_NewFacts");
@@ -50,6 +53,7 @@ namespace IanByrne.ResearchProject.Game
 
 				_console.SetGameMode(user.GameMode);
 				_console.Show();
+				_avatar.Show();
 				_console.SendWelcome();
 
 				EmitSignal(nameof(PlayerAtNpc));
@@ -63,6 +67,7 @@ namespace IanByrne.ResearchProject.Game
 				_player = null;
 
 				_console.Hide();
+				_avatar.Hide();
 
 				EmitSignal(nameof(PlayerLeftNpc));
 			}

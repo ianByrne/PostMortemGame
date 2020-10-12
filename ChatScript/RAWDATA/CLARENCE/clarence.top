@@ -37,7 +37,7 @@ u: VENDING_MACHINE ([vending machine kill crush])
 	\n Inevitable, really
 
 
-t: (^CheckFact(^"CollectedThirdDelivery")==true)
+t: (^CheckFact(^"CollectedThirdDelivery")==true ^CheckFact(^"KnowsHamdale")==true)
 	Outrageous. My lawyer will hear about this!
 	\n Err... How do I send outgoing mail back to the living?
 	\n I just give the letter to you, right?
