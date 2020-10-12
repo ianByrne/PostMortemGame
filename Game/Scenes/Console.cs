@@ -292,7 +292,6 @@ namespace IanByrne.ResearchProject.Game
 
         private void _OnLogChanged()
         {
-            GD.Print("asd");
             int lineCount = _log.GetLineCount();
             _log.CursorSetLine(lineCount + 200);
             _log.ScrollVertical += 200;
