@@ -11,7 +11,7 @@
 radius = 72.8322
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 13.8976, 45.9701 )
+extents = Vector2( 19.243, 45.9701 )
 
 [node name="NPC" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
@@ -20,7 +20,7 @@ script = ExtResource( 3 )
 parameters/playback = SubResource( 1 )
 
 [node name="Sprite" parent="." index="2"]
-frame = 143
+frame = 145
 
 [node name="DetectionArea" type="Area2D" parent="." index="4"]
 

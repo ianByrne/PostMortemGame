@@ -38,6 +38,13 @@ namespace IanByrne.ResearchProject.Game
             Hide();
         }
 
+        public override void _Process(float delta)
+        {
+            _log.ScrollVertical += 20;
+
+            base._Process(delta);
+        }
+
         public void SetGameMode(GameMode gameMode)
         {
             if (gameMode == GameMode.ChatBot)
@@ -90,9 +97,15 @@ namespace IanByrne.ResearchProject.Game
             _oldFacts = GetNode<Map>("/root/Map").Facts;
         }
 
+        public void EndOfConversation()
+        {
+            if(!_welcomeSent)
+                UpdateLog("\n");
+        }
+
         private void UpdateLog(string text)
         {
-            _log.Text += text + "\n";
+            _log.Text += "\n" + text;
 
             int lineCount = _log.GetLineCount();
             _log.CursorSetLine(lineCount);
