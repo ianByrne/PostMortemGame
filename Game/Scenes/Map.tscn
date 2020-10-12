@@ -63,18 +63,22 @@ position = Vector2( 1470.73, 183.848 )
 
 [node name="Barkeep" parent="Game/YSort/NPCs" instance=ExtResource( 5 )]
 position = Vector2( 1403.91, -173.038 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Olive"
 
 [node name="Cow" parent="Game/YSort/NPCs" instance=ExtResource( 9 )]
 position = Vector2( 1742.9, -80.1624 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Cow"
 
 [node name="Farmer" parent="Game/YSort/NPCs" instance=ExtResource( 10 )]
 position = Vector2( 1822.89, 9.21054 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Clarence"
 
 [node name="DeadBody" parent="Game/YSort/NPCs" instance=ExtResource( 11 )]
 position = Vector2( 1219.39, -170.125 )
+scale = Vector2( 0.5, 0.5 )
 BotName = "Reggie"
 
 [node name="Buildings" type="YSort" parent="Game/YSort"]

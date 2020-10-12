@@ -20,6 +20,7 @@ namespace IanByrne.ResearchProject.Game
 
 		private Console _console;
 		private Sprite _avatar;
+		private Button _closeButton;
 		private Player _player;
 
 		public override void _Ready()
@@ -28,6 +29,8 @@ namespace IanByrne.ResearchProject.Game
 
 			_avatar = GetNode<Sprite>("HUD/Avatar");
 			_avatar.Hide();
+			_closeButton = GetNode<Button>("HUD/CloseButton");
+			_closeButton.Hide();
 			_console = GetNode<Console>("HUD/Console");
 			_console.BotName = BotName;
 			_console.Connect("NewFacts", this, "_NewFacts");
@@ -54,6 +57,7 @@ namespace IanByrne.ResearchProject.Game
 				_console.SetGameMode(user.GameMode);
 				_console.Show();
 				_avatar.Show();
+				_closeButton.Show();
 				_console.SendWelcome();
 
 				EmitSignal(nameof(PlayerAtNpc));
@@ -68,6 +72,7 @@ namespace IanByrne.ResearchProject.Game
 
 				_console.Hide();
 				_avatar.Hide();
+				_closeButton.Hide();
 
 				EmitSignal(nameof(PlayerLeftNpc));
 			}
@@ -76,6 +81,13 @@ namespace IanByrne.ResearchProject.Game
 		private void _NewFacts(string[] facts)
         {
 			EmitSignal(nameof(NewFacts), new[] { facts });
+		}
+
+		private void _OnCloseButtonPressed()
+        {
+			_console.Hide();
+			_avatar.Hide();
+			_closeButton.Hide();
 		}
 	}
 }
