@@ -22,7 +22,6 @@ namespace IanByrne.ResearchProject.Game
         private LineEdit _freeTextInput;
         private VBoxContainer _dialogueOptionsContainer;
         private bool _welcomeSent;
-        private PostMortemContext _context;
         private SendMessageResponse _lastResponse;
         private List<string> _oldFacts;
         private List<string> _messageQueue;
@@ -36,7 +35,7 @@ namespace IanByrne.ResearchProject.Game
             _freeTextInput = GetNode<LineEdit>("HBoxContainer/VBoxContainer/FreeTextContainer/FreeTextInput");
             _dialogueOptionsContainer = GetNode<VBoxContainer>("HBoxContainer/VBoxContainer/DialogueOptionsContainer");
             _welcomeSent = false;
-            _oldFacts = GetNode<Map>("/root/Map").Facts;
+            _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
 
             _messageQueue = new List<string>();
             _messageQueueTimer = new Timer();
@@ -72,7 +71,7 @@ namespace IanByrne.ResearchProject.Game
         public void SendWelcome()
         {
             var user = GetNode<Map>("/root/Map").User;
-            var currentFacts = GetNode<Map>("/root/Map").Facts;
+            var currentFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
 
             if(_oldFacts != null && currentFacts != null && _oldFacts.Count != currentFacts.Count)
             {
@@ -104,7 +103,7 @@ namespace IanByrne.ResearchProject.Game
             }
 
             _welcomeSent = true;
-            _oldFacts = GetNode<Map>("/root/Map").Facts;
+            _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
         }
 
         public void EndOfConversation()
@@ -185,7 +184,7 @@ namespace IanByrne.ResearchProject.Game
                     UserCookieId = map.User.CookieId.ToString(),
                     BotName = BotName,
                     Message = text,
-                    InputData = JsonConvert.SerializeObject(map.Facts)
+                    InputData = JsonConvert.SerializeObject(map.User?.Facts?.Split(',').ToList() ?? new List<string>())
                 };
 
                 SendMessageResponse response;
@@ -208,14 +207,14 @@ namespace IanByrne.ResearchProject.Game
                     {
                         var chatScript = new ChatScriptHandler(client);
 
-                        response = chatScript.SendMessage(request, _context);
+                        response = chatScript.SendMessage(request, GetNode<Map>("/root/Map").Context);
                     }
                 }
 
                 if (response.NewFacts != null && response.NewFacts.Length > 0)
                 {
                     EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
-                    _oldFacts = GetNode<Map>("/root/Map").Facts;
+                    _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
                 }
 
                 _lastResponse = response;
@@ -224,6 +223,7 @@ namespace IanByrne.ResearchProject.Game
             }
             catch (Exception ex)
             {
+                throw;
                 return new SendMessageResponse()
                 {
                     Messages = new string[] { $"Failed to send to ChatScript: {ex.Message}" }

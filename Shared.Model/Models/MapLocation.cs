@@ -7,6 +7,7 @@
         Reggie,
         Cow,
         Olive,
-        Clarence
+        Clarence,
+        None
     }
 }

@@ -16,132 +16,163 @@ namespace IanByrne.ResearchProject.Game
         /// </summary>
         private void HandleObjectives()
         {
-            var unfinishedObjectives = _objectivesHUD.Objectives.Where(o => !o.Done).ToList();
+            if (User.Objectives == null)
+            {
+                User.Objectives = new List<ObjectiveEntity>();
+            }
+
+            var unfinishedObjectives = User
+            .Objectives
+            .Where(o => !o.Done).ToList();
+
+            var facts = User?.Facts?.Split(',').ToList() ?? new List<string>();
 
             foreach (var objective in unfinishedObjectives)
             {
                 // If player is at objective's target and has all the required facts...
                 if (_playerLocation == objective.Target
-                    && (objective.RequiredFacts == null || objective.RequiredFacts.All(Facts.Contains)))
+                    && (string.IsNullOrWhiteSpace(objective.RequiredFacts) || new Objective(objective).RequiredFacts.All(facts.Contains)))
                 {
-                    _objectivesHUD.MarkObjectiveAsDone(objective);
+                    objective.Done = true;
+                    _objectivesHUD.MarkObjectiveAsDone(objective.Text);
 
                     /// Objectives
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && Facts.Contains("CollectedFirstDelivery")
-                        && Facts.Contains("CollectedSecondDelivery")
-                        && !Facts.Contains("CollectedThirdDelivery"))
+                        && facts.Contains("CollectedFirstDelivery")
+                        && facts.Contains("CollectedSecondDelivery")
+                        && !facts.Contains("CollectedThirdDelivery"))
                     {
-                        Facts.Add("CollectedThirdDelivery");
+                        facts.Add("CollectedThirdDelivery");
 
-                        _objectivesHUD.AddObjective(new Objective()
+                        var newObjective = new Objective()
                         {
                             Target = MapLocation.Clarence,
                             Text = "Deliver letter to Clarence"
-                        });
+                        };
+
+                        User.Objectives.Add(new ObjectiveEntity(newObjective));
+                        _objectivesHUD.AddObjective(newObjective.Text);
                     }
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && Facts.Contains("CollectedFirstDelivery")
-                        && !Facts.Contains("CollectedSecondDelivery"))
+                        && facts.Contains("CollectedFirstDelivery")
+                        && !facts.Contains("CollectedSecondDelivery"))
                     {
-                        Facts.Add("CollectedSecondDelivery");
+                        facts.Add("CollectedSecondDelivery");
 
-                        _objectivesHUD.AddObjective(new Objective()
+                        var newObjective = new Objective()
                         {
                             Target = MapLocation.Clarence,
                             Text = "Deliver flyer to Clarence"
-                        });
+                        };
 
-                        _objectivesHUD.AddObjective(new Objective()
+                        User.Objectives.Add(new ObjectiveEntity(newObjective));
+                        _objectivesHUD.AddObjective(newObjective.Text);
+
+                        newObjective = new Objective()
                         {
                             Target = MapLocation.Olive,
                             Text = "Deliver parcel to Olive"
-                        });
+                        };
+
+                        User.Objectives.Add(new ObjectiveEntity(newObjective));
+                        _objectivesHUD.AddObjective(newObjective.Text);
                     }
 
                     if (objective.Target == MapLocation.LetterBox
                         && objective.Text == "Collect mail from letterbox"
-                        && !Facts.Contains("CollectedFirstDelivery"))
+                        && !facts.Contains("CollectedFirstDelivery"))
                     {
-                        Facts.Add("CollectedFirstDelivery");
+                        facts.Add("CollectedFirstDelivery");
 
-                        _objectivesHUD.AddObjective(new Objective()
+                        var newObjective = new Objective()
                         {
                             Target = MapLocation.Clarence,
                             Text = "Deliver welcome pamphlet to Clarence"
-                        });
+                        };
+
+                        User.Objectives.Add(new ObjectiveEntity(newObjective));
+                        _objectivesHUD.AddObjective(newObjective.Text);
                     }
                 }
             }
 
-            if (Facts.Contains("AmPostman")
-                && !Facts.Contains("CollectedFirstDelivery"))
+            if (facts.Contains("AmPostman")
+                && !facts.Contains("CollectedFirstDelivery"))
             {
-                var objective = new Objective()
+                var newObjective = new Objective()
                 {
                     Target = MapLocation.LetterBox,
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
+                if (!User.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective);
+                    User.Objectives.Add(new ObjectiveEntity(newObjective));
+                    _objectivesHUD.AddObjective(newObjective.Text);
                 }
             }
 
-            if (!Facts.Contains("CollectedSecondDelivery")
-                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
+            if (!facts.Contains("CollectedSecondDelivery")
+                && User.Objectives.Any(o => o.Text == "Deliver welcome pamphlet to Clarence" && o.Done))
             {
-                var objective = new Objective()
+                var newObjective = new Objective()
                 {
                     Target = MapLocation.LetterBox,
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
+                if (!User.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 3);
+                    User.Objectives.Add(new ObjectiveEntity(newObjective));
+                    _objectivesHUD.AddObjective(newObjective.Text, 3);
                 }
             }
 
-            if (!Facts.Contains("CollectedThirdDelivery")
-                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver flyer to Clarence" && o.Done)
-                && _objectivesHUD.Objectives.Any(o => o.Text == "Deliver parcel to Olive" && o.Done))
+            if (!facts.Contains("CollectedThirdDelivery")
+                && User.Objectives.Any(o => o.Text == "Deliver flyer to Clarence" && o.Done)
+                && User.Objectives.Any(o => o.Text == "Deliver parcel to Olive" && o.Done))
             {
-                var objective = new Objective()
+                var newObjective = new Objective()
                 {
                     Target = MapLocation.LetterBox,
                     Text = "Collect mail from letterbox"
                 };
 
-                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
+                if (!User.Objectives.Any(o => o.Text == "Collect mail from letterbox" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective, 3);
+                    User.Objectives.Add(new ObjectiveEntity(newObjective));
+                    _objectivesHUD.AddObjective(newObjective.Text, 3);
                 }
             }
 
-            if (Facts.Contains("HasLetterFromClarence"))
+            if (facts.Contains("HasLetterFromClarence"))
             {
-                var objective = new Objective()
+                var newObjective = new Objective()
                 {
                     Text = "Find out how to deliver Clarence's letter"
                 };
 
-                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done))
+                if (!User.Objectives.Any(o => o.Text == "Find out how to deliver Clarence's letter"))
                 {
-                    _objectivesHUD.AddObjective(objective);
+                    User.Objectives.Add(new ObjectiveEntity(newObjective));
+                    _objectivesHUD.AddObjective(newObjective.Text);
                 }
             }
 
-            if (Facts.Contains("CanSendOutgoingMail") && Facts.Contains("HasLetterFromClarence") && _playerLocation == MapLocation.LetterBox)
+            if (facts.Contains("CanSendOutgoingMail") && facts.Contains("HasLetterFromClarence") && _playerLocation == MapLocation.LetterBox)
             {
-                _objectivesHUD.Objectives
-                    .Where(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done)
-                    .ToList()
-                    .ForEach(o => _objectivesHUD.MarkObjectiveAsDone(o));
+                var objectivesToComplete = User
+                    .Objectives
+                    .Where(o => o.Text == "Find out how to deliver Clarence's letter" && !o.Done);
+
+                foreach (var objective in objectivesToComplete)
+                {
+                    objective.Done = true;
+                    _objectivesHUD.MarkObjectiveAsDone(objective.Text);
+                }
 
                 // End game
                 if (OS.HasFeature("JavaScript"))
@@ -168,19 +199,42 @@ namespace IanByrne.ResearchProject.Game
                     User.Save(Context);
                 }
 
-                var objective = new Objective()
+                var newObjective = new Objective()
                 {
-                    Text = "Thanks for playing Post Mortem!"
+                    Text = "Thanks for playing Post Mortem!",
+                    Target = MapLocation.None
                 };
 
-                if (!_objectivesHUD.Objectives.Any(o => o.Text == "Thanks for playing Post Mortem!" && !o.Done))
+                if (!User.Objectives.Any(o => o.Text == "Thanks for playing Post Mortem!" && !o.Done))
                 {
-                    _objectivesHUD.AddObjective(objective);
+                    User.Objectives.Add(new ObjectiveEntity(newObjective));
+                    _objectivesHUD.AddObjective(newObjective.Text);
                 }
             }
 
             // Remove duplicate facts
-            Facts = Facts.Distinct().ToList();
+            User.Facts = string.Join(",", facts.Where(f => !string.IsNullOrWhiteSpace(f)).Distinct().ToList());
+
+            // Save user
+            if (OS.HasFeature("JavaScript"))
+            {
+                string javaScript = @"
+						var user = " + JsonConvert.SerializeObject(User) + @";
+
+						parent.SaveUser(user);";
+
+                JavaScript.Eval(javaScript);
+
+                javaScript = "parent.GetUserFromCookieId();";
+
+                string jsResponse = JavaScript.Eval(javaScript)?.ToString();
+
+                User = string.IsNullOrWhiteSpace(jsResponse) ? User : JsonConvert.DeserializeObject<User>(jsResponse);
+            }
+            else
+            {
+                User.Save(Context);
+            }
         }
     }
 }

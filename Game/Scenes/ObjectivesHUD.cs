@@ -1,8 +1,6 @@
 using Godot;
 using IanByrne.ResearchProject.Shared.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace IanByrne.ResearchProject.Game
 {
@@ -10,26 +8,24 @@ namespace IanByrne.ResearchProject.Game
     {
         private Label _objectivesLabel;
         private Timer _timer;
-        
-        public List<Objective> Objectives { get; private set; }
+        private List<string> _objectives;
 
         public override void _Ready()
         {
             _objectivesLabel = GetNode<Label>("Objectives");
+            _objectives = new List<string>();
             _timer = new Timer();
-            Objectives = new List<Objective>();
 
             _timer.Connect("timeout", this, "ShowObjectives");
             _timer.OneShot = true;
             AddChild(_timer);
 
-            Objectives.Clear();
             ShowObjectives();
         }
 
-        public void AddObjective(Objective objective, float delay = 0)
+        public void AddObjective(string objective, float delay = 0)
         {
-            Objectives.Add(objective);
+            _objectives.Add(objective);
 
             if (delay > 0)
             {
@@ -41,12 +37,9 @@ namespace IanByrne.ResearchProject.Game
             }
         }
 
-        public void MarkObjectiveAsDone(Objective objective)
+        public void MarkObjectiveAsDone(string objective)
         {
-            Objectives
-                .Where(o => o == objective)
-                .ToList()
-                .ForEach(o => o.Done = true);
+            _objectives.RemoveAll(o => o == objective);
 
             ShowObjectives();
         }
@@ -56,10 +49,9 @@ namespace IanByrne.ResearchProject.Game
             _objectivesLabel.Text = "";
             int i = 1;
 
-            foreach(var objective in Objectives)
+            foreach (var objective in _objectives)
             {
-                if(!objective.Done)
-                    _objectivesLabel.Text += i++ + ". " + objective.Text + "\n";
+                _objectivesLabel.Text += i++ + ". " + objective + "\n";
             }
         }
     }

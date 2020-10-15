@@ -1,4 +1,5 @@
 ﻿using IanByrne.ResearchProject.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -8,7 +9,9 @@ namespace IanByrne.ResearchProject.Shared.Models
     {
         public static void EnsureCreated(this User user, PostMortemContext context)
         {
-            var existingUser = context.Users.SingleOrDefault(x => x.CookieId == user.CookieId);
+            var existingUser = context
+                .Users
+                .SingleOrDefault(x => x.CookieId == user.CookieId);
 
             if (existingUser == null)
             {
@@ -21,6 +24,13 @@ namespace IanByrne.ResearchProject.Shared.Models
 
                 context.SaveChanges();
             }
+
+            var dbUser = context
+                .Users
+                .Include(u => u.Objectives)
+                .Single(x => x.CookieId == user.CookieId);
+
+            user = dbUser;
         }
 
         public static void Save(this User user, PostMortemContext context)
@@ -28,6 +38,8 @@ namespace IanByrne.ResearchProject.Shared.Models
             var dbUser = context.Users.Single(x => x.CookieId == user.CookieId);
             dbUser.GameMode = user.GameMode;
             dbUser.UsedDevCommand = user.UsedDevCommand;
+            dbUser.Facts = user.Facts;
+            dbUser.Objectives = user.Objectives;
 
             // Only save the first win time
             if (dbUser.WinDateTime == null)

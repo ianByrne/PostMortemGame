@@ -19,7 +19,9 @@ namespace IanByrne.ResearchProject.Shared.Models
         public DateTime? WinDateTime { get; set; }
         public GameMode GameMode { get; set; }
         public bool UsedDevCommand { get; set; }
+        public string Facts { get; set; }
         public virtual Survey Survey { get; set; }
         public virtual ICollection<Transcript> Transcripts { get; set; }
+        public virtual ICollection<ObjectiveEntity> Objectives { get; set; }
     }
 }
