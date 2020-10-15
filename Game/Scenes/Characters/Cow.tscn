@@ -48,7 +48,7 @@ parameters/playback = SubResource( 1 )
 
 [node name="Sprite" parent="." index="2"]
 texture = ExtResource( 2 )
-frame = 69
+frame = 68
 
 [node name="CollisionPolygon2D" parent="." index="3"]
 polygon = PoolVector2Array( -34, -15, 28, -17, 52, -2, 28, 16, -32, 15, -57, 2 )

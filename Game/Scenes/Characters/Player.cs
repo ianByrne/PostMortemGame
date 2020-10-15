@@ -22,7 +22,6 @@ namespace IanByrne.ResearchProject.Game
             if (@event.IsActionPressed("SwitchGameMode"))
             {
                 var user = GetNode<Map>("/root/Map").User;
-                var context = GetNode<Map>("/root/Map").Context;
 
                 var newGameMode = user.GameMode == GameMode.ChatBot ? GameMode.DialogueTree : GameMode.ChatBot;
                 user.GameMode = newGameMode;
@@ -39,7 +38,7 @@ namespace IanByrne.ResearchProject.Game
                 }
                 else
                 {
-                    user.Save(context);
+                    user.Save(GetNode<Map>("/root/Map").Context);
                 }
             }
         }

@@ -5,6 +5,7 @@ using IanByrne.ResearchProject.Shared.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 
 namespace IanByrne.ResearchProject.Game
@@ -14,25 +15,41 @@ namespace IanByrne.ResearchProject.Game
         [Signal]
         public delegate void NewFacts(string[] facts);
 
+        [Signal]
+        public delegate void CloseButtonPushed();
+
         private TextEdit _log;
         private LineEdit _freeTextInput;
         private VBoxContainer _dialogueOptionsContainer;
         private bool _welcomeSent;
-        private PostMortemContext _context;
         private SendMessageResponse _lastResponse;
         private List<string> _oldFacts;
+        private List<string> _messageQueue;
+        private Timer _messageQueueTimer;
 
         public string BotName { get; set; }
 
         public override void _Ready()
         {
-            _log = GetNode<TextEdit>("LogContainer/Log");
-            _freeTextInput = GetNode<LineEdit>("FreeTextContainer/FreeTextInput");
-            _dialogueOptionsContainer = GetNode<VBoxContainer>("DialogueOptionsContainer");
+            _log = GetNode<TextEdit>("HBoxContainer/VBoxContainer/LogContainer/Log");
+            _freeTextInput = GetNode<LineEdit>("HBoxContainer/VBoxContainer/FreeTextContainer/FreeTextInput");
+            _dialogueOptionsContainer = GetNode<VBoxContainer>("HBoxContainer/VBoxContainer/DialogueOptionsContainer");
             _welcomeSent = false;
-            _oldFacts = GetNode<Map>("/root/Map").Facts;
+            _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
+
+            _messageQueue = new List<string>();
+            _messageQueueTimer = new Timer();
+            _messageQueueTimer.Connect("timeout", this, nameof(UpdateLogFromQueue));
+            _messageQueueTimer.OneShot = false;
+            AddChild(_messageQueueTimer);
+            _messageQueueTimer.Start(0.6f);
 
             Hide();
+        }
+
+        public override void _Process(float delta)
+        {
+            base._Process(delta);
         }
 
         public void SetGameMode(GameMode gameMode)
@@ -54,7 +71,7 @@ namespace IanByrne.ResearchProject.Game
         public void SendWelcome()
         {
             var user = GetNode<Map>("/root/Map").User;
-            var currentFacts = GetNode<Map>("/root/Map").Facts;
+            var currentFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
 
             if(_oldFacts != null && currentFacts != null && _oldFacts.Count != currentFacts.Count)
             {
@@ -63,6 +80,7 @@ namespace IanByrne.ResearchProject.Game
 
             if (!_welcomeSent)
             {
+                _freeTextInput.Editable = false;
                 var response = SendMessageToChatScript(null);
 
                 foreach (string message in response.Messages)
@@ -80,23 +98,49 @@ namespace IanByrne.ResearchProject.Game
                 if (user.GameMode == GameMode.DialogueTree && _lastResponse != null)
                 {
                     SetDialogueOptions(_lastResponse);
+                    EnableDialogueOptions();
                 }
             }
 
             _welcomeSent = true;
-            _oldFacts = GetNode<Map>("/root/Map").Facts;
+            _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
+        }
+
+        public void EndOfConversation()
+        {
+            if(!_welcomeSent)
+                UpdateLog("\n");
         }
 
         private void UpdateLog(string text)
         {
-            _log.Text += text + "\n";
+            _messageQueue.Add(text);
+        }
 
-            int lineCount = _log.GetLineCount();
-            _log.CursorSetLine(lineCount);
+        private void UpdateLogFromQueue()
+        {
+            string text = _messageQueue.FirstOrDefault();
+
+            if (text != null)
+            {
+                _log.Text += "\n" + text;
+
+                int lineCount = _log.GetLineCount();
+                _log.CursorSetLine(lineCount);
+
+                _messageQueue.RemoveAt(0);
+
+                if (_messageQueue.Count < 1)
+                {
+                    _freeTextInput.Editable = true;
+                    EnableDialogueOptions();
+                }
+            }
         }
 
         private void OnInputTextEntered(string text)
         {
+            _freeTextInput.Editable = false;
             _freeTextInput.Text = "";
 
             UpdateLog("You: " + text);
@@ -113,6 +157,8 @@ namespace IanByrne.ResearchProject.Game
 
         private void OnDialogueOptionButtonPressed(string text)
         {
+            DisableDialogueOptions();
+
             UpdateLog("You: " + text);
 
             var response = SendMessageToChatScript(text);
@@ -138,7 +184,7 @@ namespace IanByrne.ResearchProject.Game
                     UserCookieId = map.User.CookieId.ToString(),
                     BotName = BotName,
                     Message = text,
-                    InputData = JsonConvert.SerializeObject(map.Facts)
+                    InputData = JsonConvert.SerializeObject(map.User?.Facts?.Split(',').ToList() ?? new List<string>())
                 };
 
                 SendMessageResponse response;
@@ -161,14 +207,14 @@ namespace IanByrne.ResearchProject.Game
                     {
                         var chatScript = new ChatScriptHandler(client);
 
-                        response = chatScript.SendMessage(request, _context);
+                        response = chatScript.SendMessage(request, GetNode<Map>("/root/Map").Context);
                     }
                 }
 
                 if (response.NewFacts != null && response.NewFacts.Length > 0)
                 {
                     EmitSignal(nameof(NewFacts), new[] { response.NewFacts });
-                    _oldFacts = GetNode<Map>("/root/Map").Facts;
+                    _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
                 }
 
                 _lastResponse = response;
@@ -177,6 +223,7 @@ namespace IanByrne.ResearchProject.Game
             }
             catch (Exception ex)
             {
+                throw;
                 return new SendMessageResponse()
                 {
                     Messages = new string[] { $"Failed to send to ChatScript: {ex.Message}" }
@@ -203,6 +250,7 @@ namespace IanByrne.ResearchProject.Game
 
             var button = (Button)buttonScene.Instance();
             button.Text = text;
+            button.Visible = false;
             button.Connect("pressed", this, "OnDialogueOptionButtonPressed", new Godot.Collections.Array(new[] { button.Text }));
 
             _dialogueOptionsContainer.AddChild(button);
@@ -216,6 +264,38 @@ namespace IanByrne.ResearchProject.Game
             {
                 option.QueueFree();
             }
+        }
+
+        private void DisableDialogueOptions()
+        {
+            var options = _dialogueOptionsContainer.GetChildren();
+
+            foreach (Button option in options)
+            {
+                option.Visible = false;
+            }
+        }
+
+        private void EnableDialogueOptions()
+        {
+            var options = _dialogueOptionsContainer.GetChildren();
+
+            foreach (Button option in options)
+            {
+                option.Visible = true;
+            }
+        }
+
+        private void _OnCloseButtonPressed()
+        {
+            EmitSignal(nameof(CloseButtonPushed));
+        }
+
+        private void _OnLogChanged()
+        {
+            int lineCount = _log.GetLineCount();
+            _log.CursorSetLine(lineCount + 200);
+            _log.ScrollVertical += 200;
         }
     }
 }

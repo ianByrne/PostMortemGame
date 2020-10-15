@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared;
 using IanByrne.ResearchProject.Shared.Models;
@@ -92,6 +91,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                 var user = _context
                     .Users
                     .Include(u => u.Survey)
+                    .Include(u => u.Objectives)
                     .SingleOrDefault(u => u.CookieId == idGuid);
 
                 string responseJson = JsonConvert.SerializeObject(user, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
@@ -106,7 +106,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
 
         public ActionResult OnPostSaveUser(User user)
         {
-            if (user != null && user.WinDateTime != null)
+            if (user != null)
             {
                 user.Save(_context);
             }
@@ -122,7 +122,7 @@ namespace IanByrne.ResearchProject.WebApp.Pages
                 user.Save(_context);
             }
 
-            string userJson = JsonConvert.SerializeObject(user);
+            string userJson = JsonConvert.SerializeObject(user, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
             return Content(userJson);
         }

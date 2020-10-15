@@ -1,10 +1,6 @@
 ﻿using IanByrne.ResearchProject.Database.Seeds;
 using IanByrne.ResearchProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace IanByrne.ResearchProject.Database
 {
@@ -17,6 +13,7 @@ namespace IanByrne.ResearchProject.Database
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<Bot> Bots { get; set; }
         public DbSet<Transcript> Transcripts { get; set; }
+        public DbSet<ObjectiveEntity> Objectives { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -56,6 +53,13 @@ namespace IanByrne.ResearchProject.Database
                     .WithMany(u => u.Transcripts);
                 entity.HasOne(t => t.Bot)
                     .WithMany(b => b.Transcripts);
+            });
+
+            modelBuilder.Entity<ObjectiveEntity>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+                entity.HasOne(t => t.User)
+                    .WithMany(u => u.Objectives);
             });
 
             base.OnModelCreating(modelBuilder);

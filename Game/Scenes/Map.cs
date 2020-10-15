@@ -1,8 +1,6 @@
 using Godot;
 using IanByrne.ResearchProject.Database;
 using IanByrne.ResearchProject.Shared.Models;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,13 +16,11 @@ namespace IanByrne.ResearchProject.Game
         private Farmer _clarence;
         private MapLocation _playerLocation;
 
-        public List<string> Facts { get; private set; }
         public User User { get; set; }
         public PostMortemContext Context { get; private set; }
 
         public override void _Ready()
         {
-            Facts = new List<string>();
             Context = new PostMortemContext();
             _objectivesHUD = GetNode<ObjectivesHUD>("Game/YSort/Player/Player/ObjectivesLayer/ObjectivesHUD");
             _letterBox = GetNode<LetterBox>("Game/YSort/Buildings/LetterBox");
@@ -75,6 +71,14 @@ namespace IanByrne.ResearchProject.Game
         {
             var player = GetNode<Player>("Game/YSort/Player/Player");
             player.Enable();
+
+            foreach(var objective in User.Objectives)
+            {
+                if (!objective.Done)
+                {
+                    _objectivesHUD.AddObjective(objective.Text);
+                }
+            }
         }
 
         // Signal handlers
@@ -117,7 +121,7 @@ namespace IanByrne.ResearchProject.Game
         {
             foreach (var objective in objectives)
             {
-                _objectivesHUD.AddObjective(objective);
+                _objectivesHUD.AddObjective(objective.Text);
             }
 
             HandleObjectives();
@@ -125,7 +129,10 @@ namespace IanByrne.ResearchProject.Game
 
         private void NewFacts(string[] facts)
         {
-            Facts.AddRange(facts);
+            var oldFacts = User?.Facts?.Split(',').ToList() ?? new List<string>();
+            oldFacts.AddRange(facts);
+            oldFacts = oldFacts.Distinct().ToList();
+            User.Facts = string.Join(",", oldFacts);
 
             HandleObjectives();
         }
