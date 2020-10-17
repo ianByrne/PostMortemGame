@@ -72,11 +72,14 @@ namespace IanByrne.ResearchProject.Game
             var player = GetNode<Player>("Game/YSort/Player/Player");
             player.Enable();
 
-            foreach(var objective in User.Objectives)
+            if (User.Objectives != null)
             {
-                if (!objective.Done)
+                foreach (var objective in User.Objectives)
                 {
-                    _objectivesHUD.AddObjective(objective.Text);
+                    if (!objective.Done)
+                    {
+                        _objectivesHUD.AddObjective(objective.Text);
+                    }
                 }
             }
         }
