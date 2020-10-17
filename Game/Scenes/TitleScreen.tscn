@@ -47,7 +47,9 @@ __meta__ = {
 }
 
 [node name="ContinueGameButton" parent="ContinueLayout" instance=ExtResource( 4 )]
-margin_bottom = 60.0
+margin_left = 212.0
+margin_right = 572.0
+size_flags_horizontal = 4
 
 [node name="CheckModalTimer" type="Timer" parent="."]
 [connection signal="pressed" from="ContinueLayout/ContinueGameButton" to="." method="_OnContinueGameButtonPressed"]

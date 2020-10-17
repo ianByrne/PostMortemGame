@@ -1,6 +1,28 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Resources/Buttons/ConsentItem.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Checkbox/unchecked.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Checkbox/checked.png" type="Texture" id=3]
+
+[sub_resource type="Theme" id=1]
+CheckBox/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+CheckBox/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+CheckBox/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+CheckBox/constants/check_vadjust = 0
+CheckBox/constants/hseparation = 4
+CheckBox/fonts/font = null
+CheckBox/icons/checked = ExtResource( 3 )
+CheckBox/icons/radio_checked = null
+CheckBox/icons/radio_unchecked = null
+CheckBox/icons/unchecked = ExtResource( 2 )
+CheckBox/styles/disabled = null
+CheckBox/styles/focus = null
+CheckBox/styles/hover = null
+CheckBox/styles/hover_pressed = null
+CheckBox/styles/normal = null
+CheckBox/styles/pressed = null
 
 [node name="ConsentItem" type="HBoxContainer"]
 anchor_right = 1.0
@@ -12,8 +34,9 @@ __meta__ = {
 }
 
 [node name="CheckBox" type="CheckBox" parent="."]
-margin_right = 24.0
+margin_right = 28.0
 margin_bottom = 600.0
+theme = SubResource( 1 )
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -21,7 +44,7 @@ custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 44.0
+margin_left = 48.0
 margin_top = 293.0
 margin_right = 1024.0
 margin_bottom = 307.0

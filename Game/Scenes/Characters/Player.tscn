@@ -17,7 +17,7 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="Sprite" parent="." index="3"]
-frame = 145
+frame = 143
 
 [node name="ObjectivesLayer" type="CanvasLayer" parent="." index="5"]
 
@@ -32,7 +32,7 @@ margin_left = 842.498
 margin_top = 12.883
 margin_right = 882.498
 margin_bottom = 26.883
-text = "v0.2"
+text = "v0.3"
 __meta__ = {
 "_edit_use_anchors_": false
 }

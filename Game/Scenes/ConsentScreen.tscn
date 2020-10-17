@@ -32,7 +32,7 @@ __meta__ = {
 [node name="ConsentItems" type="VBoxContainer" parent="."]
 margin_top = 52.0
 margin_right = 1024.0
-margin_bottom = 384.0
+margin_bottom = 416.0
 grow_horizontal = 2
 custom_constants/separation = 20
 
@@ -40,69 +40,71 @@ custom_constants/separation = 20
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1024.0
-margin_bottom = 24.0
+margin_bottom = 28.0
 LabelText = "I confirm that I am 18 years of age or older"
 
 [node name="ConsentItem2" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 44.0
+margin_top = 48.0
 margin_right = 1024.0
-margin_bottom = 68.0
+margin_bottom = 76.0
 LabelText = "I confirm that I have read the participant information section"
 
 [node name="ConsentItem3" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 88.0
+margin_top = 96.0
 margin_right = 1024.0
-margin_bottom = 112.0
+margin_bottom = 124.0
 LabelText = "I understand that my participation is voluntary and that I can withdraw at any stage during the project without being penalized or disadvantaged in any way"
 
 [node name="ConsentItem4" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 132.0
+margin_top = 144.0
 margin_right = 1024.0
-margin_bottom = 156.0
+margin_bottom = 172.0
 LabelText = "I understand that no personally identifiable information will be recorded about me, and that due to the anonymity of the data, I will not be able to retract any data that has already been submitted (this includes chat transcripts)"
 
 [node name="ConsentItem5" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 176.0
+margin_top = 192.0
 margin_right = 1024.0
-margin_bottom = 200.0
+margin_bottom = 220.0
 LabelText = "I understand that any personally identifiable information that is unintentionally recorded (such as through chat transcripts) will be manually anonymised or redacted by the research team"
 
 [node name="ConsentItem6" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 220.0
+margin_top = 240.0
 margin_right = 1024.0
-margin_bottom = 244.0
+margin_bottom = 268.0
 LabelText = "I understand that the anonymous data collected during this study will be made open access and could be reused in future studies which have been given ethics approval"
 
 [node name="ConsentItem7" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 264.0
+margin_top = 288.0
 margin_right = 1024.0
-margin_bottom = 288.0
+margin_bottom = 316.0
 LabelText = "I understand that direct quotes from any chat transcripts could be used in the final dissertation or in future studies"
 
 [node name="ConsentItem8" parent="ConsentItems" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 308.0
+margin_top = 336.0
 margin_right = 1024.0
-margin_bottom = 332.0
+margin_bottom = 364.0
 LabelText = "I agree to take part in this study"
 
 [node name="ContinueButton" parent="." instance=ExtResource( 2 )]
-margin_top = 388.0
-margin_right = 1024.0
-margin_bottom = 448.0
+margin_left = 332.0
+margin_top = 420.0
+margin_right = 692.0
+margin_bottom = 480.0
+size_flags_horizontal = 4
 [connection signal="CheckboxClicked" from="ConsentItems/ConsentItem" to="." method="_OnCheckBoxChecked"]
 [connection signal="CheckboxClicked" from="ConsentItems/ConsentItem2" to="." method="_OnCheckBoxChecked"]
 [connection signal="CheckboxClicked" from="ConsentItems/ConsentItem3" to="." method="_OnCheckBoxChecked"]
