@@ -66,7 +66,6 @@ namespace IanByrne.ResearchProject.Game
 			{
 				_player = null;
 
-				_console.EndOfConversation();
 				_console.Hide();
 				_avatar.Hide();
 

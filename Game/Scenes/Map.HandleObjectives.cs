@@ -152,7 +152,8 @@ namespace IanByrne.ResearchProject.Game
             {
                 var newObjective = new Objective()
                 {
-                    Text = "Find out how to deliver Clarence's letter"
+                    Text = "Find out how to deliver Clarence's letter",
+                    Target = MapLocation.None
                 };
 
                 if (!User.Objectives.Any(o => o.Text == "Find out how to deliver Clarence's letter"))

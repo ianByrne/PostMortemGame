@@ -36,6 +36,15 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Post Mortem"
 align = 1
 
+[node name="Explanation" type="Label" parent="TitleLayout"]
+margin_top = 68.0
+margin_right = 784.0
+margin_bottom = 82.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "This, uh, doesn't work very well on mobile. Sorry."
+align = 1
+
 [node name="ContinueLayout" type="VBoxContainer" parent="."]
 margin_left = 120.0
 margin_top = 290.0

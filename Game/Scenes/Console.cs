@@ -80,6 +80,7 @@ namespace IanByrne.ResearchProject.Game
 
             if (!_welcomeSent)
             {
+                UpdateLog("");
                 _freeTextInput.Editable = false;
                 var response = SendMessageToChatScript(null);
 
@@ -104,12 +105,6 @@ namespace IanByrne.ResearchProject.Game
 
             _welcomeSent = true;
             _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
-        }
-
-        public void EndOfConversation()
-        {
-            if(!_welcomeSent)
-                UpdateLog("\n");
         }
 
         private void UpdateLog(string text)
