@@ -6,6 +6,35 @@ body {
     color: #fff;
 }
 
+/* Game iframe sizing based on bootstrap's sizes
+    and a ratio of 0.585 (1024 x 600 for full size) */
+#game {
+    width: 576px;
+    height: 366px;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    #game {
+        width: 768px;
+        height: 479px;
+    }
+}
+
+@media (min-width: 992px) {
+    #game {
+        width: 992px;
+        height: 600px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #game {
+        width: 1024px;
+        height: 600px;
+    }
+}
+
 .modal {
     color: #000;
 }
