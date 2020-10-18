@@ -32,7 +32,7 @@ namespace IanByrne.ResearchProject.Shared.Models
         [Required(ErrorMessage ="Please enter a value")]
         public int Q3 { get; set; }
 
-        [Display(Name = "Did you feel that you were trying you best?")]
+        [Display(Name = "Did you feel that you were trying your best?")]
         [LikertLabels(PreContent = "Not at all", PostContent = "Very much so")]
         [Range(1, 7, ErrorMessage = "Please enter a value")]
         [Required(ErrorMessage ="Please enter a value")]
