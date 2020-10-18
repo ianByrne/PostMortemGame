@@ -81,18 +81,6 @@ u: ()
 			^nofail(TOPIC ^respond(~clarence_keywordless))
 		}
 	}
-	
-	# Process internal commands (eg 'stats')
-	# if (%response == $_responseCount) 
-	# {
-	# 	^nofail(TOPIC ^respond(~internal_commands))
-	# }
-
-	# if we have rejoinders for what we said OR we asked a question, stop here
-	if (%outputrejoinder OR %lastquestion) 
-	{
-		^end(TOPIC)
-	}
 
 	# gambit from current topic even though no keywords matched
 	if (%response == $_responseCount)
@@ -100,20 +88,7 @@ u: ()
 		^nofail(TOPIC ^gambit($$currenttopic))
 	}
 
-	# gambit from current chapter even though no keywords matched
-	# if (%response == $_responseCount)
-	# {
-	# 	if ($currentChapter = 1)
-	# 	{
-	# 		^nofail(TOPIC ^gambit(~chapter01))
-	# 	}
-	# 	else if ($currentChapter = 2)
-	# 	{
-	# 		^nofail(TOPIC ^gambit(~chapter02))
-	# 	}
-	# }
-
-	# Kind of out of ideas so move to the next chapter
+	# Completely out of ideas so fling some random gambits
 	if (%response == $_responseCount)
 	{
 		@8 = ^GambitTopics()
@@ -127,12 +102,26 @@ u: ()
 			}
 		}
 	}
+
+	# Kind of out of ideas, so do a quibble
+	if (%response == $_responseCount)
+	{
+		nofail(TOPIC respond(~QUIBBLE_ALL))
+	}
+
+	# if we have rejoinders for what we said OR we asked a question, stop here
+	if (%outputrejoinder OR %lastquestion) 
+	{
+		^end(TOPIC)
+	}
 	
 	# All out of ideas
 	if (%response == $_responseCount)
 	{
 		^repeat()
-		I am literally speechless.
+		[Don't you have some deliveries to do...?]
+		[So, anyway, I guess I should be getting back to what I was doing...]
+		[Oh look! That other person is trying to get your attention]
 	}
 
 u: ()

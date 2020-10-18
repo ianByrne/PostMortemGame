@@ -135,19 +135,22 @@ namespace IanByrne.ResearchProject.Game
 
         private void OnInputTextEntered(string text)
         {
-            _freeTextInput.Editable = false;
-            _freeTextInput.Text = "";
-
-            UpdateLog("You: " + text);
-
-            var response = SendMessageToChatScript(text);
-
-            foreach (string message in response.Messages)
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                UpdateLog(BotName + ": " + message);
-            }
+                _freeTextInput.Editable = false;
+                _freeTextInput.Text = "";
 
-            _welcomeSent = false;
+                UpdateLog("You: " + text);
+
+                var response = SendMessageToChatScript(text);
+
+                foreach (string message in response.Messages)
+                {
+                    UpdateLog(BotName + ": " + message);
+                }
+
+                _welcomeSent = false;
+            }
         }
 
         private void OnDialogueOptionButtonPressed(string text)
