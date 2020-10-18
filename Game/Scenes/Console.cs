@@ -80,6 +80,7 @@ namespace IanByrne.ResearchProject.Game
 
             if (!_welcomeSent)
             {
+                UpdateLog("");
                 _freeTextInput.Editable = false;
                 var response = SendMessageToChatScript(null);
 
@@ -104,12 +105,6 @@ namespace IanByrne.ResearchProject.Game
 
             _welcomeSent = true;
             _oldFacts = GetNode<Map>("/root/Map").User?.Facts?.Split(',').ToList() ?? new List<string>();
-        }
-
-        public void EndOfConversation()
-        {
-            if(!_welcomeSent)
-                UpdateLog("\n");
         }
 
         private void UpdateLog(string text)
@@ -140,19 +135,22 @@ namespace IanByrne.ResearchProject.Game
 
         private void OnInputTextEntered(string text)
         {
-            _freeTextInput.Editable = false;
-            _freeTextInput.Text = "";
-
-            UpdateLog("You: " + text);
-
-            var response = SendMessageToChatScript(text);
-
-            foreach (string message in response.Messages)
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                UpdateLog(BotName + ": " + message);
-            }
+                _freeTextInput.Editable = false;
+                _freeTextInput.Text = "";
 
-            _welcomeSent = false;
+                UpdateLog("You: " + text);
+
+                var response = SendMessageToChatScript(text);
+
+                foreach (string message in response.Messages)
+                {
+                    UpdateLog(BotName + ": " + message);
+                }
+
+                _welcomeSent = false;
+            }
         }
 
         private void OnDialogueOptionButtonPressed(string text)
