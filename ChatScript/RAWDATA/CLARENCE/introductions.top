@@ -33,10 +33,13 @@ t: THIRD_DELIVERY_WELCOME (^CheckFact(^"CollectedThirdDelivery")==true)
 	\n Oh. Apparently yes.
 	\n From Hamdale Corp? For damages received to their vending machine? FROM WHEN IT CRUSHED ME TO DEATH?!
 
-	^DialogueOption(^"Oh")
+	^DialogueOption(^"What do you mean?")
 
 	#! What do you mean?
 	a: ([what how] do)
+		^reuse(clarence_clarence.HOW_YOU_DIE)
+
+	a: (oh)
 		^reuse(clarence_clarence.HOW_YOU_DIE)
 
 #!x Start of a returned conversation 

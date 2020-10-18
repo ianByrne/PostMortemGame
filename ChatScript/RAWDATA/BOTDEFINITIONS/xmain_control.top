@@ -57,10 +57,10 @@ u: ()
 	# see if some other topic has keywords matching his input (given we have no response yet)
 	if (%response == $_responseCount)
 	{
-		@8 = ^keywordtopics()	# get topics referred in input
+		@1 = ^keywordtopics()	# get topics referred in input
 		^loop()
 		{
-			$$topic = first(@8subject)
+			$$topic = first(@1subject)
 			^nofail(TOPIC ^respond($$topic))
 			if (%response != $_responseCount) # stop when we find something to say
 			{
@@ -82,6 +82,23 @@ u: ()
 		}
 	}
 
+	# gambit from ANY matching topic
+	if (%response == $_responseCount)
+	{
+		@2 = ^keywordtopics()	# get topics referred in input
+
+		^loop()
+		{
+			$$topic = ^first(@2subject)
+			^nofail(TOPIC ^gambit($$topic))	# gambit in best matching topic
+			
+			if (%response != $_responseCount) # stop when we find something
+			{
+				^end(RULE)
+			}
+		}
+	}
+
 	# gambit from current topic even though no keywords matched
 	if (%response == $_responseCount)
 	{
@@ -91,11 +108,13 @@ u: ()
 	# Completely out of ideas so fling some random gambits
 	if (%response == $_responseCount)
 	{
-		@8 = ^GambitTopics()
+		@3 = ^gambittopics()
+
 		^loop()
 		{
-			$$topic = pick(@8subject)
+			$$topic = ^pick(@3subject)
 			^nofail(TOPIC ^Gambit($$topic)) # try a topic at random
+
 			if (%response != $_responseCount)
 			{
 				^end(RULE)
@@ -106,7 +125,7 @@ u: ()
 	# Kind of out of ideas, so do a quibble
 	if (%response == $_responseCount)
 	{
-		nofail(TOPIC respond(~QUIBBLE_ALL))
+		^nofail(TOPIC respond(~QUIBBLE_ALL))
 	}
 
 	# if we have rejoinders for what we said OR we asked a question, stop here
