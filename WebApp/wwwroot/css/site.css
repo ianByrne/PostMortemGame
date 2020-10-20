@@ -10,32 +10,33 @@ body {
     and a ratio of 0.585 (1024 x 600 for full size) */
 
 #loader {
-    text-align: center;
-    padding-top: 150px;
+    margin: 150px auto;
+    width: 50px;
+    height: 50px;
 }
 
-#game, #loader {
+#game {
     width: 576px;
     height: 366px;
     border: none;
 }
 
 @media (min-width: 768px) {
-    #game, #loader {
+    #game {
         width: 768px;
         height: 479px;
     }
 }
 
 @media (min-width: 992px) {
-    #game, #loader {
+    #game {
         width: 992px;
         height: 600px;
     }
 }
 
 @media (min-width: 1200px) {
-    #game, #loader {
+    #game {
         width: 1024px;
         height: 600px;
     }

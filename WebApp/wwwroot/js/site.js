@@ -1,13 +1,7 @@
-﻿var fadeTimeout;
-
-function GameLoaded() {
-    clearInterval(fadeTimeout);
-    $("#loader").fadeOut();
+﻿function GameLoaded() {
+    $("#loader").hide();
     $("#game").removeAttr("style");
-}
-
-function FadeLoader() {
-    $("#loader").fadeOut().fadeIn();
+    $("#participantInfoFooter").show();
 }
 
 function SendMessageToChatScript(message) {
@@ -193,7 +187,7 @@ function IsParticipantInformationModalClosed() {
 
 $(document).ready(function () {
     $("#game").attr("style", "width: 1px; height: 1px;");
-    fadeTimeout = setInterval(FadeLoader, 500);
+    $("#participantInfoFooter").hide();
 
     $("#modal-container").on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
