@@ -8,28 +8,34 @@ body {
 
 /* Game iframe sizing based on bootstrap's sizes
     and a ratio of 0.585 (1024 x 600 for full size) */
-#game {
+
+#loader {
+    text-align: center;
+    padding-top: 150px;
+}
+
+#game, #loader {
     width: 576px;
     height: 366px;
     border: none;
 }
 
 @media (min-width: 768px) {
-    #game {
+    #game, #loader {
         width: 768px;
         height: 479px;
     }
 }
 
 @media (min-width: 992px) {
-    #game {
+    #game, #loader {
         width: 992px;
         height: 600px;
     }
 }
 
 @media (min-width: 1200px) {
-    #game {
+    #game, #loader {
         width: 1024px;
         height: 600px;
     }

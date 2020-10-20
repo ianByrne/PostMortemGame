@@ -55,6 +55,14 @@ namespace IanByrne.ResearchProject.Game
             player.Disable();
 
             _playerLocation = MapLocation.Wandering;
+
+            // Show game
+            if (OS.HasFeature("JavaScript"))
+            {
+                string javaScript = "parent.GameLoaded();";
+
+                JavaScript.Eval(javaScript);
+            }
         }
 
         public void StartGame()

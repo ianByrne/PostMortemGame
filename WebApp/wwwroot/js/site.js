@@ -1,4 +1,16 @@
-﻿function SendMessageToChatScript(message) {
+﻿var fadeTimeout;
+
+function GameLoaded() {
+    clearInterval(fadeTimeout);
+    $("#loader").fadeOut();
+    $("#game").removeAttr("style");
+}
+
+function FadeLoader() {
+    $("#loader").fadeOut().fadeIn();
+}
+
+function SendMessageToChatScript(message) {
     var response = {
         Message: "Failed to complete Ajax"
     };
@@ -180,6 +192,9 @@ function IsParticipantInformationModalClosed() {
 }
 
 $(document).ready(function () {
+    $("#game").attr("style", "width: 1px; height: 1px;");
+    fadeTimeout = setInterval(FadeLoader, 500);
+
     $("#modal-container").on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
 
