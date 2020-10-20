@@ -3,3 +3,11 @@ topic: ~clarence_olive (olive)
 #! Who is Olive?
 ?: WHO_BE_OLIVE ([who what] be * [olive woman lady girl])
 	I have no idea, I only just got here and am too terrified of that cow to do much exploring
+	^DialogueOption(^"Why?")
+
+	a: (why)
+	It reminds me too much of Daisy!
+	if(^getrule(usable clarence_clarence.WHO_BE_DAISY) == 1)
+	{
+		^DialogueOption(^"Who is Daisy?")
+	}

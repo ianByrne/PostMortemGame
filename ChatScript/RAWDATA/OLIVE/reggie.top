@@ -5,5 +5,3 @@ u: WHO_BE_REGGIE ([who what] be [Reggie reggie])
 	He's the rather scruffy looking fellow leaning against the wall there. You can smell him a mile away
 
 	^SetDialogueOptions()
-
-t: () Surprise!
