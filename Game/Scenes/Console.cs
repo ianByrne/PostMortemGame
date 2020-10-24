@@ -128,6 +128,7 @@ namespace IanByrne.ResearchProject.Game
                 if (_messageQueue.Count < 1)
                 {
                     _freeTextInput.Editable = true;
+                    _freeTextInput.GrabFocus();
                     EnableDialogueOptions();
                 }
             }

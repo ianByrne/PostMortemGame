@@ -17,7 +17,7 @@ t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedFirstDelivery")==true)
 	^SetDialogueOptions()
 
 	#! What do you mean?
-	a: ([what how] do you mean)
+	a: ([what how] [mean thing things dead die death])
 		^reuse(clarence_clarence.HOW_YOU_DIE)
 
 #!x Have bill for Clarence
@@ -27,16 +27,22 @@ t: SECOND_DELIVERY_WELCOME (^CheckFact(^"CollectedSecondDelivery")==true)
 	\n "Sign up for life insurance before it's too late!"
 	\n Hmm...
 
+	^SetDialogueOptions()
+
 #!x Have bill for Clarence
 t: THIRD_DELIVERY_WELCOME (^CheckFact(^"CollectedThirdDelivery")==true)
 	Hello postman. Any bills for me today?
 	\n Oh. Apparently yes.
 	\n From Hamdale Corp? For damages received to their vending machine? FROM WHEN IT CRUSHED ME TO DEATH?!
 
-	^DialogueOption(^"Oh")
+	^DialogueOption(^"What do you mean?")
+	^SetDialogueOptions()
 
 	#! What do you mean?
-	a: ([what how] do)
+	a: ([what how])
+		^reuse(clarence_clarence.HOW_YOU_DIE)
+
+	a: (oh)
 		^reuse(clarence_clarence.HOW_YOU_DIE)
 
 #!x Start of a returned conversation 

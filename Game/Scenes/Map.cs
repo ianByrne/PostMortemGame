@@ -8,7 +8,7 @@ namespace IanByrne.ResearchProject.Game
 {
     public partial class Map : Node2D
     {
-        private const string _version = "v0.3";
+        private const string _version = "v0.4";
 
         private ObjectivesHUD _objectivesHUD;
         private LetterBox _letterBox;
@@ -55,6 +55,14 @@ namespace IanByrne.ResearchProject.Game
             player.Disable();
 
             _playerLocation = MapLocation.Wandering;
+
+            // Show game
+            if (OS.HasFeature("JavaScript"))
+            {
+                string javaScript = "parent.GameLoaded();";
+
+                JavaScript.Eval(javaScript);
+            }
         }
 
         public void StartGame()

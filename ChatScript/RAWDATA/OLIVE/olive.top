@@ -23,8 +23,3 @@ t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDeli
 #! How is the book?
 u: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book kitties])
 	I don't know, I'm still fuming at the mixup
-	
-t: (^CheckFact(^"CollectedThirdDelivery")==true)
-	Gaspard is eyeing up to pounce on the Marquis!
-
-	^SetDialogueOptions()

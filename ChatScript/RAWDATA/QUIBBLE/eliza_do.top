@@ -35,7 +35,7 @@ topic: ~QUIBBLE_DO system random () #          when all else fails, try here. Pr
 ?: (do we ) [If you do and I do, does that mean we do? ] [We might. ] 
 ?: (do you talk to you ) [I mutter to myself all the time. ] [Do you talk to yourself? ] 
 ?: (do you talk < * ~languages ) [No. I only speak English. ] [Do you have a language in mind? ] 
-?: (do you ~like ) [What's not to like? ] [Yes, I like it. ] 
+?: (do you ~like ) [What's not to like? ] [Yes, absolutely ] 
 ?: (do you care about ) [I don't care about the little things. ] [Why should I care? ] 
 ?: (do you care * if ) [Of course I care. ] [Is it likely to happen? ] 
 ?: (do you have ) [b: Not anymore. ] [b: I used to have one. ] [Have you found one? ] 

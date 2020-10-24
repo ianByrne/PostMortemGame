@@ -1,4 +1,10 @@
-﻿function SendMessageToChatScript(message) {
+﻿function GameLoaded() {
+    $("#loader").hide();
+    $("#game").removeAttr("style");
+    $("#participantInfoFooter").show();
+}
+
+function SendMessageToChatScript(message) {
     var response = {
         Message: "Failed to complete Ajax"
     };
@@ -180,6 +186,9 @@ function IsParticipantInformationModalClosed() {
 }
 
 $(document).ready(function () {
+    $("#game").attr("style", "width: 1px; height: 1px;");
+    $("#participantInfoFooter").hide();
+
     $("#modal-container").on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
 

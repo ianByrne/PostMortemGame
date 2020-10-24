@@ -35,11 +35,6 @@ if(%bot == Clarence)
 	{
 		^DialogueOption(^"You were crushed by a vending machine?")
 	}
-
-    if(^CheckFact(^"CollectedThirdDelivery") == true AND ^getrule(usable clarence_.HOW_BE_BOOK) == 1)^sdfdsf
-	{
-		^DialogueOption(^"How is the book?")
-	}
 }
 else if(%bot == Olive)
 {

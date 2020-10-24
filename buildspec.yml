@@ -52,6 +52,8 @@ phases:
       - cp -r ChatScriptClone/DICT/ENGLISH/*.bin application/ChatScript/DICT/ENGLISH
       - cp -r ChatScriptClone/LIVEDATA/SYSTEM application/ChatScript/LIVEDATA
       - cp -r ChatScriptClone/LIVEDATA/ENGLISH application/ChatScript/LIVEDATA
+      # Disable :command usage
+      - echo "" > application/ChatScript/authorizedIP.txt
       # Build ChatScript bot
       - cd application/ChatScript/BINARIES
       - chmod +x LinuxChatScript64

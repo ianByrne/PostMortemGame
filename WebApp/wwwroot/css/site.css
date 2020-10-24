@@ -8,6 +8,13 @@ body {
 
 /* Game iframe sizing based on bootstrap's sizes
     and a ratio of 0.585 (1024 x 600 for full size) */
+
+#loader {
+    margin: 150px auto;
+    width: 50px;
+    height: 50px;
+}
+
 #game {
     width: 576px;
     height: 366px;
