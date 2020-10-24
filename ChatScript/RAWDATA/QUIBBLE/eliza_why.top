@@ -109,7 +109,7 @@ topic: ~QUIBBLE_WHY system random ()
 ?: (~why * you * think ) [I'm not certain? ] [I haven't a clue. ] 
 ?: (~why be you tell I ) [I'm not telling you anything. ] [It's for your own good. ] [Because only a friend would tell you. ] [Aren't we close enough to share this? ] 
 ?: (~why should I ) [Because it will be good for you. ] [Because a reasonable person would. ] [Do you only do things because you should? ] 
-?: (~why * you ) [b: Do I need a reason? ] [I like to. ] 
+?: (~why * you ) [b: Do I need a reason? ] [Why not ] 
     b: (~yes ) Well, I don't have one. And if I did, I probably wouldn't share it with you. 
 ?: (~why ) [Because. ] [why not? ] [The reason is not that important. ] [The usual reasons. ] [What does it matter? ] 
 ?: (~why be we talking about ) [You brought it up. ] [I guess the conversation just drifted there. ] [Maybe you have a strong affinity for it. ] [What else would you rather talk about? ] 

@@ -17,7 +17,7 @@ t: FIRST_DELIVERY_WELCOME (^CheckFact(^"CollectedFirstDelivery")==true)
 	^SetDialogueOptions()
 
 	#! What do you mean?
-	a: ([what how] do you mean)
+	a: ([what how] [mean thing things dead die death])
 		^reuse(clarence_clarence.HOW_YOU_DIE)
 
 #!x Have bill for Clarence
