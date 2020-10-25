@@ -1,4 +1,4 @@
-topic: ~olive_olive (name olive you book kitties)
+topic: ~olive_olive (name olive you book kitties dead death die kill)
 
 #! Who are you?
 u: WHO_BE_YOU ([who what] be you >)
@@ -23,3 +23,27 @@ t: (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDeli
 #! How is the book?
 u: HOW_BE_BOOK (^CheckFact(^"CollectedSecondDelivery")==true ^CheckFact(^"CollectedThirdDelivery")==false how be * [book kitties])
 	I don't know, I'm still fuming at the mixup
+
+#! How did you die?
+u: HOW_YOU_DIE (how * you die)
+	Who can remember. Probably of boredom whilst waiting for the post
+
+	^SetDialogueOptions()
+
+#! What killed you?
+u: (what kill you)
+	^reuse(HOW_YOU_DIE)
+
+#!: Are you dead?
+u: (be you dead)
+	Dead tired, absolutely
+
+#! Am I dead?
+u: (be I dead)
+	What do you think?
+
+	a: (~yes)
+		Wow, good guess
+
+	a: (~no)
+		Ignorance is bliss, huh
