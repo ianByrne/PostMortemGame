@@ -7,6 +7,11 @@ u: WHO_ARE_YOU ([who what] be you >)
 	I'm Clarence
 	^DialogueOption(^"Oh yeah")
 
+u: (be you dead)
+	^keep()
+	^repeat()
+	Apparently!
+
 #! What is your name?
 u: (what be your name)
 	^keep()
