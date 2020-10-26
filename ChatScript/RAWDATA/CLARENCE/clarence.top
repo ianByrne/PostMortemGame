@@ -7,6 +7,11 @@ u: WHO_ARE_YOU ([who what] be you >)
 	I'm Clarence
 	^DialogueOption(^"Oh yeah")
 
+u: (be you dead)
+	^keep()
+	^repeat()
+	Apparently!
+
 #! What is your name?
 u: (what be your name)
 	^keep()
@@ -37,7 +42,7 @@ u: VENDING_MACHINE ([vending machine kill crush])
 	\n Inevitable, really
 
 
-t: (^CheckFact(^"CollectedThirdDelivery")==true ^CheckFact(^"KnowsHamdale")==true)
+t: (^CheckFact(^"CollectedThirdDelivery")==true)
 	Outrageous. My lawyer will hear about this!
 	\n Err... How do I send outgoing mail back to the living?
 	\n I just give the letter to you, right?
