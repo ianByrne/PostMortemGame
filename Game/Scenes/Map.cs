@@ -8,7 +8,7 @@ namespace IanByrne.ResearchProject.Game
 {
     public partial class Map : Node2D
     {
-        private const string _version = "v1.0";
+        private const string _version = "v1.1";
 
         private ObjectivesHUD _objectivesHUD;
         private LetterBox _letterBox;
@@ -24,7 +24,6 @@ namespace IanByrne.ResearchProject.Game
         public override void _Ready()
         {
             GD.Print(_version);
-            System.Console.WriteLine(_version);
 
             Context = new PostMortemContext();
             _objectivesHUD = GetNode<ObjectivesHUD>("Game/YSort/Player/Player/ObjectivesLayer/ObjectivesHUD");
