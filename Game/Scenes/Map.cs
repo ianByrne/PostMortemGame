@@ -8,7 +8,7 @@ namespace IanByrne.ResearchProject.Game
 {
     public partial class Map : Node2D
     {
-        private const string _version = "v1.1";
+        private const string _version = "v1.2";
 
         private ObjectivesHUD _objectivesHUD;
         private LetterBox _letterBox;
