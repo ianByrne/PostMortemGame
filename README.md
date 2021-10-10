@@ -8,8 +8,10 @@ You can play a version of the game at https://postmortem.ianbyrne.net, however t
 
 Post Mortem was created using the [Godot game engine](https://godotengine.org), with a [ChatScript](https://github.com/ChatScript/ChatScript) backend to handle the NPC interactions. The idea is that you can type whatever you like to the NPCs, as though they were chatbots.
 
-![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/docs/1.PNG)
+## Screenshots
 
-![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/docs/2.PNG)
+![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/Docs/1.PNG)
 
-![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/docs/3.PNG)
+![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/Docs/2.PNG)
+
+![Screenshot from Post Mortem](https://raw.githubusercontent.com/ianByrne/PostMortemGame/master/Docs/3.PNG)
